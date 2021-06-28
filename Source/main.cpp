@@ -2,6 +2,7 @@
 #ifdef __SWITCH__
 #include "platform/switch/network.h"
 #include "platform/switch/random.hpp"
+extern "C" void enableDebugLog(void);
 #endif
 #ifdef __3DS__
 #include "platform/ctr/system.h"
@@ -26,6 +27,7 @@ int main(int argc, char **argv)
 #endif
 {
 #ifdef __SWITCH__
+	enableDebugLog();
 	switch_enable_network();
 	randombytes_switchrandom_init();
 #endif

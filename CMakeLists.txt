@@ -489,6 +489,8 @@ if(NINTENDO_SWITCH)
     Source/platform/switch/random.cpp
     Source/platform/switch/asio/net/if.c
     Source/platform/switch/asio/sys/signal.c)
+  list(APPEND libdevilutionx_SRCS
+    Source/platform/switch/debug/console_debug.c)
 endif()
 
 if(VITA)
