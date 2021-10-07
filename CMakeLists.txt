@@ -1217,5 +1217,20 @@ endif()
 
 if(NOT NONET AND NOT DISABLE_ZERO_TIER)
   add_subdirectory(3rdParty/libzt)
+  if(NINTENDO_3DS)
+    # 3DS does not support SO_RCVTIMEO or SO_SNDTIMEO socket options
+    get_target_property(miniupnpc_defs miniupnpc_obj COMPILE_DEFINITIONS)
+    list(FILTER miniupnpc_defs EXCLUDE REGEX [[^MINIUPNPC_SET_SOCKET_TIMEOUT]])
+    set_property(TARGET miniupnpc_obj PROPERTY COMPILE_DEFINITIONS ${miniupnpc_defs})
+    
+    target_compile_definitions(libnatpmp_obj PRIVATE _DEFAULT_SOURCE=ON)
+    target_compile_definitions(miniupnpc_obj PRIVATE NEED_STRUCT_IP_MREQN=ON)
+    
+    target_include_directories(libdevilutionx BEFORE PUBLIC CMake/ctr/zt/lwip-port/lwipopts)
+    target_include_directories(libzt_obj BEFORE PUBLIC CMake/ctr/zt/include)
+    target_include_directories(lwip_obj BEFORE PUBLIC CMake/ctr/zt/lwip-port/lwipopts)
+    target_include_directories(miniupnpc_obj BEFORE PUBLIC CMake/ctr/zt/include)
+    target_include_directories(zto_obj BEFORE PUBLIC CMake/ctr/zt/include)
+  endif()
   target_link_libraries(libdevilutionx PUBLIC zt-static)
 endif()

@@ -1,0 +1,49 @@
+#pragma once
+
+#include_next <mutex>
+
+#include <3ds/synchronization.h>
+
+namespace std {
+    
+class mutex {
+public:
+    constexpr mutex() noexcept;
+    mutex(const mutex&) = delete;
+    
+    void lock();
+    bool try_lock();
+    void unlock();
+    LightLock *native_handle();
+    
+private:
+    LightLock light_lock;
+};
+
+constexpr mutex::mutex() noexcept
+    : light_lock()
+{
+    LightLock_Init(&light_lock);
+}
+
+void mutex::lock()
+{
+    LightLock_Lock(&light_lock);
+}
+
+bool mutex::try_lock()
+{
+    return LightLock_TryLock(&light_lock) == 0;
+}
+
+void mutex::unlock()
+{
+    LightLock_Unlock(&light_lock);
+}
+
+LightLock *mutex::native_handle()
+{
+    return &light_lock;
+}
+
+} // namespace std
