@@ -74,8 +74,8 @@ void ctr_sys_init()
 	if (isN3DS)
 		osSetSpeedupEnable(true);
 
-	ctr_lcd_backlight_off();
-	atexit([]() { ctr_lcd_backlight_on(); });
+	//ctr_lcd_backlight_off();
+	//atexit([]() { ctr_lcd_backlight_on(); });
 
 	romfsInit();
 	atexit([]() { romfsExit(); });

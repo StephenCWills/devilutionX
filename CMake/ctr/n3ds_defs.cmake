@@ -18,6 +18,7 @@ add_definitions(-D__3DS__)
 set(MO_LANG_DIR \"romfs:/\")
 
 #SDL video mode parameters
+set(SDL1_VIDEO_MODE_FLAGS "SDL_TOPSCR | SDL_CONSOLEBOTTOM")
 set(SDL1_VIDEO_MODE_BPP 8)
 set(DEFAULT_WIDTH 800)
 set(DEFAULT_HEIGHT 480)
