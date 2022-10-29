@@ -172,6 +172,11 @@ AxisDirection GetLeftStickOrDpadDirection(bool usePadmapper)
 	bool isRightPressed = stickX >= 0.5;
 
 	if (usePadmapper) {
+		isUpPressed |= sgOptions.Keymapper.IsKeyPressed("MoveUp");
+		isDownPressed |= sgOptions.Keymapper.IsKeyPressed("MoveDown");
+		isLeftPressed |= sgOptions.Keymapper.IsKeyPressed("MoveLeft");
+		isRightPressed |= sgOptions.Keymapper.IsKeyPressed("MoveRight");
+
 		ControllerButtonCombo upCombo = sgOptions.Padmapper.ButtonComboForAction("MoveUp");
 		ControllerButtonCombo downCombo = sgOptions.Padmapper.ButtonComboForAction("MoveDown");
 		ControllerButtonCombo leftCombo = sgOptions.Padmapper.ButtonComboForAction("MoveLeft");

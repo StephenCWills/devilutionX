@@ -1418,6 +1418,22 @@ uint32_t KeymapperOptions::KeyForAction(string_view actionName) const
 	return SDLK_UNKNOWN;
 }
 
+bool KeymapperOptions::IsKeyPressed(string_view actionName) const
+{
+	uint32_t key = sgOptions.Keymapper.KeyForAction(actionName);
+	SDL_Keycode keyCode = static_cast<SDL_Keycode>(key);
+	if (keyCode == SDLK_UNKNOWN)
+		return false;
+	SDL_Keycode adjustedKeyCode = static_cast<SDL_Keycode>(key + ('a' - 'A'));
+	if (adjustedKeyCode >= SDLK_a && adjustedKeyCode <= SDLK_z)
+		keyCode = adjustedKeyCode;
+#ifndef USE_SDL1
+	return SDL_GetKeyboardState(NULL)[SDL_GetScancodeFromKey(keyCode)];
+#else
+	return SDL_GetKeyState(NULL)[key_code];
+#endif
+}
+
 PadmapperOptions::PadmapperOptions()
     : OptionCategoryBase("Padmapping", N_("Padmapping"), N_("Padmapping Settings"))
 {

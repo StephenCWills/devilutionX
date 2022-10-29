@@ -1570,6 +1570,44 @@ void InitKeymapActions()
 	    [] { gamemenu_quit_game(false); });
 #endif
 	sgOptions.Keymapper.AddAction(
+	    "MoveUp",
+	    N_("Move up"),
+	    N_("Moves the player character up."),
+	    SDLK_UNKNOWN,
+	    [] {});
+	sgOptions.Keymapper.AddAction(
+	    "MoveDown",
+	    N_("Move down"),
+	    N_("Moves the player character down."),
+	    SDLK_UNKNOWN,
+	    [] {});
+	sgOptions.Keymapper.AddAction(
+	    "MoveLeft",
+	    N_("Move left"),
+	    N_("Moves the player character left."),
+	    SDLK_UNKNOWN,
+	    [] {});
+	sgOptions.Keymapper.AddAction(
+	    "MoveRight",
+	    N_("Move right"),
+	    N_("Moves the player character right."),
+	    SDLK_UNKNOWN,
+	    [] {});
+	sgOptions.Keymapper.AddAction(
+	    "StandGround",
+	    N_("Stand ground"),
+	    N_("Hold to prevent the player from moving."),
+	    SDLK_UNKNOWN,
+	    [] {});
+	sgOptions.Keymapper.AddAction(
+	    "ToggleStandGround",
+	    N_("Toggle stand ground"),
+	    N_("Toggle whether the player moves."),
+	    SDLK_UNKNOWN,
+	    [] { StandToggle = true; },
+	    [] { StandToggle = false; },
+	    CanPlayerTakeAction);
+	sgOptions.Keymapper.AddAction(
 	    "StopHero",
 	    N_("Stop hero"),
 	    N_("Stops walking and cancel pending actions."),
