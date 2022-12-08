@@ -44,6 +44,7 @@ bool DebugGrid = false;
 std::unordered_map<int, Point> DebugCoordsMap;
 bool DebugScrollViewEnabled = false;
 std::string debugTRN;
+size_t DebugLag = 0;
 
 namespace {
 
@@ -1005,8 +1006,15 @@ std::string DebugCmdChangeTRN(const string_view parameter)
 	return out;
 }
 
+std::string DebugCauseLag(const string_view parameter)
+{
+	DebugLag = atoi(parameter.data());
+	return "";
+}
+
 std::vector<DebugCmdItem> DebugCmdList = {
 	{ "help", "Prints help overview or help for a specific command.", "({command})", &DebugCmdHelp },
+	{ "lag", "Lags the game.", "{amount}", &DebugCauseLag },
 	{ "give gold", "Fills the inventory with gold.", "", &DebugCmdGiveGoldCheat },
 	{ "give xp", "Levels the player up (min 1 level or {levels}).", "({levels})", &DebugCmdLevelUp },
 	{ "maxstats", "Sets all stat values to maximum.", "", &DebugCmdMaxStats },

@@ -22,6 +22,7 @@ extern bool DebugGrid;
 extern std::unordered_map<int, Point> DebugCoordsMap;
 extern bool DebugScrollViewEnabled;
 extern std::string debugTRN;
+extern size_t DebugLag;
 
 void FreeDebugGFX();
 void LoadDebugGFX();

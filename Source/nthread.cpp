@@ -7,6 +7,7 @@
 
 #include <fmt/core.h>
 
+#include "debug.h"
 #include "diablo.h"
 #include "engine/demomode.h"
 #include "gmenu.h"
@@ -118,9 +119,9 @@ bool nthread_recv_turns(bool *pfSendAsync)
 		last_tick += gnTickDelay;
 		return true;
 	}
-	if (!SNetReceiveTurns(MAX_PLRS, (char **)glpMsgTbl, gdwMsgLenTbl, &player_state[0])) {
-		if (SErrGetLastError() != STORM_ERROR_NO_MESSAGES_WAITING)
-			nthread_terminate_game("SNetReceiveTurns");
+	if (DebugLag > 0 ? (DebugLag--, true) : false || !SNetReceiveTurns(MAX_PLRS, (char **)glpMsgTbl, gdwMsgLenTbl, &player_state[0])) {
+		//if (SErrGetLastError() != STORM_ERROR_NO_MESSAGES_WAITING)
+		//	nthread_terminate_game("SNetReceiveTurns");
 		sgbTicsOutOfSync = false;
 		sgbSyncCountdown = 1;
 		sgbPacketCountdown = 1;
