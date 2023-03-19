@@ -1421,6 +1421,24 @@ size_t OnStandingAttackTile(const TCmd *pCmd, Player &player)
 	const Point position { message.x, message.y };
 
 	if (gbBufferMsgs != 1 && player.isOnActiveLevel() && InDungeonBounds(position)) {
+		Player &myPlayer = *MyPlayer;
+		if (myPlayer.position.tile == position) {
+			const Point north = position + Direction::North;
+			if (InDungeonBounds(north)) {
+				dPlayer[myPlayer.position.tile.x][myPlayer.position.tile.y] = 0;
+				PlrClrTrans(myPlayer.position.tile);
+				myPlayer.position.tile = north;
+				myPlayer.position.future = north;
+				myPlayer.position.old = north;
+				PlrDoTrans(north);
+				dPlayer[north.x][north.y] = myPlayer.getId() + 1;
+				if (leveltype != DTYPE_TOWN) {
+					ChangeLightXY(myPlayer._plid, north);
+					ChangeVisionXY(myPlayer._pvid, north);
+				}
+				ViewPosition = north;
+			}
+		}
 		ClrPlrPath(player);
 		player.destAction = ACTION_ATTACK;
 		player.destParam1 = position.x;
@@ -1602,6 +1620,25 @@ size_t OnAttackPlayer(const TCmd *pCmd, Player &player)
 	const uint16_t playerIdx = SDL_SwapLE16(message.wParam1);
 
 	if (gbBufferMsgs != 1 && player.isOnActiveLevel() && playerIdx < Players.size()) {
+		if (playerIdx == MyPlayerId) {
+			const Point position = Players[playerIdx].position.future;
+			const Point north = position + Direction::North;
+			Player &myPlayer = *MyPlayer;
+			if (InDungeonBounds(north) && PosOkPlayer(myPlayer, north)) {
+				dPlayer[myPlayer.position.tile.x][myPlayer.position.tile.y] = 0;
+				PlrClrTrans(myPlayer.position.tile);
+				myPlayer.position.tile = north;
+				myPlayer.position.future = north;
+				myPlayer.position.old = north;
+				PlrDoTrans(north);
+				dPlayer[north.x][north.y] = myPlayer.getId() + 1;
+				if (leveltype != DTYPE_TOWN) {
+					ChangeLightXY(myPlayer._plid, north);
+					ChangeVisionXY(myPlayer._pvid, north);
+				}
+				ViewPosition = north;
+			}
+		}
 		MakePlrPath(player, Players[playerIdx].position.future, false);
 		player.destAction = ACTION_ATTACKPLR;
 		player.destParam1 = playerIdx;
