@@ -178,6 +178,11 @@ set(devilutionx_assets
   monsters/krillkin/krillkinh.cl2
   monsters/krillkin/krillkinn.cl2
   monsters/krillkin/krillkinw.cl2
+  monsters/mummy/mummya.cl2
+  monsters/mummy/mummyd.cl2
+  monsters/mummy/mummyh.cl2
+  monsters/mummy/mummyn.cl2
+  monsters/mummy/mummyw.cl2
   monsters/wererat/wererata1.wav
   monsters/wererat/wererata2.wav
   monsters/wererat/wererata.cl2
