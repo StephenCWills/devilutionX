@@ -173,6 +173,11 @@ set(devilutionx_assets
   levels/l2data/bonechat.dun
   levels/towndata/automap.dun
   levels/towndata/automap.amp
+  monsters/krillkin/krillkina.cl2
+  monsters/krillkin/krillkind.cl2
+  monsters/krillkin/krillkinh.cl2
+  monsters/krillkin/krillkinn.cl2
+  monsters/krillkin/krillkinw.cl2
   nlevels/l5data/cornerstone.dun
   nlevels/l5data/uberroom.dun
   ui_art/diablo.pal
