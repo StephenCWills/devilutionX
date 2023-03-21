@@ -178,6 +178,17 @@ set(devilutionx_assets
   monsters/krillkin/krillkinh.cl2
   monsters/krillkin/krillkinn.cl2
   monsters/krillkin/krillkinw.cl2
+  monsters/wererat/wererata1.wav
+  monsters/wererat/wererata2.wav
+  monsters/wererat/wererata.cl2
+  monsters/wererat/wereratd1.wav
+  monsters/wererat/wereratd2.wav
+  monsters/wererat/wereratd.cl2
+  monsters/wererat/wererath1.wav
+  monsters/wererat/wererath2.wav
+  monsters/wererat/wererath.cl2
+  monsters/wererat/wereratn.cl2
+  monsters/wererat/wereratw.cl2
   nlevels/l5data/cornerstone.dun
   nlevels/l5data/uberroom.dun
   ui_art/diablo.pal
