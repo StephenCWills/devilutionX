@@ -199,6 +199,17 @@ set(devilutionx_assets
   monsters/wererat/wererath.cl2
   monsters/wererat/wereratn.cl2
   monsters/wererat/wereratw.cl2
+  monsters/minotaur/minotaura1.wav
+  monsters/minotaur/minotaura2.wav
+  monsters/minotaur/minotaura.cl2
+  monsters/minotaur/minotaurd1.wav
+  monsters/minotaur/minotaurd2.wav
+  monsters/minotaur/minotaurd.cl2
+  monsters/minotaur/minotaurh1.wav
+  monsters/minotaur/minotaurh2.wav
+  monsters/minotaur/minotaurh.cl2
+  monsters/minotaur/minotaurn.cl2
+  monsters/minotaur/minotaurw.cl2
   nlevels/l5data/cornerstone.dun
   nlevels/l5data/uberroom.dun
   ui_art/diablo.pal
