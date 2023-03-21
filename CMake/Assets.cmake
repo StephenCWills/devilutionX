@@ -183,6 +183,11 @@ set(devilutionx_assets
   monsters/mummy/mummyh.cl2
   monsters/mummy/mummyn.cl2
   monsters/mummy/mummyw.cl2
+  monsters/waterhydra/waterhydraa.cl2
+  monsters/waterhydra/waterhydrad.cl2
+  monsters/waterhydra/waterhydrah.cl2
+  monsters/waterhydra/waterhydran.cl2
+  monsters/waterhydra/waterhydraw.cl2
   monsters/wererat/wererata1.wav
   monsters/wererat/wererata2.wav
   monsters/wererat/wererata.cl2

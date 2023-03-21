@@ -273,6 +273,7 @@ enum _monster_id : int16_t {
 	MT_KRILLKIN,
 	MT_WERERAT,
 	MT_MUMMY,
+	MT_WATERHYDRA,
 	NUM_MTYPES,
 	MT_INVALID = -1,
 };
