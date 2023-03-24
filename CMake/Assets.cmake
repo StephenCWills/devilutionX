@@ -178,6 +178,11 @@ set(devilutionx_assets
   levels/l2data/bonechat.dun
   levels/towndata/automap.dun
   levels/towndata/automap.amp
+  monsters/amazon/amazona.cl2
+  monsters/amazon/amazond.cl2
+  monsters/amazon/amazonh.cl2
+  monsters/amazon/amazonn.cl2
+  monsters/amazon/amazonw.cl2
   monsters/krillkin/krillkina.cl2
   monsters/krillkin/krillkind.cl2
   monsters/krillkin/krillkinh.cl2

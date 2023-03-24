@@ -275,6 +275,7 @@ enum _monster_id : int16_t {
 	MT_MUMMY,
 	MT_WATERHYDRA,
 	MT_MINOTAUR,
+	MT_AMAZON,
 	NUM_MTYPES,
 	MT_INVALID = -1,
 };
