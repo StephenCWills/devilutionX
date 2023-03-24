@@ -128,14 +128,14 @@ const Point InvRect[] = {
 	{ 220, 337 }, // inv row 4
 	{ 249, 337 }, // inv row 4
 	{ 278, 337 }, // inv row 4
-	{ 205,  33 }, // belt
-	{ 234,  33 }, // belt
-	{ 263,  33 }, // belt
-	{ 292,  33 }, // belt
-	{ 321,  33 }, // belt
-	{ 350,  33 }, // belt
-	{ 379,  33 }, // belt
-	{ 408,  33 }  // belt
+	{ 205-32,  33+15 }, // belt
+	{ 234-32,  33+15 }, // belt
+	{ 263-32,  33+15 }, // belt
+	{ 292-32,  33+15 }, // belt
+	{ 321-32,  33+15 }, // belt
+	{ 350-32,  33+15 }, // belt
+	{ 379-32,  33+15 }, // belt
+	{ 408-32,  33+15 }  // belt
 	// clang-format on
 };
 
@@ -302,37 +302,23 @@ bool AutoEquip(Player &player, const Item &item, inv_body_loc bodyLocation, bool
 
 int FindSlotUnderCursor(Point cursorPosition, Size itemSize)
 {
-	int i = cursorPosition.x;
-	int j = cursorPosition.y;
-
+	Point hotSpot = cursorPosition;
 	if (!IsHardwareCursor()) {
 		// offset the cursor position to match the hot pixel we'd use for a hardware cursor
-		i += itemSize.width * INV_SLOT_HALF_SIZE_PX;
-		j += itemSize.height * INV_SLOT_HALF_SIZE_PX;
+		hotSpot += Displacement { itemSize.width * INV_SLOT_HALF_SIZE_PX, itemSize.height * INV_SLOT_HALF_SIZE_PX };
 	}
 
 	for (int r = 0; r < NUM_XY_SLOTS; r++) {
-		int xo = GetRightPanel().position.x;
-		int yo = GetRightPanel().position.y;
-		if (r >= SLOTXY_BELT_FIRST) {
-			xo = GetMainPanel().position.x;
-			yo = GetMainPanel().position.y;
-		}
+		Point panel = r < SLOTXY_BELT_FIRST ? GetRightPanel().position : GetMainPanel().position;
 
-		if (i >= InvRect[r].x + xo && i <= InvRect[r].x + xo + InventorySlotSizeInPixels.width) {
-			if (j >= InvRect[r].y + yo - InventorySlotSizeInPixels.height - 1 && j < InvRect[r].y + yo) {
-				return r;
-			}
-		}
-		if (r == SLOTXY_CHEST_LAST) {
-			if (itemSize.width % 2 == 0)
-				i -= INV_SLOT_HALF_SIZE_PX;
-			if (itemSize.height % 2 == 0)
-				j -= INV_SLOT_HALF_SIZE_PX;
-		}
-		if (r == SLOTXY_INV_LAST && itemSize.height % 2 == 0)
-			j += INV_SLOT_HALF_SIZE_PX;
+		Rectangle slot {
+			panel + Displacement { InvRect[r].x, InvRect[r].y - InventorySlotSizeInPixels.height },
+			InventorySlotSizeInPixels
+		};
+		if (slot.contains(hotSpot))
+			return r;
 	}
+
 	return NUM_XY_SLOTS;
 }
 
@@ -1184,7 +1170,7 @@ void DrawInvBelt(const Surface &out)
 
 	const Point mainPanelPosition = GetMainPanel().position;
 
-	DrawPanelBox(out, { 205, 21, 232, 28 }, mainPanelPosition + Displacement { 205, 5 });
+	DrawPanelBox(out, { 173, 20 + 42, 232, 28 }, mainPanelPosition + Displacement { 173, 20 });
 
 	Player &myPlayer = *MyPlayer;
 
@@ -1557,8 +1543,19 @@ void CheckInvItem(bool isShiftHeld, bool isCtrlHeld)
 void CheckInvScrn(bool isShiftHeld, bool isCtrlHeld)
 {
 	const Point mainPanelPosition = GetMainPanel().position;
-	if (MousePosition.x > 190 + mainPanelPosition.x && MousePosition.x < 437 + mainPanelPosition.x
-	    && MousePosition.y > mainPanelPosition.y && MousePosition.y < 33 + mainPanelPosition.y) {
+	Rectangle belt {
+		{ InvRect[SLOTXY_BELT_FIRST].x + mainPanelPosition.x,
+		    InvRect[SLOTXY_BELT_FIRST].x + mainPanelPosition.x },
+		{ InvRect[SLOTXY_BELT_LAST].x - InvRect[SLOTXY_BELT_FIRST].x + InventorySlotSizeInPixels.width + INV_SLOT_HALF_SIZE_PX,
+		    InvRect[SLOTXY_BELT_LAST].y - InvRect[SLOTXY_BELT_FIRST].y + InventorySlotSizeInPixels.height }
+	};
+
+	Point hotSpot = MousePosition;
+	if (!IsHardwareCursor()) {
+		// offset the cursor position to match the hot pixel we'd use for a hardware cursor
+		hotSpot += Displacement { INV_SLOT_HALF_SIZE_PX, 0 };
+	}
+	if (belt.contains(hotSpot)) {
 		CheckInvItem(isShiftHeld, isCtrlHeld);
 	}
 }
