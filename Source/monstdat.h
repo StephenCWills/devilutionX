@@ -277,6 +277,7 @@ enum _monster_id : int16_t {
 	MT_MINOTAUR,
 	MT_AMAZON,
 	MT_GOLDENKNIGHT,
+	MT_REDBULLKNIGHT,
 	NUM_MTYPES,
 	MT_INVALID = -1,
 };

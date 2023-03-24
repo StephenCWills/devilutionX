@@ -198,6 +198,11 @@ set(devilutionx_assets
   monsters/mummy/mummyh.cl2
   monsters/mummy/mummyn.cl2
   monsters/mummy/mummyw.cl2
+  monsters/redbullknight/redbullknighta.cl2
+  monsters/redbullknight/redbullknightd.cl2
+  monsters/redbullknight/redbullknighth.cl2
+  monsters/redbullknight/redbullknightn.cl2
+  monsters/redbullknight/redbullknightw.cl2
   monsters/waterhydra/waterhydraa.cl2
   monsters/waterhydra/waterhydrad.cl2
   monsters/waterhydra/waterhydrah.cl2
