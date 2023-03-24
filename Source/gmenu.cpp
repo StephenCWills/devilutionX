@@ -12,6 +12,7 @@
 #include "engine.h"
 #include "engine/clx_sprite.hpp"
 #include "engine/load_cel.hpp"
+#include "engine/load_clx.hpp"
 #include "engine/render/clx_render.hpp"
 #include "engine/render/text_render.hpp"
 #include "options.h"
@@ -130,8 +131,8 @@ void GmenuDrawMenuItem(const Surface &out, TMenuItem *pItem, int y)
 	DrawString(out, _(pItem->pszStr), Point { x, y }, style | UiFlags::FontSize46, 2);
 	if (pItem == sgpCurrItem) {
 		const ClxSprite sprite = (*PentSpin_cel)[PentSpn2Spin()];
-		ClxDraw(out, { x - 54, y + 51 }, sprite);
-		ClxDraw(out, { x + 4 + w, y + 51 }, sprite);
+		ClxDraw(out, { x - 32, y + 40 }, sprite);
+		ClxDraw(out, { x + 4 + w, y + 40 }, sprite);
 	}
 }
 
@@ -196,11 +197,8 @@ void gmenu_init_menu()
 	if (HeadlessMode)
 		return;
 
-	if (gbIsHellfire)
-		sgpLogo = LoadCel("data\\hf_logo3", 430);
-	else
-		sgpLogo = LoadCel("data\\diabsmal", 296);
-	PentSpin_cel = LoadCel("data\\pentspin", 48);
+	sgpLogo = LoadClx("data\\logo.clx");
+	PentSpin_cel = LoadClx("data\\spinner.clx");
 	option_cel = LoadCel("data\\option", SliderMarkerWidth);
 	optbar_cel = LoadCel("data\\optbar", SliderValueBoxWidth);
 }
@@ -238,17 +236,8 @@ void gmenu_draw(const Surface &out)
 		GameMenuMove();
 		if (gmenu_current_option != nullptr)
 			gmenu_current_option();
-		if (gbIsHellfire) {
-			const uint32_t ticks = SDL_GetTicks();
-			if ((int)(ticks - LogoAnim_tick) > 25) {
-				++LogoAnim_frame;
-				if (LogoAnim_frame >= 16)
-					LogoAnim_frame = 0;
-				LogoAnim_tick = ticks;
-			}
-		}
 		int uiPositionY = GetUIRectangle().position.y;
-		const ClxSprite sprite = (*sgpLogo)[LogoAnim_frame];
+		const ClxSprite sprite = (*sgpLogo)[0];
 		ClxDraw(out, { (gnScreenWidth - sprite.width()) / 2, 102 + uiPositionY }, sprite);
 		int y = 110 + uiPositionY;
 		TMenuItem *i = sgpCurrentMenu;

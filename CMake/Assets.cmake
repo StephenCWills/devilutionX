@@ -55,10 +55,12 @@ set(devilutionx_assets
   data/hintbox.clx
   data/hintboxbackground.clx
   data/hinticons.clx
+  data/logo.clx
   data/monstertags.clx
   data/panel8buc.clx
   data/panel8bucp.clx
   data/resistance.clx
+  data/spinner.clx
   data/stash.clx
   data/stashnavbtns.clx
   data/talkbutton.clx
