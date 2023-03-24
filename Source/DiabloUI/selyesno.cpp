@@ -56,7 +56,7 @@ bool UiSelHeroYesNoDialog(const char *title, const char *body)
 
 	vecSelYesNoDialogItems.push_back(std::make_unique<UiListItem>(_("Yes"), 0));
 	vecSelYesNoDialogItems.push_back(std::make_unique<UiListItem>(_("No"), 1));
-	vecSelYesNoDialog.push_back(std::make_unique<UiList>(vecSelYesNoDialogItems, vecSelYesNoDialogItems.size(), uiPosition.x + 230, (uiPosition.y + 390), 180, 35, UiFlags::AlignCenter | UiFlags::FontSize30 | UiFlags::ColorUiGold));
+	vecSelYesNoDialog.push_back(std::make_unique<UiList>(vecSelYesNoDialogItems, vecSelYesNoDialogItems.size(), uiPosition.x + 230, (uiPosition.y + 390), 180, 35, UiFlags::AlignCenter | UiFlags::FontSize30 | UiFlags::ColorUiSilver));
 
 	CopyUtf8(selyesno_confirmationMessage, WordWrapString(body, MESSAGE_WIDTH, GameFont24), sizeof(selyesno_confirmationMessage));
 

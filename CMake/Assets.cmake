@@ -222,8 +222,11 @@ set(devilutionx_assets
   ui_art/creditsw.clx
   ui_art/dvl_but_sml.clx
   ui_art/dvl_lrpopup.clx
+  ui_art/focus16.pcx
+  ui_art/focus.pcx
   ui_art/hf_titlew.clx
-  ui_art/mainmenuw.clx
+  ui_art/logo.pcx
+  ui_art/mainmenu.pcx
   ui_art/supportw.clx)
 
 if(NOT USE_SDL1 AND NOT VITA)

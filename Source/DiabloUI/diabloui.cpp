@@ -576,16 +576,11 @@ void LoadHeros()
 
 void LoadUiGFX()
 {
-	if (gbIsHellfire) {
-		ArtLogo = LoadPcxSpriteList("ui_art\\hf_logo2", /*numFrames=*/16, /*transparentColor=*/0);
-	} else {
-		ArtLogo = LoadPcxSpriteList("ui_art\\smlogo", /*numFrames=*/15, /*transparentColor=*/250);
-	}
+	ArtLogo = LoadPcx("ui_art\\logo");
 	DifficultyIndicator[0] = LoadPcx("ui_art\\radio1", /*transparentColor=*/0);
 	DifficultyIndicator[1] = LoadPcx("ui_art\\radio3", /*transparentColor=*/0);
-	ArtFocus[FOCUS_SMALL] = LoadPcxSpriteList("ui_art\\focus16", /*numFrames=*/8, /*transparentColor=*/250);
-	ArtFocus[FOCUS_MED] = LoadPcxSpriteList("ui_art\\focus", /*numFrames=*/8, /*transparentColor=*/250);
-	ArtFocus[FOCUS_BIG] = LoadPcxSpriteList("ui_art\\focus42", /*numFrames=*/8, /*transparentColor=*/250);
+	ArtFocus[FOCUS_SMALL] = LoadPcxSpriteList("ui_art\\focus16", /*numFrames=*/7, /*transparentColor=*/250);
+	ArtFocus[FOCUS_MED] = LoadPcxSpriteList("ui_art\\focus", /*numFrames=*/7, /*transparentColor=*/250);
 
 	ArtCursor = LoadPcx("ui_art\\cursor", /*transparentColor=*/0);
 
@@ -723,7 +718,7 @@ void UiAddBackground(std::vector<std::unique_ptr<UiItemBase>> *vecDialog)
 void UiAddLogo(std::vector<std::unique_ptr<UiItemBase>> *vecDialog)
 {
 	vecDialog->push_back(std::make_unique<UiImageAnimatedClx>(
-	    *ArtLogo, MakeSdlRect(0, GetUIRectangle().position.y, 0, 0), UiFlags::AlignCenter));
+	    *ArtLogo, MakeSdlRect(0, GetUIRectangle().position.y + 71, 0, 0), UiFlags::AlignCenter));
 }
 
 void UiFadeIn()
@@ -749,12 +744,10 @@ void UiFadeIn()
 void DrawSelector(const SDL_Rect &rect)
 {
 	int size = FOCUS_SMALL;
-	if (rect.h >= 42)
-		size = FOCUS_BIG;
-	else if (rect.h >= 30)
+	if (rect.h >= 30)
 		size = FOCUS_MED;
 	const ClxSpriteList sprites = *ArtFocus[size];
-	const ClxSprite sprite = sprites[GetAnimationFrame(sprites.numSprites())];
+	const ClxSprite sprite = sprites[GetAnimationFrame(sprites.numSprites(), 70)];
 
 	// TODO FOCUS_MED appares higher than the box
 	const int y = rect.y + (rect.h - static_cast<int>(sprite.height())) / 2;

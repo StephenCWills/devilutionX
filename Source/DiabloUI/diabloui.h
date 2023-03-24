@@ -22,7 +22,6 @@ extern bool textInputActive;
 enum _artFocus : uint8_t {
 	FOCUS_SMALL,
 	FOCUS_MED,
-	FOCUS_BIG,
 };
 
 enum _mainmenu_selections : uint8_t {

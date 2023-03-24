@@ -45,11 +45,7 @@ void UiSelOkDialog(const char *title, const char *body, bool background)
 	if (!background) {
 		UiLoadBlackBackground();
 	} else {
-		if (!gbIsSpawn) {
-			LoadBackgroundArt("ui_art\\mainmenu");
-		} else {
-			LoadBackgroundArt("ui_art\\swmmenu");
-		}
+		LoadBackgroundArt("ui_art\\mainmenu");
 	}
 
 	UiAddBackground(&vecSelOkDialog);
@@ -69,7 +65,7 @@ void UiSelOkDialog(const char *title, const char *body, bool background)
 	}
 
 	vecSelOkDialogItems.push_back(std::make_unique<UiListItem>(_("OK"), 0));
-	vecSelOkDialog.push_back(std::make_unique<UiList>(vecSelOkDialogItems, 1, uiPosition.x + 230, (uiPosition.y + 390), 180, 35, UiFlags::AlignCenter | UiFlags::FontSize30 | UiFlags::ColorUiGold));
+	vecSelOkDialog.push_back(std::make_unique<UiList>(vecSelOkDialogItems, 1, uiPosition.x + 230, (uiPosition.y + 390), 180, 35, UiFlags::AlignCenter | UiFlags::FontSize30 | UiFlags::ColorUiSilver));
 
 	CopyUtf8(dialogText, WordWrapString(body, MESSAGE_WIDTH, GameFont24), sizeof(dialogText));
 

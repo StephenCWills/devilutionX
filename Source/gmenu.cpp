@@ -127,7 +127,7 @@ void GmenuDrawMenuItem(const Surface &out, TMenuItem *pItem, int y)
 	}
 
 	int x = (gnScreenWidth - w) / 2;
-	UiFlags style = pItem->enabled() ? UiFlags::ColorGold : UiFlags::ColorBlack;
+	UiFlags style = pItem->enabled() ? UiFlags::ColorWhite : UiFlags::ColorBlack;
 	DrawString(out, _(pItem->pszStr), Point { x, y }, style | UiFlags::FontSize46, 2);
 	if (pItem == sgpCurrItem) {
 		const ClxSprite sprite = (*PentSpin_cel)[PentSpn2Spin()];
@@ -173,7 +173,7 @@ void gmenu_draw_pause(const Surface &out)
 		RedBack(out);
 	if (sgpCurrentMenu == nullptr) {
 		LightTableIndex = 0;
-		DrawString(out, _("Pause"), { { 0, 0 }, { gnScreenWidth, GetMainPanel().position.y } }, UiFlags::FontSize46 | UiFlags::ColorGold | UiFlags::AlignCenter | UiFlags::VerticalCenter, 2);
+		DrawString(out, _("Pause"), { { 0, 0 }, { gnScreenWidth, GetMainPanel().position.y } }, UiFlags::FontSize46 | UiFlags::ColorWhite | UiFlags::AlignCenter | UiFlags::VerticalCenter, 2);
 	}
 }
 

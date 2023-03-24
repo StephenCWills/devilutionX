@@ -40,28 +40,21 @@ void MainmenuLoad(const char *name)
 	vecMenuItems.push_back(std::make_unique<UiListItem>(_("Support"), MAINMENU_SHOW_SUPPORT));
 	vecMenuItems.push_back(std::make_unique<UiListItem>(_("Show Credits"), MAINMENU_SHOW_CREDITS));
 #ifndef NOEXIT
-	vecMenuItems.push_back(std::make_unique<UiListItem>(gbIsHellfire ? _("Exit Hellfire") : _("Exit Diablo"), MAINMENU_EXIT_DIABLO));
+	vecMenuItems.push_back(std::make_unique<UiListItem>(_("Exit Game"), MAINMENU_EXIT_DIABLO));
 #endif
 
-	if (!gbIsSpawn || gbIsHellfire) {
-		if (gbIsHellfire)
-			ArtBackgroundWidescreen = LoadOptionalClx("ui_art\\mainmenuw.clx");
-		LoadBackgroundArt("ui_art\\mainmenu");
-	} else {
-		LoadBackgroundArt("ui_art\\swmmenu");
-	}
+	LoadBackgroundArt("ui_art\\mainmenu");
 
 	UiAddBackground(&vecMainMenuDialog);
-	UiAddLogo(&vecMainMenuDialog);
 
 	const Point uiPosition = GetUIRectangle().position;
 
-	if (gbIsSpawn && gbIsHellfire) {
+	if (gbIsSpawn) {
 		SDL_Rect rect1 = { (Sint16)(uiPosition.x), (Sint16)(uiPosition.y + 145), 640, 30 };
 		vecMainMenuDialog.push_back(std::make_unique<UiArtText>(_("Shareware").data(), rect1, UiFlags::FontSize30 | UiFlags::ColorUiSilver | UiFlags::AlignCenter, 8));
 	}
 
-	vecMainMenuDialog.push_back(std::make_unique<UiList>(vecMenuItems, vecMenuItems.size(), uiPosition.x + 64, (uiPosition.y + 192), 510, 43, UiFlags::FontSize42 | UiFlags::ColorUiGold | UiFlags::AlignCenter, 5));
+	vecMainMenuDialog.push_back(std::make_unique<UiList>(vecMenuItems, vecMenuItems.size(), uiPosition.x + 64, (uiPosition.y + 192), 510, 43, UiFlags::FontSize42 | UiFlags::ColorUiSilver | UiFlags::AlignCenter, 5));
 
 	SDL_Rect rect2 = { 17, (Sint16)(gnScreenHeight - 36), 605, 21 };
 	vecMainMenuDialog.push_back(std::make_unique<UiArtText>(name, rect2, UiFlags::FontSize12 | UiFlags::ColorUiSilverDark));
