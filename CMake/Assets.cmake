@@ -183,6 +183,11 @@ set(devilutionx_assets
   monsters/amazon/amazonh.cl2
   monsters/amazon/amazonn.cl2
   monsters/amazon/amazonw.cl2
+  monsters/goldenknight/goldenknighta.cl2
+  monsters/goldenknight/goldenknightd.cl2
+  monsters/goldenknight/goldenknighth.cl2
+  monsters/goldenknight/goldenknightn.cl2
+  monsters/goldenknight/goldenknightw.cl2
   monsters/krillkin/krillkina.cl2
   monsters/krillkin/krillkind.cl2
   monsters/krillkin/krillkinh.cl2
