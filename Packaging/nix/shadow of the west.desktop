@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Shadow of the West
+GenericName=Shadow of the West
+Exec=sotw
+Icon=sotw
+Terminal=false
+Type=Application
+X-DCOP-ServiceType=Multi
+X-KDE-StartupNotify=true
+Categories=Game;RolePlaying;
