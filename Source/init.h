@@ -40,7 +40,7 @@ extern std::optional<MpqArchive> hfmusic_mpq;
 extern std::optional<MpqArchive> hfvoice_mpq;
 extern std::optional<MpqArchive> font_mpq;
 extern std::optional<MpqArchive> lang_mpq;
-extern std::optional<MpqArchive> devilutionx_mpq;
+extern std::optional<MpqArchive> sotw_mpq;
 #endif
 
 inline bool HaveSpawn()

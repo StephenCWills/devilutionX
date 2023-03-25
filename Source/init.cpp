@@ -57,7 +57,7 @@ std::optional<MpqArchive> hfbard_mpq;
 std::optional<MpqArchive> hfbarb_mpq;
 std::optional<MpqArchive> hfmusic_mpq;
 std::optional<MpqArchive> hfvoice_mpq;
-std::optional<MpqArchive> devilutionx_mpq;
+std::optional<MpqArchive> sotw_mpq;
 std::optional<MpqArchive> lang_mpq;
 std::optional<MpqArchive> font_mpq;
 #endif
@@ -123,12 +123,12 @@ std::vector<std::string> GetMPQSearchPaths()
 			std::string fullPath(path);
 			if (!path.empty() && path.back() != '/')
 				fullPath += '/';
-			fullPath.append("diasurgical/devilutionx/");
+			fullPath.append("shadowed-pilgrims/shadow-of-the-west/");
 			paths.push_back(std::move(fullPath));
 		}
 	} else {
-		paths.emplace_back("/usr/local/share/diasurgical/devilutionx/");
-		paths.emplace_back("/usr/share/diasurgical/devilutionx/");
+		paths.emplace_back("/usr/local/share/shadowed-pilgrims/shadow-of-the-west/");
+		paths.emplace_back("/usr/share/shadowed-pilgrims/shadow-of-the-west/");
 	}
 #elif defined(NXDK)
 	paths.emplace_back("D:\\");
@@ -183,7 +183,7 @@ void init_cleanup()
 	hfvoice_mpq = std::nullopt;
 	lang_mpq = std::nullopt;
 	font_mpq = std::nullopt;
-	devilutionx_mpq = std::nullopt;
+	sotw_mpq = std::nullopt;
 #endif
 
 	NetClose();
@@ -197,8 +197,8 @@ void LoadCoreArchives()
 	font_data_path = FindUnpackedMpqData(paths, "fonts");
 #else // !UNPACKED_MPQS
 #if !defined(__ANDROID__) && !defined(__APPLE__) && !defined(__3DS__) && !defined(__SWITCH__)
-	// Load devilutionx.mpq first to get the font file for error messages
-	devilutionx_mpq = LoadMPQ(paths, "devilutionx.mpq");
+	// Load sotw.mpq first to get the font file for error messages
+	sotw_mpq = LoadMPQ(paths, "sotw.mpq");
 #endif
 	font_mpq = LoadMPQ(paths, "fonts.mpq"); // Extra fonts
 #endif
@@ -266,7 +266,7 @@ void LoadGameArchives()
 		AssetRef ref = FindAsset("ui_art\\title.pcx");
 		if (!ref.ok()) {
 			LogError("{}", SDL_GetError());
-			InsertCDDlg(_("diabdat.mpq or spawn.mpq"));
+			InsertCDDlg("diabdat.mpq");
 		}
 	}
 

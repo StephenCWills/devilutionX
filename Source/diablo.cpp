@@ -939,7 +939,7 @@ void PrintHelpOption(string_view flags, string_view description)
 	PrintHelpOption("+<internal command>", "Pass commands to the engine");
 #endif
 	printNewlineInConsole();
-	printInConsole(_("Report bugs at https://github.com/diasurgical/devilutionX/"));
+	printInConsole(_("Report bugs at https://github.com/Shadowed-Pilgrims/Shadow-of-the-West/"));
 	printNewlineInConsole();
 	diablo_quit(0);
 }
@@ -1083,7 +1083,7 @@ void CheckArchivesUpToDate()
 	const bool devilutionxMpqOutOfDate = false;
 	const bool fontsMpqOutOfDate = font_data_path && !FileExists(*font_data_path + "fonts" + DirectorySeparator + "12-4e.clx");
 #else
-	const bool devilutionxMpqOutOfDate = devilutionx_mpq && !devilutionx_mpq->HasFile("data\\charbg.clx");
+	const bool devilutionxMpqOutOfDate = sotw_mpq && !sotw_mpq->HasFile("data\\charbg.clx");
 	const bool fontsMpqOutOfDate = font_mpq && !font_mpq->HasFile("fonts\\12-4e.clx");
 #endif
 
@@ -2374,11 +2374,11 @@ int DiabloMain(int argc, char **argv)
 	InitKeymapActions();
 	InitPadmapActions();
 
-	// Need to ensure devilutionx.mpq (and fonts.mpq if available) are loaded before attempting to read translation settings
+	// Need to ensure sotw.mpq (and fonts.mpq if available) are loaded before attempting to read translation settings
 	LoadCoreArchives();
 	was_archives_init = true;
 
-	// Read settings including translation next. This will use the presence of fonts.mpq and look for assets in devilutionx.mpq
+	// Read settings including translation next. This will use the presence of fonts.mpq and look for assets in sotw.mpq
 	LoadOptions();
 	// Then look for a voice pack file based on the selected translation
 	LoadLanguageArchive();

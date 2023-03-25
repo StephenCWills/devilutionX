@@ -14,7 +14,7 @@ set(CMAKE_POLICY_DEFAULT_CMP0069 NEW)
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 
 if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/dist")
-  message("-- Detected a source distribution with the required FetchContent dependencies and devilutionx.mpq included")
+  message("-- Detected a source distribution with the required FetchContent dependencies and sotw.mpq included")
   set(SRC_DIST ON)
   add_subdirectory(dist)
 endif()
@@ -146,7 +146,7 @@ else()
   set(SUPPORTS_MPQ ON)
 endif()
 
-# By default, devilutionx.mpq is built only if smpq is installed and MPQ support is enabled.
+# By default, sotw.mpq is built only if smpq is installed and MPQ support is enabled.
 if(SUPPORTS_MPQ)
   if(NOT DEFINED BUILD_ASSETS_MPQ AND NOT SRC_DIST)
     find_program(SMPQ smpq)
@@ -158,7 +158,7 @@ if(SUPPORTS_MPQ)
   else()
     set(_has_smpq OFF)
   endif()
-  option(BUILD_ASSETS_MPQ "If true, assets are packaged into devilutionx.mpq." ${_has_smpq})
+  option(BUILD_ASSETS_MPQ "If true, assets are packaged into sotw.mpq." ${_has_smpq})
 else()
   set(BUILD_ASSETS_MPQS OFF)
 endif()
@@ -300,7 +300,7 @@ include(Dependencies)
 
 add_subdirectory(Source)
 
-set(BIN_TARGET devilutionx)
+set(BIN_TARGET sotw)
 if(NINTENDO_3DS)
   set(BIN_TARGET ${BIN_TARGET}.elf)
 endif()
@@ -314,8 +314,8 @@ else()
     WIN32
     MACOSX_BUNDLE
     Source/main.cpp
-    Packaging/windows/devilutionx.exe.manifest
-    Packaging/windows/devilutionx.rc
+    Packaging/windows/sotw.exe.manifest
+    Packaging/windows/sotw.rc
     Packaging/apple/AppIcon.icns
     Packaging/apple/LaunchScreen.storyboard)
 
@@ -357,10 +357,10 @@ set_relative_file_macro(${BIN_TARGET})
 
 if(APPLE)
   set_source_files_properties("./Packaging/apple/AppIcon.icns" PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
-  set(MACOSX_BUNDLE_GUI_IDENTIFIER com.diasurgical.devilutionx)
+  set(MACOSX_BUNDLE_GUI_IDENTIFIER com.shadowed-pilgrims.shadow-of-the-west)
   set(MACOSX_BUNDLE_COPYRIGHT Unlicense)
-  set(MACOSX_BUNDLE_BUNDLE_NAME devilutionx)
-  set(MACOSX_BUNDLE_DISPLAY_NAME DevilutionX)
+  set(MACOSX_BUNDLE_BUNDLE_NAME sotw)
+  set(MACOSX_BUNDLE_DISPLAY_NAME "Shadow of the West")
   set(MACOSX_BUNDLE_INFO_STRING ${PROJECT_VERSION})
   set(MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION})
   set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION})
@@ -398,8 +398,8 @@ endif()
 
 if(NINTENDO_SWITCH)
   nx_generate_nacp (${BIN_TARGET}.nacp
-    NAME    "DevilutionX"
-    AUTHOR  "Devilution Team"
+    NAME    "Shadow of the West"
+    AUTHOR  "Shadowed Pilgrims"
     VERSION "${PROJECT_VERSION}"
   )
 
@@ -411,21 +411,21 @@ if(NINTENDO_SWITCH)
 endif()
 
 if(VITA)
-  set(VITA_APP_NAME "devilutionX")
+  set(VITA_APP_NAME "Shadow of the West")
   set(VITA_TITLEID  "DVLX00001")
   set(VITA_VERSION  "01.00")
   set(VITA_MKSFOEX_FLAGS "${VITA_MKSFOEX_FLAGS} -d PARENTAL_LEVEL=1")
   set(VITA_MKSFOEX_FLAGS "${VITA_MKSFOEX_FLAGS} -d ATTRIBUTE2=12")
-  vita_create_self(devilutionx.self devilutionx UNSAFE)
+  vita_create_self(sotw.self sotw UNSAFE)
   if(BUILD_ASSETS_MPQ OR SRC_DIST)
-    vita_create_vpk(devilutionx.vpk ${VITA_TITLEID} devilutionx.self
+    vita_create_vpk(sotw.vpk ${VITA_TITLEID} sotw.self
       VERSION ${VITA_VERSION}
       NAME ${VITA_APP_NAME}
       FILE Packaging/vita/sce_sys sce_sys
-      FILE ${DEVILUTIONX_MPQ} devilutionx.mpq
+      FILE ${DEVILUTIONX_MPQ} sotw.mpq
     )
   else()
-    vita_create_vpk(devilutionx.vpk ${VITA_TITLEID} devilutionx.self
+    vita_create_vpk(sotw.vpk ${VITA_TITLEID} sotw.self
       VERSION ${VITA_VERSION}
       NAME ${VITA_APP_NAME}
       FILE Packaging/vita/sce_sys sce_sys
@@ -438,17 +438,17 @@ endif()
 
 if(PS4)
   add_custom_command(
-    TARGET devilutionx_mpq POST_BUILD
+    TARGET sotw_mpq POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy ${DEVILUTIONX_MPQ} "${PROJECT_SOURCE_DIR}/Packaging/ps4/")
   add_self(${BIN_TARGET})
   add_pkg(${BIN_TARGET} "${PROJECT_SOURCE_DIR}/Packaging/ps4"
-    "DVLX00001" "DevilutionX" "${PROJECT_VERSION}")
+    "DVLX00001" "Shadow of the West" "${PROJECT_VERSION}")
 endif()
 
 if(NINTENDO_3DS)
-  set(APP_TITLE       "DevilutionX")
-  set(APP_DESCRIPTION "DevilutionX port for 3DS")
-  set(APP_AUTHOR      "Diasurgical Team")
+  set(APP_TITLE       "Shadow of the West")
+  set(APP_DESCRIPTION "Shadow of the West for 3DS")
+  set(APP_AUTHOR      "Shadowed Pilgrims")
   set(APP_ICON        "${PROJECT_SOURCE_DIR}/Packaging/ctr/icon.png")
   set(APP_BANNER      "${PROJECT_SOURCE_DIR}/Packaging/ctr/banner.png")
   set(APP_AUDIO       "${CMAKE_BINARY_DIR}/banner_audio.wav")
@@ -509,7 +509,7 @@ if(CPACK AND (APPLE OR BUILD_ASSETS_MPQ OR SRC_DIST))
       "${SDL2_WIN32_LICENSES_DIR}/LICENSE*.txt"
       "${SDL2_WIN32_LICENSES_DIR}/README*.txt")
 
-    set(CPACK_PACKAGE_FILE_NAME "devilutionx")
+    set(CPACK_PACKAGE_FILE_NAME "sotw")
     set(CPACK_PACKAGE_NAME ${project_name})
     set(CPACK_GENERATOR "ZIP")
     set(CPACK_STRIP_FILES TRUE)
@@ -564,10 +564,10 @@ if(CPACK AND (APPLE OR BUILD_ASSETS_MPQ OR SRC_DIST))
       DESTINATION "share/applications"
     )
     install(FILES "${PROJECT_SOURCE_DIR}/Packaging/nix/README.txt"
-      DESTINATION "share/diasurgical/${project_name}"
+      DESTINATION "share/shadowed-pilgrims/${project_name}"
     )
     install(FILES "${DEVILUTIONX_MPQ}"
-      DESTINATION "share/diasurgical/${project_name}"
+      DESTINATION "share/shadowed-pilgrims/${project_name}"
     )
     install(FILES "${PROJECT_SOURCE_DIR}/Packaging/resources/icon.png"
       DESTINATION "share/icons/hicolor/512x512/apps"
@@ -577,7 +577,7 @@ if(CPACK AND (APPLE OR BUILD_ASSETS_MPQ OR SRC_DIST))
       DESTINATION "share/icons/hicolor/512x512/apps"
       RENAME "${project_name}-hellfire.png"
     )
-    install(FILES "${PROJECT_SOURCE_DIR}/Packaging/nix/devilutionx.metainfo.xml"
+    install(FILES "${PROJECT_SOURCE_DIR}/Packaging/nix/sotw.metainfo.xml"
       DESTINATION "share/metainfo"
       RENAME "${project_name}.metainfo.xml"
     )
@@ -604,7 +604,7 @@ if(CPACK AND (APPLE OR BUILD_ASSETS_MPQ OR SRC_DIST))
     endif()
 
   elseif(APPLE)
-    set(CPACK_PACKAGE_FILE_NAME "devilutionx")
+    set(CPACK_PACKAGE_FILE_NAME "Shadow of the West")
     set(CPACK_DMG_DISABLE_APPLICATIONS_SYMLINK "ON")
     set(CPACK_STRIP_FILES TRUE)
     set(CPACK_GENERATOR "DragNDrop")

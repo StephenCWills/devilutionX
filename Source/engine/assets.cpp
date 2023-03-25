@@ -63,7 +63,7 @@ bool FindMpqFile(const char *filename, MpqArchive **archive, uint32_t *fileNumbe
 		return false;
 	};
 
-	return at(font_mpq) || at(lang_mpq) || at(devilutionx_mpq)
+	return at(font_mpq) || at(lang_mpq) || at(sotw_mpq)
 	    || ((at(hfvoice_mpq) || at(hfmusic_mpq) || at(hfbarb_mpq) || at(hfbard_mpq) || at(hfmonk_mpq) || at(hellfire_mpq))) || at(spawn_mpq) || at(diabdat_mpq);
 }
 #endif

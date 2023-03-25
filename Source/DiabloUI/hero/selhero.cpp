@@ -254,15 +254,6 @@ void AddSelHeroBackground()
 
 void SelheroClassSelectorSelect(int value)
 {
-	auto hClass = static_cast<HeroClass>(vecSelHeroDlgItems[value]->m_value);
-	if (false) {
-		RemoveSelHeroBackground();
-		UiSelOkDialog(nullptr, _("The Rogue and Sorcerer are only available in the full retail version of Diablo. Visit https://www.gog.com/game/diablo to purchase.").data(), false);
-		AddSelHeroBackground();
-		SelheroListSelect(selhero_SaveCount);
-		return;
-	}
-
 	const Point uiPosition = GetUIRectangle().position;
 
 	title = selhero_isMultiPlayer ? _("New Multi Player Hero").data() : _("New Single Player Hero").data();
