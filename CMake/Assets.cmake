@@ -51,8 +51,6 @@ set(devilutionx_assets
   data/boxmiddle.clx
   data/boxrightend.clx
   data/charbg.clx
-  data/dirtybuc.clx
-  data/dirtybucp.clx
   data/healthbox.clx
   data/health.clx
   data/hintbox.clx
@@ -60,13 +58,10 @@ set(devilutionx_assets
   data/hinticons.clx
   data/logo.clx
   data/monstertags.clx
-  data/panel8buc.clx
-  data/panel8bucp.clx
   data/resistance.clx
   data/spinner.clx
   data/stash.clx
   data/stashnavbtns.clx
-  data/talkbutton.clx
   data/xpbar.clx
   fonts/12-00.bin
   fonts/12-00.clx
@@ -232,7 +227,6 @@ set(devilutionx_assets
   monsters/minotaur/minotaurw.cl2
   nlevels/l5data/cornerstone.dun
   nlevels/l5data/uberroom.dun
-  ui_art/diablo.pal
   ui_art/hellfire.pal
   ui_art/creditsw.clx
   ui_art/dvl_but_sml.clx
