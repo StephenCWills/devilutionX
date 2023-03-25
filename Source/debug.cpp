@@ -121,20 +121,6 @@ void PrintDebugMonster(const Monster &monster)
 	EventPlrMsg(StrCat("Active List = ", bActive ? 1 : 0, ", Squelch = ", monster.activeForTicks), UiFlags::ColorWhite);
 }
 
-void ProcessMessages()
-{
-	SDL_Event event;
-	uint16_t modState;
-	while (FetchMessage(&event, &modState)) {
-		if (event.type == SDL_QUIT) {
-			gbRunGameResult = false;
-			gbRunGame = false;
-			break;
-		}
-		HandleMessage(event, modState);
-	}
-}
-
 struct DebugCmdItem {
 	const string_view text;
 	const string_view description;
@@ -211,7 +197,7 @@ std::string DebugCmdWarpToLevel(const string_view parameter)
 {
 	Player &myPlayer = *MyPlayer;
 	auto level = atoi(parameter.data());
-	if (level < 0 || level > (gbIsHellfire ? 24 : 16))
+	if (level < 0 || level > (true ? 24 : 16))
 		return StrCat("Level ", level, " is not known. Do you want to write a mod?");
 	if (!setlevel && myPlayer.isOnLevel(level))
 		return StrCat("I did nothing but fulfilled your wish. You are already at level ", level, ".");
@@ -417,7 +403,7 @@ std::string DebugCmdResetLevel(const string_view parameter)
 	if (it == args.end())
 		return "What level do you want to visit?";
 	auto level = atoi(std::string(*it).c_str());
-	if (level < 0 || level > (gbIsHellfire ? 24 : 16))
+	if (level < 0 || level > (true ? 24 : 16))
 		return StrCat("Level ", level, " is not known. Do you want to write an extension mod?");
 	myPlayer._pLvlVisited[level] = false;
 	DeltaClearLevel(level);

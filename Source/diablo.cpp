@@ -9,7 +9,6 @@
 
 #include <config.h>
 
-#include "DiabloUI/selstart.h"
 #include "automap.h"
 #include "capture.h"
 #include "cursor.h"
@@ -141,8 +140,6 @@ namespace {
 char gszVersionNumber[64] = "internal version unknown";
 
 bool gbGameLoopStartup;
-bool forceSpawn;
-bool forceDiablo;
 int sgnTimeoutCurs;
 bool gbShowIntro = true;
 /** To know if these things have been done when we get to the diablo_deinit() function */
@@ -916,7 +913,7 @@ void PrintHelpOption(string_view flags, string_view description)
 	PrintHelpOption("--version", _(/* TRANSLATORS: Commandline Option */ "Print the version and exit"));
 	PrintHelpOption("--data-dir", _(/* TRANSLATORS: Commandline Option */ "Specify the folder of diabdat.mpq"));
 	PrintHelpOption("--save-dir", _(/* TRANSLATORS: Commandline Option */ "Specify the folder of save files"));
-	PrintHelpOption("--config-dir", _(/* TRANSLATORS: Commandline Option */ "Specify the location of diablo.ini"));
+	PrintHelpOption("--config-dir", _(/* TRANSLATORS: Commandline Option */ "Specify the location of config.ini"));
 	PrintHelpOption("--lang", _(/* TRANSLATORS: Commandline Option */ "Specify the language code (e.g. en or pt_BR)"));
 	PrintHelpOption("-n", _(/* TRANSLATORS: Commandline Option */ "Skip startup videos"));
 	PrintHelpOption("-f", _(/* TRANSLATORS: Commandline Option */ "Display frames per second"));
@@ -1028,14 +1025,6 @@ void DiabloParseFlags(int argc, char **argv)
 			gbShowIntro = false;
 		} else if (arg == "-f") {
 			EnableFrameCount();
-		} else if (arg == "--spawn") {
-			forceSpawn = true;
-		} else if (arg == "--diablo") {
-			forceDiablo = true;
-		} else if (arg == "--hellfire") {
-			forceHellfire = true;
-		} else if (arg == "--vanilla") {
-			gbVanilla = true;
 		} else if (arg == "--verbose") {
 			SDL_LogSetAllPriority(SDL_LOG_PRIORITY_VERBOSE);
 #ifdef _DEBUG
@@ -1126,15 +1115,6 @@ void ApplicationInit()
 
 void DiabloInit()
 {
-	if (forceSpawn || *sgOptions.StartUp.shareware)
-		gbIsSpawn = true;
-	if (forceDiablo || *sgOptions.StartUp.gameMode == StartUpGameMode::Diablo)
-		gbIsHellfire = false;
-	if (forceHellfire)
-		gbIsHellfire = true;
-
-	gbIsHellfireSaveGame = gbIsHellfire;
-
 	for (size_t i = 0; i < QUICK_MESSAGE_OPTIONS; i++) {
 		auto &messages = sgOptions.Chat.szHotKeyMsgs[i];
 		if (messages.empty()) {
@@ -1148,17 +1128,6 @@ void DiabloInit()
 
 	UiInitialize();
 	was_ui_init = true;
-
-	if (gbIsHellfire && !forceHellfire && *sgOptions.StartUp.gameMode == StartUpGameMode::Ask) {
-		UiSelStartUpGameOption();
-		if (!gbIsHellfire) {
-			// Reinitialize the UI Elements cause we changed the game
-			UnloadUiGFX();
-			UiInitialize();
-			if (IsHardwareCursor())
-				SetHardwareCursor(CursorInfo::UnknownCursor());
-		}
-	}
 
 	DiabloInitScreen();
 
@@ -1180,13 +1149,13 @@ void DiabloSplash()
 	if (!gbShowIntro)
 		return;
 
-	if (*sgOptions.StartUp.splash == StartUpSplash::LogoAndTitleDialog)
+	if (false)
 		play_movie("gendata\\logo.smk", true);
 
-	auto &intro = gbIsHellfire ? sgOptions.StartUp.hellfireIntro : sgOptions.StartUp.diabloIntro;
+	auto &intro = sgOptions.StartUp.diabloIntro;
 
 	if (*intro != StartUpIntro::Off) {
-		if (gbIsHellfire)
+		if (false)
 			play_movie("gendata\\Hellfire.smk", true);
 		else
 			play_movie("gendata\\diablo1.smk", true);
@@ -1195,9 +1164,6 @@ void DiabloSplash()
 			SaveOptions();
 		}
 	}
-
-	if (IsAnyOf(*sgOptions.StartUp.splash, StartUpSplash::TitleDialog, StartUpSplash::LogoAndTitleDialog))
-		UiTitleDialog();
 }
 
 void DiabloDeinit()
@@ -1225,7 +1191,7 @@ void LoadLvlGFX()
 
 	switch (leveltype) {
 	case DTYPE_TOWN:
-		if (gbIsHellfire) {
+		if (true) {
 			pDungeonCels = LoadFileInMem("nlevels\\towndata\\town.cel");
 			pMegaTiles = LoadFileInMem<MegaTile>("nlevels\\towndata\\town.til");
 		} else {
@@ -1278,7 +1244,7 @@ void LoadAllGFX()
 	IncProgress();
 	InitObjectGFX();
 	IncProgress();
-	InitMissileGFX(gbIsHellfire);
+	InitMissileGFX(true);
 	IncProgress();
 }
 
@@ -2360,7 +2326,7 @@ bool StartGame(bool bNewGame, bool bSinglePlayer)
 			InitDungMsgs(*MyPlayer);
 			DeltaSyncJunk();
 		}
-		giNumberOfLevels = gbIsHellfire ? 25 : 17;
+		giNumberOfLevels = 25;
 		interface_mode uMsg = WM_DIABNEWGAME;
 		if (gbValidSaveFile && gbLoadGame) {
 			uMsg = WM_DIABLOADGAME;
@@ -2752,7 +2718,7 @@ void LoadGameLevel(bool firstflag, lvl_entry lvldir)
 			InitVirtualGamepadGFX(renderer);
 #endif
 			IncProgress();
-			InitMissileGFX(gbIsHellfire);
+			InitMissileGFX(true);
 			IncProgress();
 			IncProgress();
 		}
@@ -2862,7 +2828,7 @@ void LoadGameLevel(bool firstflag, lvl_entry lvldir)
 #if !defined(USE_SDL1) && !defined(__vita__)
 			InitVirtualGamepadGFX(renderer);
 #endif
-			InitMissileGFX(gbIsHellfire);
+			InitMissileGFX(true);
 			IncProgress();
 		}
 		InitCorpses();

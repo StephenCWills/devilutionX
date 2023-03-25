@@ -359,7 +359,6 @@ void AssertPlayer(Player &player)
 	ASSERT_EQ(player._pIFMaxDam, 0);
 	ASSERT_EQ(player._pILMinDam, 0);
 	ASSERT_EQ(player._pILMaxDam, 0);
-	ASSERT_EQ(player.pOriginalCathedral, 0);
 }
 
 TEST(Writehero, pfile_write_hero)
@@ -367,10 +366,7 @@ TEST(Writehero, pfile_write_hero)
 	paths::SetPrefPath(".");
 	std::remove("multi_0.sv");
 
-	gbVanilla = true;
-	gbIsHellfire = false;
 	gbIsMultiplayer = true;
-	gbIsHellfireSaveGame = false;
 	leveltype = DTYPE_TOWN;
 	giNumberOfLevels = 17;
 

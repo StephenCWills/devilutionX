@@ -641,7 +641,7 @@ void AddChestTraps()
 				if (leveltype == DTYPE_CATACOMBS) {
 					chestObject->_oVar4 = GenerateRnd(2);
 				} else {
-					chestObject->_oVar4 = GenerateRnd(gbIsHellfire ? 6 : 3);
+					chestObject->_oVar4 = GenerateRnd(6);
 				}
 			}
 		}
@@ -1379,7 +1379,7 @@ void AddShrine(Object &shrine)
 
 	shrine._oPreFlag = true;
 
-	int shrines = gbIsHellfire ? NumberOfShrineTypes : 26;
+	int shrines = NumberOfShrineTypes;
 
 	for (int j = 0; j < shrines; j++) {
 		slist[j] = currlevel >= shrinemin[j] && currlevel <= shrinemax[j];
@@ -2497,7 +2497,7 @@ void OperateShrineEnchanted(Player &player)
 
 	int cnt = 0;
 	uint64_t spell = 1;
-	int maxSpells = gbIsHellfire ? MAX_SPELLS : 37;
+	int maxSpells = MAX_SPELLS;
 	uint64_t spells = player._pMemSpells;
 	for (int j = 0; j < maxSpells; j++) {
 		if ((spell & spells) != 0)
@@ -3224,7 +3224,7 @@ void OperateArmorStand(Object &armorStand, bool sendmsg, bool sendLootMsg)
 int FindValidShrine()
 {
 	for (;;) {
-		int rv = GenerateRnd(gbIsHellfire ? NumberOfShrineTypes : 26);
+		int rv = GenerateRnd(NumberOfShrineTypes);
 		if (currlevel < shrinemin[rv] || currlevel > shrinemax[rv] || rv == ShrineThaumaturgic)
 			continue;
 		if (gbIsMultiplayer && shrineavail[rv] == ShrineTypeSingle)
@@ -4898,7 +4898,7 @@ void GetObjectStr(const Object &object)
 		}
 	}
 	if (object.IsDisabled()) {
-		InfoString = fmt::format(fmt::runtime(_(/* TRANSLATORS: If user enabled diablo.ini setting "Disable Crippling Shrines" is set to 1; also used for Na-Kruls lever */ "{:s} (disabled)")), InfoString.str());
+		InfoString = fmt::format(fmt::runtime(_(/* TRANSLATORS: If user enabled config.ini setting "Disable Crippling Shrines" is set to 1; also used for Na-Kruls lever */ "{:s} (disabled)")), InfoString.str());
 		InfoColor = UiFlags::ColorRed;
 	}
 }

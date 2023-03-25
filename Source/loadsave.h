@@ -11,7 +11,6 @@
 
 namespace devilution {
 
-extern DVL_API_FOR_TEST bool gbIsHellfireSaveGame;
 extern DVL_API_FOR_TEST uint8_t giNumberOfLevels;
 
 void RemoveInvalidItem(Item &pItem);

@@ -362,7 +362,6 @@ struct Player {
 	bool pBattleNet;
 	bool pManaShield;
 	uint8_t pDungMsgs2;
-	bool pOriginalCathedral;
 	uint8_t pDiabloKillLevel;
 	uint16_t wReflections;
 	_difficulty pDifficulty;
@@ -510,8 +509,6 @@ struct Player {
 	int GetMeleePiercingToHit() const
 	{
 		int hper = GetMeleeToHit();
-		// in hellfire armor piercing ignores % of enemy armor instead, no way to include it here
-		if (!gbIsHellfire)
 			hper += _pIEnAc;
 		return hper;
 	}
@@ -532,8 +529,6 @@ struct Player {
 	int GetRangedPiercingToHit() const
 	{
 		int hper = GetRangedToHit();
-		// in hellfire armor piercing ignores % of enemy armor instead, no way to include it here
-		if (!gbIsHellfire)
 			hper += _pIEnAc;
 		return hper;
 	}
@@ -593,7 +588,7 @@ struct Player {
 	{
 		int tmac = monsterArmor;
 		if (_pIEnAc > 0) {
-			if (gbIsHellfire) {
+			if (false) {
 				int pIEnAc = _pIEnAc - 1;
 				if (pIEnAc > 0)
 					tmac >>= pIEnAc;

@@ -1072,10 +1072,6 @@ void PrivSoundInit(uint8_t bLoadMask)
 			continue;
 		}
 
-		if (!gbIsHellfire && (sfx.bFlags & sfx_HELLFIRE) != 0) {
-			continue;
-		}
-
 		sfx.pSnd = sound_file_load(sfx.pszName);
 	}
 }
@@ -1158,9 +1154,9 @@ void sound_init()
 	uint8_t mask = sfx_MISC;
 	if (gbIsMultiplayer) {
 		mask |= sfx_WARRIOR;
-		if (!gbIsSpawn)
+		if (true)
 			mask |= (sfx_ROGUE | sfx_SORCERER);
-		if (gbIsHellfire)
+		if (true)
 			mask |= sfx_MONK;
 	} else {
 		switch (MyPlayer->_pClass) {

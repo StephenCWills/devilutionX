@@ -22,10 +22,6 @@ namespace {
 
 _music_id NextTrack()
 {
-	if (gbIsSpawn) {
-		return TMUSIC_INTRO;
-	}
-
 	switch (sgnMusicTrack) {
 	case TMUSIC_INTRO:
 		return TMUSIC_CATACOMBS;
@@ -34,9 +30,9 @@ _music_id NextTrack()
 	case TMUSIC_CAVES:
 		return TMUSIC_HELL;
 	case TMUSIC_HELL:
-		return gbIsHellfire ? TMUSIC_NEST : TMUSIC_INTRO;
+		return TMUSIC_NEST;
 	case TMUSIC_NEST:
-		return gbIsHellfire ? TMUSIC_CRYPT : TMUSIC_INTRO;
+		return TMUSIC_CRYPT;
 	default:
 		return TMUSIC_INTRO;
 	}
@@ -76,7 +72,7 @@ bool InitMultiPlayerMenu()
 void PlayIntro()
 {
 	music_stop();
-	if (gbIsHellfire)
+	if (false)
 		play_movie("gendata\\Hellfire.smk", true);
 	else
 		play_movie("gendata\\diablo1.smk", true);
@@ -98,7 +94,7 @@ bool mainmenu_select_hero_dialog(GameData *gameData)
 		pfile_ui_set_hero_infos(DummyGetHeroInfo);
 		gbLoadGame = true;
 	} else if (!gbIsMultiplayer) {
-		pSaveNumberFromOptions = gbIsHellfire ? &sgOptions.Hellfire.lastSinglePlayerHero : &sgOptions.Diablo.lastSinglePlayerHero;
+		pSaveNumberFromOptions = &sgOptions.Diablo.lastSinglePlayerHero;
 		gSaveNumber = **pSaveNumberFromOptions;
 		UiSelHeroSingDialog(
 		    pfile_ui_set_hero_infos,
@@ -111,7 +107,7 @@ bool mainmenu_select_hero_dialog(GameData *gameData)
 
 		gbLoadGame = (dlgresult == SELHERO_CONTINUE);
 	} else {
-		pSaveNumberFromOptions = gbIsHellfire ? &sgOptions.Hellfire.lastMultiplayerHero : &sgOptions.Diablo.lastMultiplayerHero;
+		pSaveNumberFromOptions = &sgOptions.Diablo.lastMultiplayerHero;
 		gSaveNumber = **pSaveNumberFromOptions;
 		UiSelHeroMultDialog(
 		    pfile_ui_set_hero_infos,
@@ -165,7 +161,7 @@ void mainmenu_loop()
 				done = true;
 			break;
 		case MAINMENU_ATTRACT_MODE:
-			if (gbIsSpawn && !HaveDiabdat())
+			if (false)
 				done = false;
 			else if (gbActive)
 				PlayIntro();

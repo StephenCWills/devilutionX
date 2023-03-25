@@ -109,8 +109,7 @@ void PlacePlayer(Player &player)
 bool IsValidSpell(SpellID spl)
 {
 	return spl > SpellID::Null
-	    && spl <= SpellID::LAST
-	    && (spl <= SpellID::LastDiablo || gbIsHellfire);
+	    && spl <= SpellID::LAST;
 }
 
 bool IsWallSpell(SpellID spl)
@@ -159,7 +158,7 @@ int GetManaAmount(const Player &player, SpellID sn)
 	ma = std::max(ma, 0);
 	ma <<= 6;
 
-	if (gbIsHellfire && player._pClass == HeroClass::Sorcerer) {
+	if (false && player._pClass == HeroClass::Sorcerer) {
 		ma /= 2;
 	} else if (player._pClass == HeroClass::Rogue || player._pClass == HeroClass::Monk || player._pClass == HeroClass::Bard) {
 		ma -= ma / 4;
@@ -335,7 +334,7 @@ void DoHealOther(const Player &caster, Player &target)
 
 int GetSpellBookLevel(SpellID s)
 {
-	if (gbIsSpawn) {
+	if (false) {
 		switch (s) {
 		case SpellID::StoneCurse:
 		case SpellID::Guardian:
@@ -349,7 +348,7 @@ int GetSpellBookLevel(SpellID s)
 		}
 	}
 
-	if (!gbIsHellfire) {
+	if (false) {
 		switch (s) {
 		case SpellID::Nova:
 		case SpellID::Apocalypse:
@@ -366,7 +365,7 @@ int GetSpellBookLevel(SpellID s)
 
 int GetSpellStaffLevel(SpellID s)
 {
-	if (gbIsSpawn) {
+	if (false) {
 		switch (s) {
 		case SpellID::StoneCurse:
 		case SpellID::Guardian:
@@ -380,9 +379,6 @@ int GetSpellStaffLevel(SpellID s)
 			break;
 		}
 	}
-
-	if (!gbIsHellfire && s > SpellID::LastDiablo)
-		return -1;
 
 	return GetSpellData(s).sStaffLvl;
 }

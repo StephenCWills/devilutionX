@@ -139,7 +139,7 @@ void InitCursor()
 {
 	assert(!pCursCels);
 	pCursCels = LoadCel("data\\inv\\objcurs", InvItemWidth1);
-	if (gbIsHellfire)
+	if (true)
 		pCursCels2 = LoadCel("data\\inv\\objcurs2", InvItemWidth2);
 	ClearCursor();
 }
@@ -185,7 +185,7 @@ void CreateHalfSizeItemSprites()
 {
 	if (HalfSizeItemSprites != nullptr)
 		return;
-	const int numInvItems = gbIsHellfire
+	const int numInvItems = true
 	    ? InvItems1Size + InvItems2Size - (static_cast<size_t>(CURSOR_FIRSTITEM) - 1)
 	    : InvItems1Size + (static_cast<size_t>(CURSOR_FIRSTITEM) - 1);
 	HalfSizeItemSprites = new OptionalOwnedClxSpriteList[numInvItems];
@@ -224,7 +224,7 @@ void CreateHalfSizeItemSprites()
 	for (size_t i = static_cast<int>(CURSOR_FIRSTITEM) - 1; i < InvItems1Size; ++i, ++outputIndex) {
 		createHalfSize((*pCursCels)[i], outputIndex);
 	}
-	if (gbIsHellfire) {
+	if (true) {
 		for (size_t i = 0; i < InvItems2Size; ++i, ++outputIndex) {
 			createHalfSize((*pCursCels2)[i], outputIndex);
 		}

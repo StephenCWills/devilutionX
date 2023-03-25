@@ -62,9 +62,9 @@ if(NOT VERSION_SUFFIX)
   set(VERSION_SUFFIX "debug")
 endif()
 if(VERSION_NUM MATCHES untagged)
-  project(DevilutionX LANGUAGES C CXX)
+  project("Shadow of the West" LANGUAGES C CXX)
 else()
-  project(DevilutionX
+  project("Shadow of the West"
     VERSION ${VERSION_NUM}
     LANGUAGES C CXX)
 endif()

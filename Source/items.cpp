@@ -355,7 +355,7 @@ bool IsPrefixValidForItemType(int i, AffixItemType flgs)
 {
 	AffixItemType itemTypes = ItemPrefixes[i].PLIType;
 
-	if (!gbIsHellfire) {
+	if (false) {
 		if (i > 82)
 			return false;
 
@@ -370,7 +370,7 @@ bool IsSuffixValidForItemType(int i, AffixItemType flgs)
 {
 	AffixItemType itemTypes = ItemSuffixes[i].PLIType;
 
-	if (!gbIsHellfire) {
+	if (false) {
 		if (i > 94)
 			return false;
 
@@ -621,12 +621,9 @@ void GetBookSpell(Item &item, int lvl)
 	if (lvl == 0)
 		lvl = 1;
 
-	int maxSpells = gbIsHellfire ? MAX_SPELLS : 37;
+	int maxSpells = MAX_SPELLS;
 
 	rv = GenerateRnd(maxSpells) + 1;
-
-	if (gbIsSpawn && lvl > 5)
-		lvl = 5;
 
 	int s = static_cast<int8_t>(SpellID::Firebolt);
 	SpellID bs = SpellID::Firebolt;
@@ -708,7 +705,7 @@ int CalculateToHitBonus(int level)
 
 int SaveItemPower(const Player &player, Item &item, ItemPower &power)
 {
-	if (!gbIsHellfire) {
+	if (false) {
 		if (power.type == IPL_TARGAC) {
 			power.param1 = 1 << power.param1;
 			power.param2 = 3 << power.param2;
@@ -935,7 +932,7 @@ int SaveItemPower(const Player &player, Item &item, ItemPower &power)
 		RedrawComponent(PanelDrawComponent::Health);
 		break;
 	case IPL_TARGAC:
-		if (gbIsHellfire)
+		if (false)
 			item._iPLEnAc = power.param1;
 		else
 			item._iPLEnAc += r;
@@ -1218,19 +1215,16 @@ void GetItemPower(const Player &player, Item &item, int minlvl, int maxlvl, Affi
 
 void GetStaffSpell(const Player &player, Item &item, int lvl, bool onlygood)
 {
-	if (!gbIsHellfire && FlipCoin(4)) {
+	if (true && FlipCoin(4)) {
 		GetItemPower(player, item, lvl / 2, lvl, AffixItemType::Staff, onlygood);
 		return;
 	}
 
-	int maxSpells = gbIsHellfire ? MAX_SPELLS : 37;
+	int maxSpells = MAX_SPELLS;
 	int l = lvl / 2;
 	if (l == 0)
 		l = 1;
 	int rv = GenerateRnd(maxSpells) + 1;
-
-	if (gbIsSpawn && lvl > 10)
-		lvl = 10;
 
 	int s = static_cast<int8_t>(SpellID::Firebolt);
 	SpellID bs = SpellID::Null;
@@ -1537,7 +1531,7 @@ void SetupAllUseful(Item &item, int iseed, int lvl)
 
 	_item_indexes idx;
 
-	if (gbIsHellfire) {
+	if (true) {
 		switch (GenerateRnd(7)) {
 		case 0:
 			idx = IDI_PORTAL;
@@ -1861,7 +1855,7 @@ bool SmithItemOk(const Player &player, const ItemData &item)
 		return false;
 	if (item.itype == ItemType::Gold)
 		return false;
-	if (item.itype == ItemType::Staff && (!gbIsHellfire || IsValidSpell(item.iSpell)))
+	if (item.itype == ItemType::Staff && IsValidSpell(item.iSpell))
 		return false;
 	if (item.itype == ItemType::Ring)
 		return false;
@@ -1907,8 +1901,6 @@ bool PremiumItemOk(const Player &player, const ItemData &item)
 		return false;
 	if (item.itype == ItemType::Gold)
 		return false;
-	if (!gbIsHellfire && item.itype == ItemType::Staff)
-		return false;
 
 	if (gbIsMultiplayer) {
 		if (item.iMiscId == IMISC_OILOF)
@@ -1950,9 +1942,9 @@ void SpawnOnePremium(Item &premiumItem, int plvl, const Player &player)
 		SetRndSeed(premiumItem._iSeed);
 		_item_indexes itemType = RndPremiumItem(player, plvl / 4, plvl);
 		GetItemAttrs(premiumItem, itemType, plvl);
-		GetItemBonus(player, premiumItem, plvl / 2, plvl, true, !gbIsHellfire);
+		GetItemBonus(player, premiumItem, plvl / 2, plvl, true, false);
 
-		if (!gbIsHellfire) {
+		if (false) {
 			if (premiumItem._iIvalue > 140000) {
 				keepGoing = true; // prevent breaking the do/while loop too early by failing hellfire's condition in while
 				continue;
@@ -2053,13 +2045,13 @@ bool HealerItemOk(const Player &player, const ItemData &item)
 
 	if (!gbIsMultiplayer) {
 		if (item.iMiscId == IMISC_ELIXSTR)
-			return !gbIsHellfire || player._pBaseStr < player.GetMaximumAttributeValue(CharacterAttribute::Strength);
+			return player._pBaseStr < player.GetMaximumAttributeValue(CharacterAttribute::Strength);
 		if (item.iMiscId == IMISC_ELIXMAG)
-			return !gbIsHellfire || player._pBaseMag < player.GetMaximumAttributeValue(CharacterAttribute::Magic);
+			return player._pBaseMag < player.GetMaximumAttributeValue(CharacterAttribute::Magic);
 		if (item.iMiscId == IMISC_ELIXDEX)
-			return !gbIsHellfire || player._pBaseDex < player.GetMaximumAttributeValue(CharacterAttribute::Dexterity);
+			return player._pBaseDex < player.GetMaximumAttributeValue(CharacterAttribute::Dexterity);
 		if (item.iMiscId == IMISC_ELIXVIT)
-			return !gbIsHellfire || player._pBaseVit < player.GetMaximumAttributeValue(CharacterAttribute::Vitality);
+			return player._pBaseVit < player.GetMaximumAttributeValue(CharacterAttribute::Vitality);
 	}
 
 	if (item.iMiscId == IMISC_REJUV)
@@ -2091,7 +2083,7 @@ void RecreatePremiumItem(const Player &player, Item &item, int plvl, int iseed)
 	SetRndSeed(iseed);
 	_item_indexes itype = RndPremiumItem(player, plvl / 4, plvl);
 	GetItemAttrs(item, itype, plvl);
-	GetItemBonus(player, item, plvl / 2, plvl, true, !gbIsHellfire);
+	GetItemBonus(player, item, plvl / 2, plvl, true, false);
 
 	item._iSeed = iseed;
 	item._iCreateInfo = plvl | CF_SMITHPREMIUM;
@@ -2114,7 +2106,7 @@ void RecreateWitchItem(const Player &player, Item &item, _item_indexes idx, int 
 {
 	if (IsAnyOf(idx, IDI_MANA, IDI_FULLMANA, IDI_PORTAL)) {
 		GetItemAttrs(item, idx, lvl);
-	} else if (gbIsHellfire && idx >= 114 && idx <= 117) {
+	} else if (idx >= 114 && idx <= 117) {
 		SetRndSeed(iseed);
 		AdvanceRndSeed();
 		GetItemAttrs(item, idx, lvl);
@@ -2224,29 +2216,14 @@ bool IsItemAvailable(int i)
 	if (i < 0 || i > IDI_LAST)
 		return false;
 
-	if (gbIsSpawn) {
+	if (false) {
 		if (i >= 62 && i <= 71)
 			return false; // Medium and heavy armors
 		if (IsAnyOf(i, 105, 107, 108, 110, 111, 113))
 			return false; // Unavailable scrolls
 	}
 
-	if (gbIsHellfire)
-		return true;
-
-	return (
-	           i != IDI_MAPOFDOOM                   // Cathedral Map
-	           && i != IDI_LGTFORGE                 // Bovine Plate
-	           && (i < IDI_OIL || i > IDI_GREYSUIT) // Hellfire exclusive items
-	           && (i < 83 || i > 86)                // Oils
-	           && i != 92                           // Scroll of Search
-	           && (i < 161 || i > 165)              // Runes
-	           && i != IDI_SORCERER                 // Short Staff of Mana
-	           )
-	    || (
-	        // Bard items are technically Hellfire-exclusive
-	        // but are just normal items with adjusted stats.
-	        *sgOptions.Gameplay.testBard && IsAnyOf(i, IDI_BARDSWORD, IDI_BARDDAGGER));
+	return true;
 }
 
 uint8_t GetOutlineColor(const Item &item, bool checkReq)
@@ -2265,14 +2242,14 @@ uint8_t GetOutlineColor(const Item &item, bool checkReq)
 
 bool IsUniqueAvailable(int i)
 {
-	return gbIsHellfire || i <= 89;
+	return true;
 }
 
 void InitItemGFX()
 {
 	char arglist[64];
 
-	int itemTypes = gbIsHellfire ? ITEMTYPES : 35;
+	int itemTypes = ITEMTYPES;
 	for (int i = 0; i < itemTypes; i++) {
 		*BufCopy(arglist, "items\\", ItemDropNames[i]) = '\0';
 		itemanims[i] = LoadCel(arglist, ItemAnimWidth);
@@ -2715,7 +2692,7 @@ void InitializeItem(Item &item, _item_indexes itemData)
 	item._iSpell = pAllItem.iSpell;
 
 	if (pAllItem.iMiscId == IMISC_STAFF) {
-		item._iCharges = gbIsHellfire ? 18 : 40;
+		item._iCharges = 18;
 	}
 
 	item._iMaxCharges = item._iCharges;
@@ -2730,7 +2707,7 @@ void InitializeItem(Item &item, _item_indexes itemData)
 	item._iSufPower = IPL_INVALID;
 	item._iMagical = ITEM_QUALITY_NORMAL;
 	item.IDidx = static_cast<_item_indexes>(itemData);
-	if (gbIsHellfire)
+	if (true)
 		item.dwBuff |= CF_HELLFIRE;
 }
 
@@ -2807,13 +2784,13 @@ void CreatePlrItems(Player &player)
 		GenerateNewSeed(player.SpdList[1]);
 		break;
 	case HeroClass::Sorcerer:
-		InitializeItem(player.InvBody[INVLOC_HAND_LEFT], gbIsHellfire ? IDI_SORCERER : IDI_SORCERER_DIABLO);
+		InitializeItem(player.InvBody[INVLOC_HAND_LEFT], IDI_SORCERER);
 		GenerateNewSeed(player.InvBody[INVLOC_HAND_LEFT]);
 
-		InitializeItem(player.SpdList[0], gbIsHellfire ? IDI_HEAL : IDI_MANA);
+		InitializeItem(player.SpdList[0], IDI_MANA);
 		GenerateNewSeed(player.SpdList[0]);
 
-		InitializeItem(player.SpdList[1], gbIsHellfire ? IDI_HEAL : IDI_MANA);
+		InitializeItem(player.SpdList[1], IDI_MANA);
 		GenerateNewSeed(player.SpdList[1]);
 		break;
 
@@ -2935,7 +2912,7 @@ void GetItemAttrs(Item &item, _item_indexes itemData, int lvl)
 	item._iMinMag = baseItemData.iMinMag;
 	item._iMinDex = baseItemData.iMinDex;
 	item.IDidx = itemData;
-	if (gbIsHellfire)
+	if (true)
 		item.dwBuff |= CF_HELLFIRE;
 	item._iPrePower = IPL_INVALID;
 	item._iSufPower = IPL_INVALID;
@@ -2943,7 +2920,7 @@ void GetItemAttrs(Item &item, _item_indexes itemData, int lvl)
 	if (item._iMiscId == IMISC_BOOK)
 		GetBookSpell(item, lvl);
 
-	if (gbIsHellfire && item._iMiscId == IMISC_OILOF)
+	if (item._iMiscId == IMISC_OILOF)
 		GetOilType(item, lvl);
 
 	if (item._itype != ItemType::Gold)
@@ -3049,8 +3026,6 @@ void SpawnItem(Monster &monster, Point position, bool sendmsg)
 	int uper = monster.isUnique() ? 15 : 1;
 
 	int8_t mLevel = monster.data().level;
-	if (!gbIsHellfire && monster.type().type == MT_DIABLO)
-		mLevel -= 15;
 
 	SetupAllItems(*MyPlayer, item, idx, AdvanceRndSeed(), mLevel, uper, onlygood, false, false);
 
@@ -3093,38 +3068,31 @@ void CreateTypeItem(Point position, bool onlygood, ItemType itemType, int imisc,
 	SetupBaseItem(position, idx, onlygood, sendmsg, delta);
 }
 
-void RecreateItem(const Player &player, Item &item, _item_indexes idx, uint16_t icreateinfo, int iseed, int ivalue, bool isHellfire)
+void RecreateItem(const Player &player, Item &item, _item_indexes idx, uint16_t icreateinfo, int iseed, int ivalue)
 {
-	bool tmpIsHellfire = gbIsHellfire;
-	gbIsHellfire = isHellfire;
-
 	if (idx == IDI_GOLD) {
 		InitializeItem(item, IDI_GOLD);
 		item._iSeed = iseed;
 		item._iCreateInfo = icreateinfo;
 		item._ivalue = ivalue;
 		SetPlrHandGoldCurs(item);
-		gbIsHellfire = tmpIsHellfire;
 		return;
 	}
 
 	if (icreateinfo == 0) {
 		InitializeItem(item, idx);
 		item._iSeed = iseed;
-		gbIsHellfire = tmpIsHellfire;
 		return;
 	}
 
 	if ((icreateinfo & CF_UNIQUE) == 0) {
 		if ((icreateinfo & CF_TOWN) != 0) {
 			RecreateTownItem(player, item, idx, icreateinfo, iseed);
-			gbIsHellfire = tmpIsHellfire;
 			return;
 		}
 
 		if ((icreateinfo & CF_USEFUL) == CF_USEFUL) {
 			SetupAllUseful(item, iseed, icreateinfo & CF_LEVEL);
-			gbIsHellfire = tmpIsHellfire;
 			return;
 		}
 	}
@@ -3142,7 +3110,6 @@ void RecreateItem(const Player &player, Item &item, _item_indexes idx, uint16_t 
 	bool pregen = (icreateinfo & CF_PREGEN) != 0;
 
 	SetupAllItems(player, item, idx, iseed, level, uper, onlygood, recreate, pregen);
-	gbIsHellfire = tmpIsHellfire;
 }
 
 void RecreateEar(Item &item, uint16_t ic, int iseed, uint8_t bCursval, string_view heroName)
@@ -3166,7 +3133,7 @@ void CornerstoneSave()
 		return;
 	if (!CornerStone.item.isEmpty()) {
 		ItemPack id;
-		PackItem(id, CornerStone.item, (CornerStone.item.dwBuff & CF_HELLFIRE) != 0);
+		PackItem(id, CornerStone.item);
 		const auto *buffer = reinterpret_cast<uint8_t *>(&id);
 		for (size_t i = 0; i < sizeof(ItemPack); i++) {
 			fmt::format_to(&sgOptions.Hellfire.szItem[i * 2], "{:02X}", buffer[i]);
@@ -3208,7 +3175,7 @@ void CornerstoneLoad(Point position)
 
 	dItem[position.x][position.y] = ii + 1;
 
-	UnPackItem(pkSItem, *MyPlayer, item, (pkSItem.dwBuff & CF_HELLFIRE) != 0);
+	UnPackItem(pkSItem, *MyPlayer, item);
 	item.position = position;
 	RespawnItem(item, false);
 	CornerStone.item = item;
@@ -3800,7 +3767,7 @@ void UseItem(size_t pnum, item_misc_id mid, SpellID spl)
 		break;
 	case IMISC_ELIXMAG:
 		ModifyPlrMag(player, 1);
-		if (gbIsHellfire) {
+		if (false) {
 			player.RestoreFullMana();
 			if (&player == MyPlayer) {
 				RedrawComponent(PanelDrawComponent::Mana);
@@ -3812,7 +3779,7 @@ void UseItem(size_t pnum, item_misc_id mid, SpellID spl)
 		break;
 	case IMISC_ELIXVIT:
 		ModifyPlrVit(player, 1);
-		if (gbIsHellfire) {
+		if (false) {
 			player.RestoreFullLife();
 			if (&player == MyPlayer) {
 				RedrawComponent(PanelDrawComponent::Health);
@@ -3964,7 +3931,7 @@ void SpawnSmith(int lvl)
 
 	int maxValue = 140000;
 	int maxItems = 20;
-	if (gbIsHellfire) {
+	if (true) {
 		maxValue = 200000;
 		maxItems = 25;
 	}
@@ -3993,11 +3960,11 @@ void SpawnSmith(int lvl)
 void SpawnPremium(const Player &player)
 {
 	int8_t lvl = player._pLevel;
-	int maxItems = gbIsHellfire ? SMITH_PREMIUM_ITEMS : 6;
+	int maxItems = SMITH_PREMIUM_ITEMS;
 	if (numpremium < maxItems) {
 		for (int i = 0; i < maxItems; i++) {
 			if (premiumitems[i].isEmpty()) {
-				int plvl = premiumlevel + (gbIsHellfire ? premiumLvlAddHellfire[i] : premiumlvladd[i]);
+				int plvl = premiumlevel + premiumLvlAddHellfire[i];
 				SpawnOnePremium(premiumitems[i], plvl, player);
 			}
 		}
@@ -4005,7 +3972,7 @@ void SpawnPremium(const Player &player)
 	}
 	while (premiumlevel < lvl) {
 		premiumlevel++;
-		if (gbIsHellfire) {
+		if (true) {
 			// Discard first 3 items and shift next 10
 			std::move(&premiumitems[3], &premiumitems[12] + 1, &premiumitems[0]);
 			SpawnOnePremium(premiumitems[10], premiumlevel + premiumLvlAddHellfire[10], player);
@@ -4031,10 +3998,10 @@ void SpawnWitch(int lvl)
 	constexpr std::array<_item_indexes, MaxPinnedBookCount> PinnedBookTypes = { IDI_BOOK1, IDI_BOOK2, IDI_BOOK3, IDI_BOOK4 };
 
 	int bookCount = 0;
-	const int pinnedBookCount = gbIsHellfire ? GenerateRnd(MaxPinnedBookCount) : 0;
-	const int reservedItems = gbIsHellfire ? 10 : 17;
+	const int pinnedBookCount = 0;
+	const int reservedItems = 17;
 	const int itemCount = GenerateRnd(WITCH_ITEMS - reservedItems) + 10;
-	const int maxValue = gbIsHellfire ? 200000 : 140000;
+	const int maxValue = 200000;
 
 	for (int i = 0; i < WITCH_ITEMS; i++) {
 		Item &item = witchitem[i];
@@ -4048,7 +4015,7 @@ void SpawnWitch(int lvl)
 			continue;
 		}
 
-		if (gbIsHellfire) {
+		if (false) {
 			if (i < PinnedItemCount + MaxPinnedBookCount && bookCount < pinnedBookCount) {
 				_item_indexes bookType = PinnedBookTypes[i - PinnedItemCount];
 				if (lvl >= AllItemsList[bookType].iMinMLvl) {
@@ -4118,7 +4085,7 @@ void SpawnBoy(int lvl)
 		GetItemAttrs(boyitem, itype, lvl);
 		GetItemBonus(*MyPlayer, boyitem, lvl, 2 * lvl, true, true);
 
-		if (!gbIsHellfire) {
+		if (false) {
 			if (boyitem._iIvalue > 90000) {
 				keepgoing = true; // prevent breaking the do/while loop too early by failing hellfire's condition in while
 				continue;
@@ -4209,7 +4176,7 @@ void SpawnHealer(int lvl)
 {
 	constexpr int PinnedItemCount = 2;
 	constexpr std::array<_item_indexes, PinnedItemCount + 1> PinnedItemTypes = { IDI_HEAL, IDI_FULLHEAL, IDI_RESURRECT };
-	const int itemCount = GenerateRnd(gbIsHellfire ? 10 : 8) + 10;
+	const int itemCount = GenerateRnd(10) + 10;
 
 	for (int i = 0; i < 20; i++) {
 		Item &item = healitem[i];
@@ -4262,7 +4229,7 @@ void CreateSpellBook(Point position, SpellID ispell, bool sendmsg, bool delta)
 {
 	int lvl = currlevel;
 
-	if (gbIsHellfire) {
+	if (true) {
 		lvl = GetSpellBookLevel(ispell) + 1;
 		if (lvl < 1) {
 			return;

@@ -1,5 +1,3 @@
-#include "selstart.h"
-
 #include <function_ref.hpp>
 
 #include "DiabloUI/diabloui.h"
@@ -64,7 +62,7 @@ bool IsValidEntry(OptionEntryBase *pOptionEntry)
 		return false;
 	if (HasAnyOf(flags, OptionEntryFlags::NeedHellfireMpq) && !HaveHellfire())
 		return false;
-	return HasNoneOf(flags, OptionEntryFlags::Invisible | (gbIsHellfire ? OptionEntryFlags::OnlyDiablo : OptionEntryFlags::OnlyHellfire));
+	return HasNoneOf(flags, OptionEntryFlags::Invisible);
 }
 
 std::vector<DrawStringFormatArg> CreateDrawStringFormatArgForEntry(OptionEntryBase *pEntry)

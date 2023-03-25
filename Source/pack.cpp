@@ -36,19 +36,13 @@ void VerifyGoldSeeds(Player &player)
 
 } // namespace
 
-void PackItem(ItemPack &packedItem, const Item &item, bool isHellfire)
+void PackItem(ItemPack &packedItem, const Item &item)
 {
 	packedItem = {};
 	if (item.isEmpty()) {
 		packedItem.idx = 0xFFFF;
 	} else {
 		auto idx = item.IDidx;
-		if (!isHellfire) {
-			idx = RemapItemIdxToDiablo(idx);
-		}
-		if (gbIsSpawn) {
-			idx = RemapItemIdxToSpawn(idx);
-		}
 		packedItem.idx = SDL_SwapLE16(idx);
 		if (item.IDidx == IDI_EAR) {
 			packedItem.iCreateInfo = SDL_SwapLE16(item._iIName[1] | (item._iIName[0] << 8));
@@ -84,10 +78,6 @@ void PackPlayer(PlayerPack *pPack, const Player &player, bool manashield, bool n
 	pPack->plrlevel = player.plrlevel;
 	pPack->px = player.position.tile.x;
 	pPack->py = player.position.tile.y;
-	if (gbVanilla) {
-		pPack->targx = player.position.tile.x;
-		pPack->targy = player.position.tile.y;
-	}
 	strcpy(pPack->pName, player._pName);
 	pPack->pClass = static_cast<int8_t>(player._pClass);
 	pPack->pBaseStr = player._pBaseStr;
@@ -111,15 +101,13 @@ void PackPlayer(PlayerPack *pPack, const Player &player, bool manashield, bool n
 
 	for (int i = 0; i < NUM_INVLOC; i++) {
 		const Item &item = player.InvBody[i];
-		bool isHellfire = netSync ? ((item.dwBuff & CF_HELLFIRE) != 0) : gbIsHellfire;
-		PackItem(pPack->InvBody[i], item, isHellfire);
+		PackItem(pPack->InvBody[i], item);
 	}
 
 	pPack->_pNumInv = player._pNumInv;
 	for (int i = 0; i < pPack->_pNumInv; i++) {
 		const Item &item = player.InvList[i];
-		bool isHellfire = netSync ? ((item.dwBuff & CF_HELLFIRE) != 0) : gbIsHellfire;
-		PackItem(pPack->InvList[i], item, isHellfire);
+		PackItem(pPack->InvList[i], item);
 	}
 
 	for (int i = 0; i < InventoryGridCells; i++)
@@ -127,15 +115,14 @@ void PackPlayer(PlayerPack *pPack, const Player &player, bool manashield, bool n
 
 	for (int i = 0; i < MaxBeltItems; i++) {
 		const Item &item = player.SpdList[i];
-		bool isHellfire = netSync ? ((item.dwBuff & CF_HELLFIRE) != 0) : gbIsHellfire;
-		PackItem(pPack->SpdList[i], item, isHellfire);
+		PackItem(pPack->SpdList[i], item);
 	}
 
 	pPack->wReflections = SDL_SwapLE16(player.wReflections);
 	pPack->pDifficulty = SDL_SwapLE32(player.pDifficulty);
 	pPack->pDamAcFlags = SDL_SwapLE32(static_cast<uint32_t>(player.pDamAcFlags));
 	pPack->pDiabloKillLevel = SDL_SwapLE32(player.pDiabloKillLevel);
-	pPack->bIsHellfire = gbIsHellfire ? 1 : 0;
+	pPack->bIsHellfire = 1;
 
 	if (!gbIsMultiplayer || manashield)
 		pPack->pManaShield = SDL_SwapLE32(player.pManaShield);
@@ -143,16 +130,9 @@ void PackPlayer(PlayerPack *pPack, const Player &player, bool manashield, bool n
 		pPack->pManaShield = 0;
 }
 
-void UnPackItem(const ItemPack &packedItem, const Player &player, Item &item, bool isHellfire)
+void UnPackItem(const ItemPack &packedItem, const Player &player, Item &item)
 {
 	auto idx = static_cast<_item_indexes>(SDL_SwapLE16(packedItem.idx));
-
-	if (gbIsSpawn) {
-		idx = RemapItemIdxFromSpawn(idx);
-	}
-	if (!isHellfire) {
-		idx = RemapItemIdxFromDiablo(idx);
-	}
 
 	if (!IsItemAvailable(idx)) {
 		item.clear();
@@ -187,7 +167,7 @@ void UnPackItem(const ItemPack &packedItem, const Player &player, Item &item, bo
 		RecreateEar(item, ic, iseed, ivalue & 0xFF, heroName);
 	} else {
 		item = {};
-		RecreateItem(player, item, idx, SDL_SwapLE16(packedItem.iCreateInfo), SDL_SwapLE32(packedItem.iSeed), SDL_SwapLE16(packedItem.wValue), isHellfire);
+		RecreateItem(player, item, idx, SDL_SwapLE16(packedItem.iCreateInfo), SDL_SwapLE32(packedItem.iSeed), SDL_SwapLE16(packedItem.wValue));
 		item._iMagical = static_cast<item_quality>(packedItem.bId >> 1);
 		item._iIdentified = (packedItem.bId & 1) != 0;
 		item._iDurability = packedItem.bDur;
@@ -197,7 +177,7 @@ void UnPackItem(const ItemPack &packedItem, const Player &player, Item &item, bo
 
 		RemoveInvalidItem(item);
 
-		if (isHellfire)
+		if (true)
 			item.dwBuff |= CF_HELLFIRE;
 		else
 			item.dwBuff &= ~CF_HELLFIRE;
@@ -274,15 +254,13 @@ bool UnPackPlayer(const PlayerPack *pPack, Player &player, bool netSync)
 
 	for (int i = 0; i < NUM_INVLOC; i++) {
 		auto packedItem = pPack->InvBody[i];
-		bool isHellfire = netSync ? ((packedItem.dwBuff & CF_HELLFIRE) != 0) : (pPack->bIsHellfire != 0);
-		UnPackItem(packedItem, player, player.InvBody[i], isHellfire);
+		UnPackItem(packedItem, player, player.InvBody[i]);
 	}
 
 	player._pNumInv = pPack->_pNumInv;
 	for (int i = 0; i < player._pNumInv; i++) {
 		auto packedItem = pPack->InvList[i];
-		bool isHellfire = netSync ? ((packedItem.dwBuff & CF_HELLFIRE) != 0) : (pPack->bIsHellfire != 0);
-		UnPackItem(packedItem, player, player.InvList[i], isHellfire);
+		UnPackItem(packedItem, player, player.InvList[i]);
 	}
 
 	for (int i = 0; i < InventoryGridCells; i++)
@@ -292,8 +270,7 @@ bool UnPackPlayer(const PlayerPack *pPack, Player &player, bool netSync)
 
 	for (int i = 0; i < MaxBeltItems; i++) {
 		auto packedItem = pPack->SpdList[i];
-		bool isHellfire = netSync ? ((packedItem.dwBuff & CF_HELLFIRE) != 0) : (pPack->bIsHellfire != 0);
-		UnPackItem(packedItem, player, player.SpdList[i], isHellfire);
+		UnPackItem(packedItem, player, player.SpdList[i]);
 	}
 
 	CalcPlrInv(player, false);

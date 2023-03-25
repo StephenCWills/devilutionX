@@ -195,11 +195,7 @@ void DrawHelp(const Surface &out)
 	const int lineHeight = LineHeight();
 	const int blankLineHeight = BlankLineHeight();
 
-	string_view title;
-	if (gbIsHellfire)
-		title = gbIsSpawn ? _("Shareware Hellfire Help") : _("Hellfire Help");
-	else
-		title = gbIsSpawn ? _("Shareware Diablo Help") : _("Diablo Help");
+	string_view title = _("Help");
 
 	const Point uiPosition = GetUIRectangle().position;
 	const int sx = uiPosition.x + PaddingLeft;

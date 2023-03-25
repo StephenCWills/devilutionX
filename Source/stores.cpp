@@ -509,7 +509,7 @@ bool SmithSellOk(int i)
 		return false;
 	if (pI->_itype == ItemType::Gold)
 		return false;
-	if (pI->_itype == ItemType::Staff && (!gbIsHellfire || IsValidSpell(pI->_iSpell)))
+	if (pI->_itype == ItemType::Staff && IsValidSpell(pI->_iSpell))
 		return false;
 	if (pI->_iClass == ICLASS_QUEST)
 		return false;
@@ -806,7 +806,7 @@ bool WitchSellOk(int i)
 		rv = false;
 	if (pI->_iClass == ICLASS_QUEST)
 		rv = false;
-	if (pI->_itype == ItemType::Staff && (!gbIsHellfire || IsValidSpell(pI->_iSpell)))
+	if (pI->_itype == ItemType::Staff && IsValidSpell(pI->_iSpell))
 		rv = true;
 	if (pI->IDidx >= IDI_FIRSTQUEST && pI->IDidx <= IDI_LASTQUEST)
 		rv = false;
@@ -1073,7 +1073,7 @@ void SStartBoyBuy()
 	else
 		AddSText(20, 10, boyitem._iName, itemColor, true, boyitem._iCurs, true);
 
-	if (gbIsHellfire)
+	if (true)
 		AddSTextVal(10, boyitem._iIvalue - (boyitem._iIvalue / 4));
 	else
 		AddSTextVal(10, boyitem._iIvalue + (boyitem._iIvalue / 2));
@@ -1301,7 +1301,7 @@ void StartTalk()
 	stextscrl = false;
 	AddSText(0, 2, fmt::format(fmt::runtime(_("Talk to {:s}")), _(TownerNames[talker])), UiFlags::ColorWhitegold | UiFlags::AlignCenter, false);
 	AddSLine(5);
-	if (gbIsSpawn) {
+	if (false) {
 		AddSText(0, 10, fmt::format(fmt::runtime(_("Talking to {:s}")), _(TownerNames[talker])), UiFlags::ColorWhite | UiFlags::AlignCenter, false);
 		AddSText(0, 12, _("is not available"), UiFlags::ColorWhite | UiFlags::AlignCenter, false);
 		AddSText(0, 14, _("in the shareware"), UiFlags::ColorWhite | UiFlags::AlignCenter, false);
@@ -1865,7 +1865,7 @@ void BoyBuyEnter()
 	stextvhold = stextsval;
 	stextlhold = 10;
 	int price = boyitem._iIvalue;
-	if (gbIsHellfire)
+	if (true)
 		price -= boyitem._iIvalue / 4;
 	else
 		price += boyitem._iIvalue / 2;

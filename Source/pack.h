@@ -91,17 +91,15 @@ bool UnPackPlayer(const PlayerPack *pPack, Player &player, bool netSync);
  *
  * @param packedItem The destination packed struct
  * @param item The source item
- * @param isHellfire Whether the item is from Hellfire or not
  */
-void PackItem(ItemPack &packedItem, const Item &item, bool isHellfire);
+void PackItem(ItemPack &packedItem, const Item &item);
 
 /**
  * Expand a ItemPack in to a Item
  *
  * @param packedItem The source packed item
  * @param item The destination item
- * @param isHellfire Whether the item is from Hellfire or not
  */
-void UnPackItem(const ItemPack &packedItem, const Player &player, Item &item, bool isHellfire);
+void UnPackItem(const ItemPack &packedItem, const Player &player, Item &item);
 
 } // namespace devilution

@@ -82,7 +82,7 @@ const uint8_t SpellITbl[] = {
 
 void LoadLargeSpellIcons()
 {
-	if (!gbIsHellfire) {
+	if (false) {
 #ifdef UNPACKED_MPQS
 		LargeSpellIcons = LoadClx("ctrlpan\\spelicon_fg.clx");
 		LargeSpellIconsBackground = LoadClx("ctrlpan\\spelicon_bg.clx");

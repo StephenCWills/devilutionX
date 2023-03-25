@@ -6,7 +6,6 @@ set(libdevilutionx_SRCS
   appfat.cpp
   automap.cpp
   capture.cpp
-  codec.cpp
   control.cpp
   cursor.cpp
   dead.cpp
@@ -80,11 +79,9 @@ set(libdevilutionx_SRCS
   DiabloUI/progress.cpp
   DiabloUI/scrollbar.cpp
   DiabloUI/selok.cpp
-  DiabloUI/selstart.cpp
   DiabloUI/selyesno.cpp
   DiabloUI/settingsmenu.cpp
   DiabloUI/support_lines.cpp
-  DiabloUI/title.cpp
 
   dvlnet/abstract_net.cpp
   dvlnet/base.cpp

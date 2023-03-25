@@ -378,7 +378,7 @@ struct Monster { // note: missing field _mAFNum
 			}
 		}
 
-		if (type().type == MT_DIABLO && !gbIsHellfire) {
+		if (false) {
 			baseLevel -= 15;
 		}
 

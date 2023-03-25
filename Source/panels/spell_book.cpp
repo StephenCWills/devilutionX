@@ -80,7 +80,7 @@ SpellType GetSBookTrans(SpellID ii, bool townok)
 void InitSpellBook()
 {
 	pSpellBkCel = LoadCel("data\\spellbk", static_cast<uint16_t>(SidePanelSize.width));
-	pSBkBtnCel = LoadCel("data\\spellbkb", gbIsHellfire ? 61 : 76);
+	pSBkBtnCel = LoadCel("data\\spellbkb", 61);
 	LoadSmallSpellIcons();
 
 	Player &player = *MyPlayer;
@@ -109,7 +109,7 @@ void FreeSpellBook()
 void DrawSpellBook(const Surface &out)
 {
 	ClxDraw(out, GetPanelPosition(UiPanels::Spell, { 0, 351 }), (*pSpellBkCel)[0]);
-	if (gbIsHellfire && sbooktab < 5) {
+	if (sbooktab < 5) {
 		ClxDraw(out, GetPanelPosition(UiPanels::Spell, { 61 * sbooktab + 7, 348 }), (*pSBkBtnCel)[sbooktab]);
 	} else {
 		// BUGFIX: rendering of page 3 and page 4 buttons are both off-by-one pixel (fixed).
@@ -208,13 +208,13 @@ void CheckSBook()
 	// The width of the panel excluding the border is 305 pixels. This does not cleanly divide by 4 meaning Diablo tabs
 	// end up with an extra pixel somewhere around the buttons. Vanilla Diablo had the buttons left-aligned, devilutionX
 	// instead justifies the buttons and puts the gap between buttons 2/3. See DrawSpellBook
-	const int TabWidth = gbIsHellfire ? 61 : 76;
+	const int TabWidth = 61;
 	// Tabs are drawn in a row near the bottom of the panel
 	Rectangle tabArea = { GetPanelPosition(UiPanels::Spell, { 7, 320 }), Size { 305, 29 } };
 	if (tabArea.contains(MousePosition)) {
 		int hitColumn = MousePosition.x - tabArea.position.x;
 		// Clicking on the gutter currently activates tab 3. Could make it do nothing by checking for == here and return early.
-		if (!gbIsHellfire && hitColumn > TabWidth * 2) {
+		if (false) {
 			// Subtract 1 pixel to account for the gutter between buttons 2/3
 			hitColumn--;
 		}

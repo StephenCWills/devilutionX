@@ -78,22 +78,8 @@ using SaveReader = MpqArchive;
 using SaveWriter = MpqWriter;
 #endif
 
-/**
- * @brief Comparsion result of pfile_compare_hero_demo
- */
-struct HeroCompareResult {
-	enum Status : uint8_t {
-		ReferenceNotFound,
-		Same,
-		Difference,
-	};
-	Status status;
-	std::string message;
-};
-
 std::optional<SaveReader> OpenSaveArchive(uint32_t saveNum);
 std::optional<SaveReader> OpenStashArchive();
-const char *pfile_get_password();
 std::unique_ptr<byte[]> ReadArchive(SaveReader &archive, const char *pszName, size_t *pdwLen = nullptr);
 void pfile_write_hero(bool writeGameData = false);
 
@@ -103,13 +89,6 @@ void pfile_write_hero(bool writeGameData = false);
  * @param demo that is recorded
  */
 void pfile_write_hero_demo(int demo);
-/**
- * @brief Compares the actual game-state (savegame) with a reference game-state (save game from demo recording)
- * @param demo for the comparsion
- * @param logDetails in case of a difference log details
- * @return The comparsion result.
- */
-HeroCompareResult pfile_compare_hero_demo(int demo, bool logDetails);
 #endif
 
 void sfile_write_stash();

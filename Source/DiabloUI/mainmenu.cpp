@@ -49,7 +49,7 @@ void MainmenuLoad(const char *name)
 
 	const Point uiPosition = GetUIRectangle().position;
 
-	if (gbIsSpawn) {
+	if (false) {
 		SDL_Rect rect1 = { (Sint16)(uiPosition.x), (Sint16)(uiPosition.y + 145), 640, 30 };
 		vecMainMenuDialog.push_back(std::make_unique<UiArtText>(_("Shareware").data(), rect1, UiFlags::FontSize30 | UiFlags::ColorUiSilver | UiFlags::AlignCenter, 8));
 	}

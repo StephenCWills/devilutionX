@@ -1,7 +1,7 @@
 /**
  * @file options.cpp
  *
- * Load and save options from the diablo.ini file.
+ * Load and save options from the config.ini file.
  */
 
 #include <cstdint>
@@ -80,7 +80,7 @@ constexpr size_t NumResamplers =
 
 std::string GetIniPath()
 {
-	auto path = paths::ConfigPath() + std::string("diablo.ini");
+	auto path = paths::ConfigPath() + std::string("config.ini");
 	return path;
 }
 
@@ -311,17 +311,6 @@ void OptionLanguageCodeChanged()
 {
 	LanguageInitialize();
 	LoadLanguageArchive();
-}
-
-void OptionGameModeChanged()
-{
-	gbIsHellfire = *sgOptions.StartUp.gameMode == StartUpGameMode::Hellfire;
-	discord_manager::UpdateMenu(true);
-}
-
-void OptionSharewareChanged()
-{
-	gbIsSpawn = *sgOptions.StartUp.shareware;
 }
 
 void OptionAudioChanged()
@@ -566,43 +555,18 @@ string_view OptionCategoryBase::GetDescription() const
 
 StartUpOptions::StartUpOptions()
     : OptionCategoryBase("StartUp", N_("Start Up"), N_("Start Up Settings"))
-    , gameMode("Game", OptionEntryFlags::NeedHellfireMpq | OptionEntryFlags::RecreateUI, N_("Game Mode"), N_("Play Diablo or Hellfire."), StartUpGameMode::Ask,
-          {
-              { StartUpGameMode::Diablo, N_("Diablo") },
-              // Ask is missing, cause we want to hide it from UI-Settings.
-              { StartUpGameMode::Hellfire, N_("Hellfire") },
-          })
-    , shareware("Shareware", OptionEntryFlags::NeedDiabloMpq | OptionEntryFlags::RecreateUI, N_("Restrict to Shareware"), N_("Makes the game compatible with the demo. Enables multiplayer with friends who don't own a full copy of Diablo."), false)
-    , diabloIntro("Diablo Intro", OptionEntryFlags::OnlyDiablo, N_("Intro"), N_("Shown Intro cinematic."), StartUpIntro::Once,
+    , diabloIntro("Intro", OptionEntryFlags::OnlyDiablo, N_("Intro"), N_("Shown Intro cinematic."), StartUpIntro::Once,
           {
               { StartUpIntro::Off, N_("OFF") },
               // Once is missing, cause we want to hide it from UI-Settings.
               { StartUpIntro::On, N_("ON") },
-          })
-    , hellfireIntro("Hellfire Intro", OptionEntryFlags::OnlyHellfire, N_("Intro"), N_("Shown Intro cinematic."), StartUpIntro::Once,
-          {
-              { StartUpIntro::Off, N_("OFF") },
-              // Once is missing, cause we want to hide it from UI-Settings.
-              { StartUpIntro::On, N_("ON") },
-          })
-    , splash("Splash", OptionEntryFlags::None, N_("Splash"), N_("Shown splash screen."), StartUpSplash::LogoAndTitleDialog,
-          {
-              { StartUpSplash::LogoAndTitleDialog, N_("Logo and Title Screen") },
-              { StartUpSplash::TitleDialog, N_("Title Screen") },
-              { StartUpSplash::None, N_("None") },
           })
 {
-	gameMode.SetValueChangedCallback(OptionGameModeChanged);
-	shareware.SetValueChangedCallback(OptionSharewareChanged);
 }
 std::vector<OptionEntryBase *> StartUpOptions::GetEntries()
 {
 	return {
-		&gameMode,
-		&shareware,
 		&diabloIntro,
-		&hellfireIntro,
-		&splash,
 	};
 }
 

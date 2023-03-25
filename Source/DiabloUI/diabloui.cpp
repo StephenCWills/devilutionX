@@ -679,7 +679,7 @@ Sint16 GetCenterOffset(Sint16 w, Sint16 bw)
 
 void UiLoadDefaultPalette()
 {
-	LoadPalette(gbIsHellfire ? "ui_art\\hellfire.pal" : "ui_art\\diablo.pal", /*blend=*/false);
+	LoadPalette(true ? "ui_art\\hellfire.pal" : "ui_art\\diablo.pal", /*blend=*/false);
 	ApplyGamma(logical_palette, orig_palette, 256);
 }
 

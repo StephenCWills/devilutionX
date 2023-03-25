@@ -14,7 +14,6 @@
 #include <fmt/core.h>
 
 #include "automap.h"
-#include "codec.h"
 #include "control.h"
 #include "cursor.h"
 #include "dead.h"
@@ -38,7 +37,6 @@
 
 namespace devilution {
 
-bool gbIsHellfireSaveGame;
 uint8_t giNumberOfLevels;
 
 namespace {
@@ -174,7 +172,7 @@ public:
 	SaveHelper(SaveWriter &mpqWriter, const char *szFileName, size_t bufferLen)
 	    : m_mpqWriter(mpqWriter)
 	    , m_szFileName_(szFileName)
-	    , m_buffer_(new byte[codec_get_encoded_len(bufferLen)])
+	    , m_buffer_(new byte[bufferLen])
 	    , m_capacity_(bufferLen)
 	{
 	}
@@ -222,10 +220,7 @@ public:
 
 	~SaveHelper()
 	{
-		const auto encodedLen = codec_get_encoded_len(m_cur_);
-		const char *const password = pfile_get_password();
-		codec_encode(m_buffer_.get(), m_cur_, encodedLen, password);
-		m_mpqWriter.WriteFile(m_szFileName_, m_buffer_.get(), encodedLen);
+		m_mpqWriter.WriteFile(m_szFileName_, m_buffer_.get(), m_cur_);
 	}
 };
 
@@ -304,14 +299,14 @@ void LoadItemData(LoadHelper &file, Item &item)
 	file.Skip(1); // Alignment
 	item._iStatFlag = file.NextBool32();
 	item.IDidx = static_cast<_item_indexes>(file.NextLE<int32_t>());
-	if (gbIsSpawn) {
+	if (false) {
 		item.IDidx = RemapItemIdxFromSpawn(item.IDidx);
 	}
-	if (!gbIsHellfireSaveGame) {
+	if (false) {
 		item.IDidx = RemapItemIdxFromDiablo(item.IDidx);
 	}
 	item.dwBuff = file.NextLE<uint32_t>();
-	if (gbIsHellfireSaveGame)
+	if (true)
 		item._iDamAcFlags = static_cast<ItemSpecialEffectHf>(file.NextLE<uint32_t>());
 	else
 		item._iDamAcFlags = ItemSpecialEffectHf::None;
@@ -523,7 +518,7 @@ void LoadPlayer(LoadHelper &file, Player &player)
 	player.pDungMsgs = file.NextLE<uint8_t>();
 	player.pLvlLoad = file.NextLE<uint8_t>();
 
-	if (gbIsHellfireSaveGame) {
+	if (true) {
 		player.pDungMsgs2 = file.NextLE<uint8_t>();
 		player.pBattleNet = false;
 	} else {
@@ -531,12 +526,6 @@ void LoadPlayer(LoadHelper &file, Player &player)
 		player.pBattleNet = file.NextBool8();
 	}
 	player.pManaShield = file.NextBool8();
-	if (gbIsHellfireSaveGame) {
-		player.pOriginalCathedral = file.NextBool8();
-	} else {
-		file.Skip(1);
-		player.pOriginalCathedral = true;
-	}
 	file.Skip(2); // Available bytes
 	player.wReflections = file.NextLE<uint16_t>();
 	file.Skip(14); // Available bytes
@@ -841,7 +830,7 @@ void LoadQuest(LoadHelper *file, int i)
 	quest.position.y = file->NextLE<int32_t>();
 	quest._qslvl = static_cast<_setlevels>(file->NextLE<uint8_t>());
 	quest._qidx = static_cast<quest_id>(file->NextLE<uint8_t>());
-	if (gbIsHellfireSaveGame) {
+	if (true) {
 		file->Skip(2); // Alignment
 		quest._qmsg = static_cast<_speech_id>(file->NextLE<int32_t>());
 	} else {
@@ -850,7 +839,7 @@ void LoadQuest(LoadHelper *file, int i)
 	quest._qvar1 = file->NextLE<uint8_t>();
 	quest._qvar2 = file->NextLE<uint8_t>();
 	file->Skip(2); // Alignment
-	if (!gbIsHellfireSaveGame)
+	if (false)
 		file->Skip(1); // Alignment
 	quest._qlog = file->NextBool32();
 
@@ -985,9 +974,9 @@ int getHellfireLevelType(int type)
 void SaveItem(SaveHelper &file, const Item &item)
 {
 	auto idx = item.IDidx;
-	if (!gbIsHellfire)
+	if (false)
 		idx = RemapItemIdxToDiablo(idx);
-	if (gbIsSpawn)
+	if (false)
 		idx = RemapItemIdxToSpawn(idx);
 	ItemType iType = item._itype;
 	if (idx == -1) {
@@ -1071,7 +1060,7 @@ void SaveItem(SaveHelper &file, const Item &item)
 	file.WriteLE<uint32_t>(item._iStatFlag ? 1 : 0);
 	file.WriteLE<int32_t>(idx);
 	file.WriteLE<uint32_t>(item.dwBuff);
-	if (gbIsHellfire)
+	if (true)
 		file.WriteLE<uint32_t>(static_cast<uint32_t>(item._iDamAcFlags));
 }
 
@@ -1298,12 +1287,11 @@ void SavePlayer(SaveHelper &file, const Player &player)
 	file.WriteLE<uint8_t>(player.pTownWarps);
 	file.WriteLE<uint8_t>(player.pDungMsgs);
 	file.WriteLE<uint8_t>(player.pLvlLoad);
-	if (gbIsHellfire)
+	if (true)
 		file.WriteLE<uint8_t>(player.pDungMsgs2);
 	else
 		file.WriteLE<uint8_t>(player.pBattleNet ? 1 : 0);
 	file.WriteLE<uint8_t>(player.pManaShield ? 1 : 0);
-	file.WriteLE<uint8_t>(player.pOriginalCathedral ? 1 : 0);
 	file.Skip(2); // Available bytes
 	file.WriteLE<uint16_t>(player.wReflections);
 	file.Skip(14); // Available bytes
@@ -1562,7 +1550,7 @@ void SaveQuest(SaveHelper *file, int i)
 	file->WriteLE<int32_t>(quest.position.y);
 	file->WriteLE<uint8_t>(quest._qslvl);
 	file->WriteLE<uint8_t>(quest._qidx);
-	if (gbIsHellfire) {
+	if (true) {
 		file->Skip(2); // Alignment
 		file->WriteLE<int32_t>(quest._qmsg);
 	} else {
@@ -1571,7 +1559,7 @@ void SaveQuest(SaveHelper *file, int i)
 	file->WriteLE<uint8_t>(quest._qvar1);
 	file->WriteLE<uint8_t>(quest._qvar2);
 	file->Skip(2); // Alignment
-	if (!gbIsHellfire)
+	if (false)
 		file->Skip(1); // Alignment
 	file->WriteLE<uint32_t>(quest._qlog ? 1 : 0);
 
@@ -1746,7 +1734,7 @@ void RemoveInvalidItem(Item &item)
 {
 	bool isInvalid = !IsItemAvailable(item.IDidx) || !IsUniqueAvailable(item._iUid);
 
-	if (!gbIsHellfire) {
+	if (false) {
 		isInvalid = isInvalid || (item._itype == ItemType::Staff && GetSpellStaffLevel(item._iSpell) == -1);
 		isInvalid = isInvalid || (item._iMiscId == IMISC_BOOK && GetSpellBookLevel(item._iSpell) == -1);
 		isInvalid = isInvalid || item._iDamAcFlags != ItemSpecialEffectHf::None;
@@ -1867,23 +1855,7 @@ _item_indexes RemapItemIdxToSpawn(_item_indexes i)
 
 bool IsHeaderValid(uint32_t magicNumber)
 {
-	gbIsHellfireSaveGame = false;
-	if (magicNumber == LoadLE32("SHAR")) {
-		return true;
-	}
-	if (magicNumber == LoadLE32("SHLF")) {
-		gbIsHellfireSaveGame = true;
-		return true;
-	}
-	if (!gbIsSpawn && magicNumber == LoadLE32("RETL")) {
-		return true;
-	}
-	if (!gbIsSpawn && magicNumber == LoadLE32("HELF")) {
-		gbIsHellfireSaveGame = true;
-		return true;
-	}
-
-	return false;
+	return magicNumber == LoadLE32("SOTW");
 }
 
 // Returns the size of the hotkeys file with the number of hotkeys passed and if a header with the number of hotkeys is present in the file
@@ -1961,13 +1933,9 @@ void LoadHeroItems(Player &player)
 	if (!file.IsValid())
 		return;
 
-	gbIsHellfireSaveGame = file.NextBool8();
-
 	LoadMatchingItems(file, NUM_INVLOC, player.InvBody);
 	LoadMatchingItems(file, InventoryGridCells, player.InvList);
 	LoadMatchingItems(file, MaxBeltItems, player.SpdList);
-
-	gbIsHellfireSaveGame = gbIsHellfire;
 }
 
 constexpr uint8_t StashVersion = 0;
@@ -2032,7 +2000,7 @@ void LoadGame(bool firstflag)
 	if (!IsHeaderValid(file.NextLE<uint32_t>()))
 		app_fatal(_("Invalid save file"));
 
-	if (gbIsHellfireSaveGame) {
+	if (true) {
 		giNumberOfLevels = 25;
 		giNumberQuests = 24;
 		giNumberOfSmithPremiumItems = 15;
@@ -2060,9 +2028,6 @@ void LoadGame(bool firstflag)
 	int tmpNummissiles = file.NextBE<int32_t>();
 	int tmpNobjects = file.NextBE<int32_t>();
 
-	if (!gbIsHellfire && IsAnyOf(leveltype, DTYPE_NEST, DTYPE_CRYPT))
-		app_fatal(_("Player is on a Hellfire only level"));
-
 	for (uint8_t i = 0; i < giNumberOfLevels; i++) {
 		glSeedTbl[i] = file.NextBE<uint32_t>();
 		file.Skip(4); // Skip loading gnLevelTypeTbl
@@ -2081,7 +2046,7 @@ void LoadGame(bool firstflag)
 	for (int i = 0; i < MAXPORTAL; i++)
 		LoadPortal(&file, i);
 
-	if (gbIsHellfireSaveGame != gbIsHellfire) {
+	if (false) {
 		pfile_convert_levels();
 		RemoveEmptyInventory(myPlayer);
 	}
@@ -2189,7 +2154,7 @@ void LoadGame(bool firstflag)
 
 	for (int i = 0; i < giNumberOfSmithPremiumItems; i++)
 		LoadPremium(file, i);
-	if (gbIsHellfire && !gbIsHellfireSaveGame)
+	if (false)
 		SpawnPremium(myPlayer);
 
 	AutomapActive = file.NextBool8();
@@ -2214,20 +2179,14 @@ void LoadGame(bool firstflag)
 	RedoMissileFlags();
 	NewCursor(CURSOR_HAND);
 	gbProcessPlayers = IsDiabloAlive(!firstflag);
-
-	if (gbIsHellfireSaveGame != gbIsHellfire) {
-		SaveGame();
-	}
-
-	gbIsHellfireSaveGame = gbIsHellfire;
 }
 
 void SaveHeroItems(SaveWriter &saveWriter, Player &player)
 {
 	size_t itemCount = static_cast<size_t>(NUM_INVLOC) + InventoryGridCells + MaxBeltItems;
-	SaveHelper file(saveWriter, "heroitems", itemCount * (gbIsHellfire ? HellfireItemSaveSize : DiabloItemSaveSize) + sizeof(uint8_t));
+	SaveHelper file(saveWriter, "heroitems", itemCount * HellfireItemSaveSize + sizeof(uint8_t));
 
-	file.WriteLE<uint8_t>(gbIsHellfire ? 1 : 0);
+	file.WriteLE<uint8_t>(1);
 
 	for (const Item &item : player.InvBody)
 		SaveItem(file, item);
@@ -2245,7 +2204,7 @@ void SaveStash(SaveWriter &stashWriter)
 	else
 		filename = "mpstashitems";
 
-	const int itemSize = (gbIsHellfire ? HellfireItemSaveSize : DiabloItemSaveSize);
+	const int itemSize = HellfireItemSaveSize;
 
 	SaveHelper file(
 	    stashWriter,
@@ -2298,18 +2257,9 @@ void SaveGameData(SaveWriter &saveWriter)
 {
 	SaveHelper file(saveWriter, "game", 320 * 1024);
 
-	if (gbIsSpawn && !gbIsHellfire)
-		file.WriteLE<uint32_t>(LoadLE32("SHAR"));
-	else if (gbIsSpawn && gbIsHellfire)
-		file.WriteLE<uint32_t>(LoadLE32("SHLF"));
-	else if (!gbIsSpawn && gbIsHellfire)
-		file.WriteLE<uint32_t>(LoadLE32("HELF"));
-	else if (!gbIsSpawn && !gbIsHellfire)
-		file.WriteLE<uint32_t>(LoadLE32("RETL"));
-	else
-		app_fatal(_("Invalid game state"));
+	file.WriteLE<uint32_t>(LoadLE32("SOTW"));
 
-	if (gbIsHellfire) {
+	if (true) {
 		giNumberOfLevels = 25;
 		giNumberQuests = 24;
 		giNumberOfSmithPremiumItems = 15;

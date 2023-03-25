@@ -52,8 +52,6 @@ OptionalOwnedClxSpriteList option_cel;
 OptionalOwnedClxSpriteList sgpLogo;
 bool isDraggingSlider;
 TMenuItem *sgpCurrItem;
-int LogoAnim_tick;
-uint8_t LogoAnim_frame;
 void (*gmenu_current_option)();
 int sgCurrentMenuIdx;
 
@@ -187,7 +185,6 @@ void FreeGMenu()
 
 void gmenu_init_menu()
 {
-	LogoAnim_frame = 0;
 	sgpCurrentMenu = nullptr;
 	sgpCurrItem = nullptr;
 	gmenu_current_option = nullptr;

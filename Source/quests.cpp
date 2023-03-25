@@ -272,7 +272,7 @@ void InitQuests()
 		InitialiseQuestPools(glSeedTbl[15], Quests);
 	}
 
-	if (gbIsSpawn) {
+	if (false) {
 		for (auto &quest : Quests) {
 			quest._qactive = QUEST_NOTAVAIL;
 		}
@@ -318,9 +318,6 @@ void InitialiseQuestPools(uint32_t seed, Quest quests[])
 
 void CheckQuests()
 {
-	if (gbIsSpawn)
-		return;
-
 	auto &quest = Quests[Q_BETRAYER];
 	if (quest.IsAvailable() && UseMultiplayerQuests() && quest._qvar1 == 2) {
 		AddObject(OBJ_ALTBOY, SetPiece.position.megaToWorld() + Displacement { 4, 6 });
@@ -381,9 +378,6 @@ void CheckQuests()
 
 bool ForceQuests()
 {
-	if (gbIsSpawn)
-		return false;
-
 	if (UseMultiplayerQuests()) {
 		return false;
 	}
@@ -405,9 +399,6 @@ bool ForceQuests()
 
 void CheckQuestKill(const Monster &monster, bool sendmsg)
 {
-	if (gbIsSpawn)
-		return;
-
 	Player &myPlayer = *MyPlayer;
 
 	if (monster.type().type == MT_SKING) {
@@ -553,9 +544,6 @@ void UpdatePWaterPalette()
 
 void ResyncMPQuests()
 {
-	if (gbIsSpawn)
-		return;
-
 	auto &kingQuest = Quests[Q_SKELKING];
 	if (kingQuest._qactive == QUEST_INIT
 	    && currlevel >= kingQuest._qlevel - 1
@@ -601,9 +589,6 @@ void ResyncMPQuests()
 
 void ResyncQuests()
 {
-	if (gbIsSpawn)
-		return;
-
 	if (Quests[Q_LTBANNER].IsAvailable()) {
 		Monster *snotSpill = FindUniqueMonster(UniqueMonsterType::SnotSpill);
 		if (Quests[Q_LTBANNER]._qvar1 == 1) {
@@ -903,9 +888,6 @@ void QuestlogESC()
 
 void SetMultiQuest(int q, quest_state s, bool log, int v1, int v2, int16_t qmsg)
 {
-	if (gbIsSpawn)
-		return;
-
 	auto &quest = Quests[q];
 	quest_state oldQuestState = quest._qactive;
 	if (quest._qactive != QUEST_DONE) {

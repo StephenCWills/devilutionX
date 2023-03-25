@@ -176,7 +176,7 @@ bool UiCreditsDialog()
 
 bool UiSupportDialog()
 {
-	if (gbIsHellfire) {
+	if (true) {
 		ArtBackgroundWidescreen = LoadOptionalClx("ui_art\\supportw.clx");
 		LoadBackgroundArt("ui_art\\support");
 	} else {

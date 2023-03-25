@@ -593,19 +593,6 @@ void NotifyGameLoopEnd()
 		SDL_Log("%d frames, %.2f seconds: %.1f fps", LogicTick, seconds, LogicTick / seconds);
 		gbRunGameResult = false;
 		gbRunGame = false;
-
-		HeroCompareResult compareResult = pfile_compare_hero_demo(DemoNumber, false);
-		switch (compareResult.status) {
-		case HeroCompareResult::ReferenceNotFound:
-			SDL_Log("Timedemo: No final comparison cause reference is not present.");
-			break;
-		case HeroCompareResult::Same:
-			SDL_Log("Timedemo: Same outcome as initial run. :)");
-			break;
-		case HeroCompareResult::Difference:
-			Log("Timedemo: Different outcome than initial run. ;(\n{}", compareResult.message);
-			break;
-		}
 	}
 }
 

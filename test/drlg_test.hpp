@@ -55,7 +55,6 @@ void TestInitGame(bool fullQuests = true, bool originalCathedral = true)
 {
 	Players.resize(1);
 	MyPlayer = &Players[0];
-	MyPlayer->pOriginalCathedral = originalCathedral;
 
 	sgGameInitInfo.fullQuests = fullQuests ? 1 : 0;
 	gbIsMultiplayer = !fullQuests;

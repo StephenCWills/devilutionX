@@ -133,9 +133,6 @@ void InitMonster(Monster &monster, Direction rd, size_t typeIndex, Point positio
 	monster.animInfo.currentFrame = GenerateRnd(monster.animInfo.numberOfFrames - 1);
 
 	int maxhp = monster.data().hitPointsMinimum + GenerateRnd(monster.data().hitPointsMaximum - monster.data().hitPointsMinimum + 1);
-	if (monster.type().type == MT_DIABLO && !gbIsHellfire) {
-		maxhp /= 2;
-	}
 	monster.maxHitPoints = maxhp << 6;
 
 	if (!gbIsMultiplayer)
@@ -177,7 +174,7 @@ void InitMonster(Monster &monster, Direction rd, size_t typeIndex, Point positio
 
 	if (sgGameInitInfo.nDifficulty == DIFF_NIGHTMARE) {
 		monster.maxHitPoints = 3 * monster.maxHitPoints;
-		if (gbIsHellfire)
+		if (true)
 			monster.maxHitPoints += (gbIsMultiplayer ? 100 : 50) << 6;
 		else
 			monster.maxHitPoints += 64;
@@ -190,7 +187,7 @@ void InitMonster(Monster &monster, Direction rd, size_t typeIndex, Point positio
 		monster.armorClass += NightmareAcBonus;
 	} else if (sgGameInitInfo.nDifficulty == DIFF_HELL) {
 		monster.maxHitPoints = 4 * monster.maxHitPoints;
-		if (gbIsHellfire)
+		if (true)
 			monster.maxHitPoints += (gbIsMultiplayer ? 200 : 100) << 6;
 		else
 			monster.maxHitPoints += 192;
@@ -593,7 +590,7 @@ void StartMonsterGotHit(Monster &monster)
 {
 	if (monster.type().type != MT_GOLEM) {
 		auto animationFlags = gGameLogicStep < GameLogicStep::ProcessMonsters ? AnimationDistributionFlags::ProcessAnimationPending : AnimationDistributionFlags::None;
-		int8_t numSkippedFrames = (gbIsHellfire && monster.type().type == MT_DIABLO) ? 4 : 0;
+		int8_t numSkippedFrames = 0;
 		NewMonsterAnim(monster, MonsterGraphic::GotHit, monster.direction, animationFlags, numSkippedFrames);
 		monster.mode = MonsterMode::HitRecovery;
 	}
@@ -964,8 +961,7 @@ void StartDeathFromMonster(Monster &attacker, Monster &target)
 	Direction md = GetDirection(target.position.tile, attacker.position.tile);
 	MonsterDeath(target, md, true);
 
-	if (gbIsHellfire)
-		M_StartStand(attacker, attacker.direction);
+	M_StartStand(attacker, attacker.direction);
 }
 
 void StartFadein(Monster &monster, Direction md, bool backwards)
@@ -1214,8 +1210,7 @@ void MonsterAttackPlayer(Monster &monster, Player &player, int hit, int minDam, 
 	if ((monster.flags & MFLAG_NOLIFESTEAL) == 0 && monster.type().type == MT_SKING && gbIsMultiplayer)
 		monster.hitPoints += dam;
 	if (player._pHitPoints >> 6 <= 0) {
-		if (gbIsHellfire)
-			M_StartStand(monster, monster.direction);
+		M_StartStand(monster, monster.direction);
 		return;
 	}
 	StartPlrHit(player, dam, false);
@@ -2131,7 +2126,7 @@ void ScavengerAi(Monster &monster)
 		monster.goalVar3--;
 		if (dCorpse[monster.position.tile.x][monster.position.tile.y] != 0) {
 			StartEating(monster);
-			if (gbIsHellfire) {
+			if (true) {
 				int mMaxHP = monster.maxHitPoints;
 				monster.hitPoints += mMaxHP / 8;
 				if (monster.hitPoints > monster.maxHitPoints)
@@ -2142,7 +2137,7 @@ void ScavengerAi(Monster &monster)
 				monster.hitPoints += 64;
 			}
 			int targetHealth = monster.maxHitPoints;
-			if (!gbIsHellfire)
+			if (false)
 				targetHealth = (monster.maxHitPoints / 2) + (monster.maxHitPoints / 4);
 			if (monster.hitPoints >= targetHealth) {
 				monster.goal = MonsterGoal::Normal;
@@ -3070,9 +3065,6 @@ bool IsMonsterAvalible(const MonsterData &monsterData)
 	if (monsterData.availability == MonsterAvailability::Never)
 		return false;
 
-	if (gbIsSpawn && monsterData.availability == MonsterAvailability::Retail)
-		return false;
-
 	return currlevel >= monsterData.minDunLvl && currlevel <= monsterData.maxDunLvl;
 }
 
@@ -3166,7 +3158,7 @@ void PrepareUniqueMonst(Monster &monster, UniqueMonsterType monsterType, size_t 
 
 	if (sgGameInitInfo.nDifficulty == DIFF_NIGHTMARE) {
 		monster.maxHitPoints = 3 * monster.maxHitPoints;
-		if (gbIsHellfire)
+		if (true)
 			monster.maxHitPoints += (gbIsMultiplayer ? 100 : 50) << 6;
 		else
 			monster.maxHitPoints += 64;
@@ -3177,7 +3169,7 @@ void PrepareUniqueMonst(Monster &monster, UniqueMonsterType monsterType, size_t 
 		monster.maxDamageSpecial = 2 * (monster.maxDamageSpecial + 2);
 	} else if (sgGameInitInfo.nDifficulty == DIFF_HELL) {
 		monster.maxHitPoints = 4 * monster.maxHitPoints;
-		if (gbIsHellfire)
+		if (true)
 			monster.maxHitPoints += (gbIsMultiplayer ? 200 : 100) << 6;
 		else
 			monster.maxHitPoints += 192;
@@ -3469,7 +3461,7 @@ void InitGolems()
 
 void InitMonsters()
 {
-	if (!gbIsSpawn && !setlevel && currlevel == 16)
+	if (!setlevel && currlevel == 16)
 		LoadDiabMonsts();
 
 	int nt = numtrigs;
@@ -3481,10 +3473,10 @@ void InitMonsters()
 				DoVision(trigs[i].position + Displacement { s, t }, 15, MAP_EXP_NONE, false);
 		}
 	}
-	if (!gbIsSpawn)
+	if (true)
 		PlaceQuestMonsters();
 	if (!setlevel) {
-		if (!gbIsSpawn)
+		if (true)
 			PlaceUniqueMonsters();
 		int na = 0;
 		for (int s = 16; s < 96; s++) {
@@ -3768,9 +3760,6 @@ void DoEnding()
 	if (gbIsMultiplayer) {
 		SDL_Delay(1000);
 	}
-
-	if (gbIsSpawn)
-		return;
 
 	switch (MyPlayer->_pClass) {
 	case HeroClass::Sorcerer:
@@ -4233,7 +4222,7 @@ void PrintMonstHistory(int mt)
 	if (MonsterKillCounts[mt] >= 30) {
 		int minHP = MonstersData[mt].hitPointsMinimum;
 		int maxHP = MonstersData[mt].hitPointsMaximum;
-		if (!gbIsHellfire && mt == MT_DIABLO) {
+		if (false) {
 			minHP /= 2;
 			maxHP /= 2;
 		}
@@ -4248,7 +4237,7 @@ void PrintMonstHistory(int mt)
 
 		int hpBonusNightmare = 1;
 		int hpBonusHell = 3;
-		if (gbIsHellfire) {
+		if (true) {
 			hpBonusNightmare = (!gbIsMultiplayer ? 50 : 100);
 			hpBonusHell = (!gbIsMultiplayer ? 100 : 200);
 		}
@@ -4654,7 +4643,7 @@ bool Monster::isResistant(MissileID missileType, DamageType missileElement) cons
 	    || ((resistance & RESIST_FIRE) != 0 && missileElement == DamageType::Fire)
 	    || ((resistance & RESIST_LIGHTNING) != 0 && missileElement == DamageType::Lightning))
 		return true;
-	if (gbIsHellfire && missileType == MissileID::HolyBolt && IsAnyOf(type().type, MT_DIABLO, MT_BONEDEMN))
+	if (missileType == MissileID::HolyBolt && IsAnyOf(type().type, MT_DIABLO, MT_BONEDEMN))
 		return true;
 	return false;
 }

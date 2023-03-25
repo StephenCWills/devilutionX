@@ -1120,11 +1120,9 @@ bool PlaceCathedralStairs(lvl_entry entry)
 	}
 
 	// Place stairs up
-	position = PlaceMiniSet(MyPlayer->pOriginalCathedral ? L5STAIRSUP : STAIRSUP, DMAXX * DMAXY, true);
+	position = PlaceMiniSet(L5STAIRSUP, DMAXX * DMAXY, true);
 	if (!position) {
-		if (MyPlayer->pOriginalCathedral)
-			return false;
-		success = false;
+		return false;
 	} else if (entry == ENTRY_MAIN) {
 		ViewPosition = position->megaToWorld() + Displacement { 3, 4 };
 	}

@@ -13,12 +13,10 @@ set(tests
   animationinfo_test
   appfat_test
   automap_test
-  codec_test
   cursor_test
   dead_test
   diablo_test
   drlg_common_test
-  drlg_l1_test
   drlg_l2_test
   drlg_l3_test
   drlg_l4_test
@@ -29,7 +27,6 @@ set(tests
   lighting_test
   math_test
   missiles_test
-  pack_test
   path_test
   player_test
   quests_test
@@ -38,7 +35,6 @@ set(tests
   scrollrt_test
   stores_test
   str_cat_test
-  timedemo_test
   utf8_test
   writehero_test
 )

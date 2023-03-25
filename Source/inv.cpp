@@ -1067,7 +1067,7 @@ void InitInv()
 		pInvCels = LoadCel("data\\inv\\inv_sor", static_cast<uint16_t>(SidePanelSize.width));
 		break;
 	case HeroClass::Monk:
-		pInvCels = LoadCel(!gbIsSpawn ? "data\\inv\\inv_sor" : "data\\inv\\inv", static_cast<uint16_t>(SidePanelSize.width));
+		pInvCels = LoadCel("data\\inv\\inv_sor", static_cast<uint16_t>(SidePanelSize.width));
 		break;
 	}
 }
@@ -1793,7 +1793,7 @@ int SyncDropItem(Point position, _item_indexes idx, uint16_t icreateinfo, int is
 
 	dItem[position.x][position.y] = ii + 1;
 
-	RecreateItem(*MyPlayer, item, idx, icreateinfo, iseed, ivalue, (ibuff & CF_HELLFIRE) != 0);
+	RecreateItem(*MyPlayer, item, idx, icreateinfo, iseed, ivalue);
 	if (id != 0)
 		item._iIdentified = true;
 	item._iDurability = dur;

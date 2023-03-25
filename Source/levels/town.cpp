@@ -222,7 +222,7 @@ void DrlgTPass3()
 			FillTile(x, 78, GenerateRnd(4) + 1);
 		}
 	}
-	if (gbIsHellfire) {
+	if (true) {
 		if (IsWarpOpen(DTYPE_NEST)) {
 			TownOpenHive();
 		} else {

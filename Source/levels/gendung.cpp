@@ -57,7 +57,7 @@ std::unique_ptr<uint16_t[]> LoadMinData(size_t &tileCount)
 {
 	switch (leveltype) {
 	case DTYPE_TOWN:
-		if (gbIsHellfire)
+		if (true)
 			return LoadFileInMem<uint16_t>("nlevels\\towndata\\town.min", &tileCount);
 		return LoadFileInMem<uint16_t>("levels\\towndata\\town.min", &tileCount);
 	case DTYPE_CATHEDRAL:
@@ -415,7 +415,7 @@ void LoadLevelSOLData()
 {
 	switch (leveltype) {
 	case DTYPE_TOWN:
-		if (gbIsHellfire)
+		if (true)
 			LoadFileInMem("nlevels\\towndata\\town.sol", SOLData);
 		else
 			LoadFileInMem("levels\\towndata\\town.sol", SOLData);

@@ -451,7 +451,7 @@ void CheckMissileCol(Missile &missile, DamageType damageType, int minDamage, int
 	}
 
 	if (isPlayerHit) {
-		if (gbIsHellfire && blocked) {
+		if (blocked) {
 			RotateBlockedMissile(missile);
 		} else if (!dontDeleteOnCollision) {
 			missile._mirange = 0;
@@ -1074,7 +1074,7 @@ bool PlayerMHit(int pnum, Monster *monster, int dist, int mind, int maxd, Missil
 		dam = std::max(dam, 64);
 	}
 
-	if ((resper <= 0 || gbIsHellfire) && blk < blkper) {
+	if (resper <= 0 && blk < blkper) {
 		Direction dir = player._pdir;
 		if (monster != nullptr) {
 			dir = GetDirection(player.position.tile, monster->position.tile);
@@ -1651,7 +1651,7 @@ void AddElementalArrow(Missile &missile, AddMissileParameter &parameter)
 		else if (IsAnyOf(player._pClass, HeroClass::Warrior, HeroClass::Bard))
 			av += (player._pLevel) / 8;
 
-		if (gbIsHellfire) {
+		if (false) {
 			if (HasAnyOf(player._pIFlags, ItemSpecialEffect::QuickAttack))
 				av++;
 			if (HasAnyOf(player._pIFlags, ItemSpecialEffect::FastAttack))
@@ -1692,7 +1692,7 @@ void AddArrow(Missile &missile, AddMissileParameter &parameter)
 		else if (player._pClass == HeroClass::Warrior || player._pClass == HeroClass::Bard)
 			av += (player._pLevel - 1) / 8;
 
-		if (gbIsHellfire) {
+		if (false) {
 			if (HasAnyOf(player._pIFlags, ItemSpecialEffect::QuickAttack))
 				av++;
 			if (HasAnyOf(player._pIFlags, ItemSpecialEffect::FastAttack))
@@ -1804,7 +1804,7 @@ void AddMagmaBall(Missile &missile, AddMissileParameter &parameter)
 	missile.position.traveled.deltaX += 3 * missile.position.velocity.deltaX;
 	missile.position.traveled.deltaY += 3 * missile.position.velocity.deltaY;
 	UpdateMissilePos(missile);
-	if (!gbIsHellfire || (missile.position.velocity.deltaX & 0xFFFF0000) != 0 || (missile.position.velocity.deltaY & 0xFFFF0000) != 0)
+	if ((missile.position.velocity.deltaX & 0xFFFF0000) != 0 || (missile.position.velocity.deltaY & 0xFFFF0000) != 0)
 		missile._mirange = 256;
 	else
 		missile._mirange = 1;
@@ -2229,7 +2229,7 @@ void AddAcid(Missile &missile, AddMissileParameter &parameter)
 {
 	UpdateMissileVelocity(missile, parameter.dst, 16);
 	SetMissDir(missile, GetDirection16(missile.position.start, parameter.dst));
-	if (!gbIsHellfire || (missile.position.velocity.deltaX & 0xFFFF0000) != 0 || (missile.position.velocity.deltaY & 0xFFFF0000) != 0)
+	if ((missile.position.velocity.deltaX & 0xFFFF0000) != 0 || (missile.position.velocity.deltaY & 0xFFFF0000) != 0)
 		missile._mirange = 5 * (Monsters[missile._misource].intelligence + 4);
 	else
 		missile._mirange = 1;
@@ -3765,7 +3765,7 @@ void ProcessApocalypse(Missile &missile)
 				continue;
 			if (TileHasAny(dPiece[k][j], TileProperties::Solid))
 				continue;
-			if (gbIsHellfire && !LineClearMissile(missile.position.tile, { k, j }))
+			if (!LineClearMissile(missile.position.tile, { k, j }))
 				continue;
 
 			int id = missile._misource;

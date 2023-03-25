@@ -78,7 +78,6 @@ inline SDL_Surface *DiabloUiSurface()
 }
 
 void UiDestroy();
-void UiTitleDialog();
 void UnloadUiGFX();
 void UiInitialize();
 bool UiValidPlayerName(string_view name); /* check */
