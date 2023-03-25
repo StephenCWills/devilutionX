@@ -198,6 +198,11 @@ set(devilutionx_assets
   monsters/redbullknight/redbullknighth.cl2
   monsters/redbullknight/redbullknightn.cl2
   monsters/redbullknight/redbullknightw.cl2
+  monsters/thrasher/thrashera.cl2
+  monsters/thrasher/thrasherd.cl2
+  monsters/thrasher/thrasherh.cl2
+  monsters/thrasher/thrashern.cl2
+  monsters/thrasher/thrasherw.cl2
   monsters/waterhydra/waterhydraa.cl2
   monsters/waterhydra/waterhydrad.cl2
   monsters/waterhydra/waterhydrah.cl2
