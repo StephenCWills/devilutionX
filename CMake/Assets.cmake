@@ -178,6 +178,11 @@ set(devilutionx_assets
   monsters/amazon/amazonh.cl2
   monsters/amazon/amazonn.cl2
   monsters/amazon/amazonw.cl2
+  monsters/bowman/bowmana.cl2
+  monsters/bowman/bowmand.cl2
+  monsters/bowman/bowmanh.cl2
+  monsters/bowman/bowmann.cl2
+  monsters/bowman/bowmanw.cl2
   monsters/goldenknight/goldenknighta.cl2
   monsters/goldenknight/goldenknightd.cl2
   monsters/goldenknight/goldenknighth.cl2

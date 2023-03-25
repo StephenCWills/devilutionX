@@ -279,6 +279,7 @@ enum _monster_id : int16_t {
 	MT_GOLDENKNIGHT,
 	MT_REDBULLKNIGHT,
 	MT_THRASHER,
+	MT_BOWMAN,
 	NUM_MTYPES,
 	MT_INVALID = -1,
 };
