@@ -183,6 +183,11 @@ set(devilutionx_assets
   monsters/bowman/bowmanh.cl2
   monsters/bowman/bowmann.cl2
   monsters/bowman/bowmanw.cl2
+  monsters/emberimp/emberimpa.cl2
+  monsters/emberimp/emberimpd.cl2
+  monsters/emberimp/emberimph.cl2
+  monsters/emberimp/emberimpn.cl2
+  monsters/emberimp/emberimpw.cl2
   monsters/goldenknight/goldenknighta.cl2
   monsters/goldenknight/goldenknightd.cl2
   monsters/goldenknight/goldenknighth.cl2
