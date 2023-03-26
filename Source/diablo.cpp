@@ -1149,16 +1149,10 @@ void DiabloSplash()
 	if (!gbShowIntro)
 		return;
 
-	if (false)
-		play_movie("gendata\\logo.smk", true);
-
 	auto &intro = sgOptions.StartUp.diabloIntro;
 
 	if (*intro != StartUpIntro::Off) {
-		if (false)
-			play_movie("gendata\\Hellfire.smk", true);
-		else
-			play_movie("gendata\\diablo1.smk", true);
+		play_movie("gendata\\sotw.smk", true);
 		if (*intro == StartUpIntro::Once) {
 			intro.SetValue(StartUpIntro::Off);
 			SaveOptions();
