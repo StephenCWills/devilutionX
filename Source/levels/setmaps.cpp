@@ -9,6 +9,7 @@
 #include "levels/drlg_l2.h"
 #include "levels/drlg_l3.h"
 #include "levels/drlg_l4.h"
+#include "levels/drlg_sotw1.h"
 #include "levels/gendung.h"
 #include "levels/trigs.h"
 #include "msg.h"
@@ -84,6 +85,9 @@ void LoadCustomMap(const char *path, Point viewPosition)
 		break;
 	case DTYPE_HELL:
 		LoadL4Dungeon(path, viewPosition);
+		break;
+	case DTYPE_LOTUS:
+		LoadSOTW1Dungeon(path, viewPosition);
 		break;
 	case DTYPE_TOWN:
 	case DTYPE_NONE:

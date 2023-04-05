@@ -168,7 +168,7 @@ constexpr auto Breakable = ObjectDataFlags::Breakable;
 } // namespace
 
 /** Contains the data related to each object ID. */
-const ObjectData AllObjects[109] = {
+const ObjectData AllObjects[111] = {
 	// clang-format off
 // _object_id          ofindex,         minlvl,  maxlvl, olvltype,        otheme,                  oquest,     flags,                                            animDelay,  animLen,  animWidth,  selFlag
 /*OBJ_L1LIGHT*/      { OFILE_L1BRAZ,         0,       0, DTYPE_CATHEDRAL, THEME_NONE,              Q_INVALID,  Animated | Solid | MissilesPassThrough,                   1,       26,         64,        0 },
@@ -176,9 +176,9 @@ const ObjectData AllObjects[109] = {
 /*OBJ_L1RDOOR*/      { OFILE_L1DOORS,        0,       0, DTYPE_CATHEDRAL, THEME_NONE,              Q_INVALID,  Light | Trap,                                             2,        0,         64,        3 },
 /*OBJ_SKFIRE*/       { OFILE_SKULFIRE,       0,       0, DTYPE_NONE,      THEME_SKELROOM,          Q_INVALID,  Animated | Solid | MissilesPassThrough,                   2,       11,         96,        0 },
 /*OBJ_LEVER*/        { OFILE_LEVER,          0,       0, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        1,         96,        1 },
-/*OBJ_CHEST1*/       { OFILE_CHEST1,         1,      24, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        0,         96,        1 },
-/*OBJ_CHEST2*/       { OFILE_CHEST2,         1,      24, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        0,         96,        1 },
-/*OBJ_CHEST3*/       { OFILE_CHEST3,         1,      24, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        0,         96,        1 },
+/*OBJ_CHEST1*/       { OFILE_CHEST1,         1,      28, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        0,         96,        1 },
+/*OBJ_CHEST2*/       { OFILE_CHEST2,         1,      28, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        0,         96,        1 },
+/*OBJ_CHEST3*/       { OFILE_CHEST3,         1,      28, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        0,         96,        1 },
 /*OBJ_CANDLE1*/      { OFILE_L1BRAZ,         0,       0, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  {},                                                       0,        0,          0,        0 },
 /*OBJ_CANDLE2*/      { OFILE_CANDLE2,        0,       0, DTYPE_NONE,      THEME_SHRINE,            Q_PWATER,   Animated | Solid | MissilesPassThrough | Light,           2,        4,         96,        0 },
 /*OBJ_CANDLEO*/      { OFILE_L1BRAZ,         0,       0, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  {},                                                       0,        0,          0,        0 },
@@ -224,12 +224,12 @@ const ObjectData AllObjects[109] = {
 /*OBJ_FLAMELVR*/     { OFILE_LEVER,          0,       0, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        2,         96,        1 },
 /*OBJ_WATER*/        { OFILE_MINIWATR,       0,       0, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Animated | Solid | Light,                                 1,       10,         64,        0 },
 /*OBJ_BOOKLVR*/      { OFILE_BOOK1,          0,       0, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light,                      1,        0,         96,        3 },
-/*OBJ_TRAPL*/        { OFILE_TRAPHOLE,       1,      24, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  MissilesPassThrough | Light,                              1,        0,         64,        0 },
-/*OBJ_TRAPR*/        { OFILE_TRAPHOLE,       1,      24, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  MissilesPassThrough | Light,                              2,        0,         64,        0 },
+/*OBJ_TRAPL*/        { OFILE_TRAPHOLE,       1,      28, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  MissilesPassThrough | Light,                              1,        0,         64,        0 },
+/*OBJ_TRAPR*/        { OFILE_TRAPHOLE,       1,      28, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  MissilesPassThrough | Light,                              2,        0,         64,        0 },
 /*OBJ_BOOKSHELF*/    { OFILE_BCASE,          0,       0, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | Light,                                            1,        0,         96,        0 },
 /*OBJ_WEAPRACK*/     { OFILE_WEAPSTND,       0,       0, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | Light,                                            1,        0,         96,        0 },
-/*OBJ_BARREL*/       { OFILE_BARREL,         1,      15, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Breakable,          1,        9,         96,        3 },
-/*OBJ_BARRELEX*/     { OFILE_BARRELEX,       1,      15, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Breakable,          1,       10,         96,        3 },
+/*OBJ_BARREL*/       { OFILE_BARREL,         1,      28, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Breakable,          1,        9,         96,        3 },
+/*OBJ_BARRELEX*/     { OFILE_BARRELEX,       1,      28, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Breakable,          1,       10,         96,        3 },
 /*OBJ_SHRINEL*/      { OFILE_LSHRINEG,       0,       0, DTYPE_NONE,      THEME_SHRINE,            Q_INVALID,  Light,                                                    1,       11,        128,        3 },
 /*OBJ_SHRINER*/      { OFILE_RSHRINEG,       0,       0, DTYPE_NONE,      THEME_SHRINE,            Q_INVALID,  Light,                                                    1,       11,        128,        3 },
 /*OBJ_SKELBOOK*/     { OFILE_BOOK2,          0,       0, DTYPE_NONE,      THEME_SKELROOM,          Q_INVALID,  Solid | MissilesPassThrough | Light,                      4,        0,         96,        3 },
@@ -239,9 +239,9 @@ const ObjectData AllObjects[109] = {
 /*OBJ_BOOKCANDLE*/   { OFILE_CANDLE2,        0,       0, DTYPE_NONE,      THEME_LIBRARY,           Q_INVALID,  Animated | Solid | MissilesPassThrough | Light,           2,        4,         96,        0 },
 /*OBJ_BLOODFTN*/     { OFILE_BLOODFNT,       0,       0, DTYPE_NONE,      THEME_BLOODFOUNTAIN,     Q_INVALID,  Animated | Solid | MissilesPassThrough | Light,           2,       10,         96,        3 },
 /*OBJ_DECAP*/        { OFILE_DECAP,         13,      15, DTYPE_NONE,      THEME_DECAPITATED,       Q_INVALID,  Solid | MissilesPassThrough | Light,                      1,        0,         96,        1 },
-/*OBJ_TCHEST1*/      { OFILE_CHEST1,         1,      24, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        0,         96,        1 },
-/*OBJ_TCHEST2*/      { OFILE_CHEST2,         1,      24, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        0,         96,        1 },
-/*OBJ_TCHEST3*/      { OFILE_CHEST3,         1,      24, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        0,         96,        1 },
+/*OBJ_TCHEST1*/      { OFILE_CHEST1,         1,      28, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        0,         96,        1 },
+/*OBJ_TCHEST2*/      { OFILE_CHEST2,         1,      28, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        0,         96,        1 },
+/*OBJ_TCHEST3*/      { OFILE_CHEST3,         1,      28, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        0,         96,        1 },
 /*OBJ_BLINDBOOK*/    { OFILE_BOOK1,          0,       0, DTYPE_NONE,      THEME_NONE,              Q_BLIND,    Solid | MissilesPassThrough | Light,                      1,        0,         96,        3 },
 /*OBJ_BLOODBOOK*/    { OFILE_BOOK1,          0,       0, DTYPE_NONE,      THEME_NONE,              Q_BLOOD,    Solid | MissilesPassThrough | Light,                      4,        0,         96,        3 },
 /*OBJ_PEDESTAL*/     { OFILE_PEDISTL,        0,       0, DTYPE_NONE,      THEME_NONE,              Q_BLOOD,    Solid | MissilesPassThrough | Light,                      1,        0,         96,        3 },
@@ -280,6 +280,8 @@ const ObjectData AllObjects[109] = {
 /*OBJ_L5RDOOR*/      { OFILE_L5DOORS,        0,       0, DTYPE_CRYPT,     THEME_NONE,              Q_INVALID,  Light | Trap,                                             2,        0,         64,        3 },
 /*OBJ_L5LEVER*/      { OFILE_L5LEVER,       24,      24, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        1,         96,        1 },
 /*OBJ_L5SARC*/       { OFILE_L5SARC,        21,      24, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        5,        128,        3 },
+/*OBJ_S1LDOOR*/      { OFILE_S1DOORS,        0,       0, DTYPE_LOTUS,     THEME_NONE,              Q_INVALID,  Light | Trap,                                             1,        0,         64,        3 },
+/*OBJ_S1RDOOR*/      { OFILE_S1DOORS,        0,       0, DTYPE_LOTUS,     THEME_NONE,              Q_INVALID,  Light | Trap,                                             2,        0,         64,        3 },
 	// clang-format on
 };
 /** Maps from object_graphic_id to object CEL name. */
@@ -349,6 +351,7 @@ const char *const ObjMasterLoadList[] = {
 	"urn",
 	"urnexpld",
 	"l5books",
+	"s1doors",
 };
 
 } // namespace devilution

@@ -66,6 +66,8 @@ Cutscenes GetCutSceneFromLevelType(dungeon_type type)
 		return CutLevel6;
 	case DTYPE_CRYPT:
 		return CutLevel5;
+	case DTYPE_LOTUS:
+		return CutSotW1;
 	default:
 		return CutLevel1;
 	}
@@ -164,6 +166,11 @@ void LoadCutsceneBackground(interface_mode uMsg)
 		ArtCutsceneWidescreen = LoadOptionalClx("gendata\\cutportlw.clx");
 		celPath = "gendata\\cutportl";
 		palPath = "gendata\\cutportl.pal";
+		progress_id = 1;
+		break;
+	case CutSotW1:
+		celPath = "gendata\\sotw1";
+		palPath = "gendata\\sotw1.pal";
 		progress_id = 1;
 		break;
 	case CutPortalRed:

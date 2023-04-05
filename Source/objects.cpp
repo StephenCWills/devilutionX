@@ -1196,6 +1196,14 @@ void SetDoorStateOpen(Object &door)
 		ObjSetMicro(door.position, 208);
 		CryptDoorSet(door.position + Direction::NorthWest, false);
 		break;
+	case OBJ_S1LDOOR:
+		ObjSetMicro(door.position, 81);
+		ObjSetMicro(door.position + Direction::NorthEast, 80);
+		break;
+	case OBJ_S1RDOOR:
+		ObjSetMicro(door.position, 83);
+		ObjSetMicro(door.position + Direction::NorthWest, 82);
+		break;
 	default:
 		break;
 	}
@@ -1271,6 +1279,14 @@ void SetDoorStateClosed(Object &door)
 		else
 			ObjSetMicro(openPosition, door._oVar2 - 1);
 	} break;
+	case OBJ_S1LDOOR:
+		ObjSetMicro(door.position, 6);
+		ObjSetMicro(door.position + Direction::NorthEast, 7);
+		break;
+	case OBJ_S1RDOOR:
+		ObjSetMicro(door.position, 9);
+		ObjSetMicro(door.position + Direction::NorthWest, 8);
+		break;
 	default:
 		break;
 	}
@@ -3687,7 +3703,7 @@ bool IsItemBlockingObjectAtPosition(Point position)
 	return false;
 }
 
-void LoadLevelObjects(uint16_t filesWidths[65])
+void LoadLevelObjects(uint16_t filesWidths[66])
 {
 	if (HeadlessMode)
 		return;
@@ -3698,7 +3714,7 @@ void LoadLevelObjects(uint16_t filesWidths[65])
 		}
 	}
 
-	for (int i = OFILE_L1BRAZ; i <= OFILE_L5BOOKS; i++) {
+	for (int i = OFILE_L1BRAZ; i <= OFILE_LAST; i++) {
 		if (filesWidths[i] == 0) {
 			continue;
 		}
@@ -3713,7 +3729,7 @@ void LoadLevelObjects(uint16_t filesWidths[65])
 
 void InitObjectGFX()
 {
-	uint16_t filesWidths[65] = {};
+	uint16_t filesWidths[66] = {};
 
 	if (IsAnyOf(currlevel, 4, 8, 12)) {
 		filesWidths[OFILE_BKSLBRNT] = AllObjects[OBJ_STORYBOOK].animWidth;
@@ -3802,6 +3818,19 @@ void AddCryptObjects(int x1, int y1, int x2, int y2)
 				AddObject(OBJ_L5LDOOR, { i, j });
 			if (pn == 79)
 				AddObject(OBJ_L5RDOOR, { i, j });
+		}
+	}
+}
+
+void AddLotusObjects(int x1, int y1, int x2, int y2)
+{
+	for (int j = y1; j < y2; j++) {
+		for (int i = x1; i < x2; i++) {
+			int pn = dPiece[i][j];
+			if (pn == 6)
+				AddObject(OBJ_S1LDOOR, { i, j });
+			if (pn == 9)
+				AddObject(OBJ_S1RDOOR, { i, j });
 		}
 	}
 }
@@ -3956,6 +3985,10 @@ void InitObjects()
 			AddCryptObjects(0, 0, MAXDUNX, MAXDUNY);
 			InitRndBarrels();
 		}
+		if (leveltype == DTYPE_LOTUS) {
+			AddLotusObjects(0, 0, MAXDUNX, MAXDUNY);
+			InitRndBarrels();
+		}
 		InitRndLocObj(5, 10, OBJ_CHEST1);
 		InitRndLocObj(3, 6, OBJ_CHEST2);
 		InitRndLocObj(1, 5, OBJ_CHEST3);
@@ -3969,7 +4002,7 @@ void InitObjects()
 
 void SetMapObjects(const uint16_t *dunData, int startx, int starty)
 {
-	uint16_t filesWidths[65] = {};
+	uint16_t filesWidths[66] = {};
 
 	ClrAllObjects();
 	ApplyObjectLighting = true;
@@ -4046,6 +4079,8 @@ Object *AddObject(_object_id objType, Point objPos)
 	case OBJ_L3RDOOR:
 	case OBJ_L5LDOOR:
 	case OBJ_L5RDOOR:
+	case OBJ_S1LDOOR:
+	case OBJ_S1RDOOR:
 		AddDoor(object);
 		break;
 	case OBJ_BOOK2R:
@@ -4167,6 +4202,8 @@ bool UpdateTrapState(Object &trap)
 	case OBJ_L3RDOOR:
 	case OBJ_L5LDOOR:
 	case OBJ_L5RDOOR:
+	case OBJ_S1LDOOR:
+	case OBJ_S1RDOOR:
 		if (trigger._oVar4 == DOOR_CLOSED && trigger._oTrapFlag)
 			return false;
 		break;
@@ -4250,6 +4287,8 @@ void ProcessObjects()
 		case OBJ_L3RDOOR:
 		case OBJ_L5LDOOR:
 		case OBJ_L5RDOOR:
+		case OBJ_S1LDOOR:
+		case OBJ_S1RDOOR:
 			UpdateDoor(object);
 			break;
 		case OBJ_TORCHL:
@@ -4352,6 +4391,9 @@ void ObjChangeMap(int x1, int y1, int x2, int y2)
 	if (leveltype == DTYPE_CRYPT) {
 		AddCryptObjects(2 * x1 + 16, 2 * y1 + 16, 2 * x2 + 17, 2 * y2 + 17);
 	}
+	if (leveltype == DTYPE_LOTUS) {
+		AddLotusObjects(2 * x1 + 16, 2 * y1 + 16, 2 * x2 + 17, 2 * y2 + 17);
+	}
 }
 
 void ObjChangeMapResync(int x1, int y1, int x2, int y2)
@@ -4393,6 +4435,8 @@ void OperateObject(Player &player, Object &object)
 	case OBJ_L3RDOOR:
 	case OBJ_L5LDOOR:
 	case OBJ_L5RDOOR:
+	case OBJ_S1LDOOR:
+	case OBJ_S1RDOOR:
 		if (sendmsg)
 			OperateDoor(object, sendmsg);
 		break;
@@ -4500,6 +4544,8 @@ void DeltaSyncOpObject(Object &object)
 	case OBJ_L3RDOOR:
 	case OBJ_L5LDOOR:
 	case OBJ_L5RDOOR:
+	case OBJ_S1LDOOR:
+	case OBJ_S1RDOOR:
 		OpenDoor(object);
 		break;
 	case OBJ_LEVER:
@@ -4590,6 +4636,8 @@ void SyncOpObject(Player &player, int cmd, Object &object)
 	case OBJ_L3RDOOR:
 	case OBJ_L5LDOOR:
 	case OBJ_L5RDOOR:
+	case OBJ_S1LDOOR:
+	case OBJ_S1RDOOR:
 		if (sendmsg)
 			break;
 		if (cmd == CMD_CLOSEDOOR && object._oVar4 == DOOR_CLOSED)
@@ -4745,6 +4793,8 @@ void SyncObjectAnim(Object &object)
 	case OBJ_L3RDOOR:
 	case OBJ_L5LDOOR:
 	case OBJ_L5RDOOR:
+	case OBJ_S1LDOOR:
+	case OBJ_S1RDOOR:
 		SyncDoor(object);
 		break;
 	case OBJ_CRUX1:
@@ -4790,6 +4840,8 @@ StringOrView Object::name() const
 	case OBJ_L3RDOOR:
 	case OBJ_L5LDOOR:
 	case OBJ_L5RDOOR:
+	case OBJ_S1LDOOR:
+	case OBJ_S1RDOOR:
 		if (_oVar4 == DOOR_OPEN)
 			return _("Open Door");
 		if (_oVar4 == DOOR_CLOSED)

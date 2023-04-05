@@ -306,6 +306,28 @@ void InitCryptTriggers()
 	trigflag = false;
 }
 
+void InitLotusTriggers()
+{
+	numtrigs = 0;
+	for (WorldTileCoord j = 0; j < MAXDUNY; j++) {
+		for (WorldTileCoord i = 0; i < MAXDUNX; i++) {
+			if (dPiece[i][j] == 16) {
+				trigs[numtrigs].position = { i, j };
+				trigs[numtrigs]._tmsg = currlevel == 25 ? WM_DIABTWARPUP : WM_DIABPREVLVL;
+				if (currlevel == 25)
+					trigs[numtrigs]._tlvl = 0;
+				numtrigs++;
+			}
+			if (dPiece[i][j] == 51) {
+				trigs[numtrigs].position = { i + 1, j };
+				trigs[numtrigs]._tmsg = WM_DIABNEXTLVL;
+				numtrigs++;
+			}
+		}
+	}
+	trigflag = false;
+}
+
 void InitSKingTriggers()
 {
 	trigflag = false;
@@ -693,6 +715,40 @@ bool ForceCryptTrig()
 	return false;
 }
 
+bool ForceLotusTrig()
+{
+	if (IsAnyOf(dPiece[cursPosition.x][cursPosition.y], 16, 17)) {
+		if (currlevel == 25) {
+			for (int j = 0; j < numtrigs; j++) {
+				if (trigs[j]._tmsg == WM_DIABTWARPUP) {
+					InfoString = _("Up to town");
+					cursPosition = trigs[j].position;
+					return true;
+				}
+			}
+		} else {
+			InfoString = fmt::format(fmt::runtime(_("Up to Lotus Temple level {:d}")), currlevel - 25);
+			for (int j = 0; j < numtrigs; j++) {
+				if (trigs[j]._tmsg == WM_DIABPREVLVL) {
+					cursPosition = trigs[j].position;
+					return true;
+				}
+			}
+		}
+	}
+	if (dPiece[cursPosition.x][cursPosition.y] >= 45 && dPiece[cursPosition.x][cursPosition.y] <= 53) {
+		InfoString = fmt::format(fmt::runtime(_("Down to Lotus Temple level {:d}")), currlevel - 23);
+		for (int j = 0; j < numtrigs; j++) {
+			if (trigs[j]._tmsg == WM_DIABNEXTLVL) {
+				cursPosition = trigs[j].position;
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 void Freeupstairs()
 {
 	for (int i = 0; i < numtrigs; i++) {
@@ -826,6 +882,9 @@ void CheckTrigForce()
 			break;
 		case DTYPE_CRYPT:
 			trigflag = ForceCryptTrig();
+			break;
+		case DTYPE_LOTUS:
+			trigflag = ForceLotusTrig();
 			break;
 		default:
 			break;

@@ -99,6 +99,9 @@ enum object_graphic_id : int8_t {
 	OFILE_URN,
 	OFILE_URNEX,
 	OFILE_L5BOOKS,
+	OFILE_S1DOORS,
+
+	OFILE_LAST = OFILE_S1DOORS,
 	OFILE_NULL = -1,
 };
 
@@ -212,6 +215,8 @@ enum _object_id : int8_t {
 	OBJ_L5RDOOR,
 	OBJ_L5LEVER,
 	OBJ_L5SARC,
+	OBJ_S1LDOOR,
+	OBJ_S1RDOOR,
 	OBJ_NULL = -1,
 };
 
@@ -298,7 +303,7 @@ struct ObjectData {
 };
 
 extern const _object_id ObjTypeConv[];
-extern const ObjectData AllObjects[109];
+extern const ObjectData AllObjects[111];
 extern const char *const ObjMasterLoadList[];
 
 } // namespace devilution

@@ -227,7 +227,7 @@ struct Object {
 	 */
 	[[nodiscard]] constexpr bool isDoor() const
 	{
-		return IsAnyOf(_otype, _object_id::OBJ_L1LDOOR, _object_id::OBJ_L1RDOOR, _object_id::OBJ_L2LDOOR, _object_id::OBJ_L2RDOOR, _object_id::OBJ_L3LDOOR, _object_id::OBJ_L3RDOOR, _object_id::OBJ_L5LDOOR, _object_id::OBJ_L5RDOOR);
+		return IsAnyOf(_otype, _object_id::OBJ_L1LDOOR, _object_id::OBJ_L1RDOOR, _object_id::OBJ_L2LDOOR, _object_id::OBJ_L2RDOOR, _object_id::OBJ_L3LDOOR, _object_id::OBJ_L3RDOOR, _object_id::OBJ_L5LDOOR, _object_id::OBJ_L5RDOOR, _object_id::OBJ_S1LDOOR, _object_id::OBJ_S1RDOOR);
 	}
 
 	/**
@@ -306,6 +306,7 @@ void AddL1Objs(int x1, int y1, int x2, int y2);
 void AddL2Objs(int x1, int y1, int x2, int y2);
 void AddL3Objs(int x1, int y1, int x2, int y2);
 void AddCryptObjects(int x1, int y1, int x2, int y2);
+void AddLotusObjects(int x1, int y1, int x2, int y2);
 void InitObjects();
 void SetMapObjects(const uint16_t *dunData, int startx, int starty);
 /**

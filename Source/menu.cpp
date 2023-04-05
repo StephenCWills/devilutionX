@@ -33,6 +33,8 @@ _music_id NextTrack()
 		return TMUSIC_NEST;
 	case TMUSIC_NEST:
 		return TMUSIC_CRYPT;
+	case TMUSIC_CRYPT:
+		return TMUSIC_LOTUS;
 	default:
 		return TMUSIC_INTRO;
 	}

@@ -47,6 +47,7 @@ enum Cutscenes : uint8_t {
 	CutLevel4,
 	CutLevel5,
 	CutLevel6,
+	CutSotW1,
 	CutPortal,
 	CutPortalRed,
 	CutGate,

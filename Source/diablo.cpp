@@ -29,6 +29,7 @@
 #include "engine/dx.h"
 #include "engine/events.hpp"
 #include "engine/load_cel.hpp"
+#include "engine/load_clx.hpp"
 #include "engine/load_file.hpp"
 #include "engine/random.hpp"
 #include "engine/sound.h"
@@ -1152,6 +1153,7 @@ void DiabloSplash()
 	auto &intro = sgOptions.StartUp.diabloIntro;
 
 	if (*intro != StartUpIntro::Off) {
+		play_movie("gendata\\logo.smk", true); // Remove when inital video sound works
 		play_movie("gendata\\sotw.smk", true);
 		if (*intro == StartUpIntro::Once) {
 			intro.SetValue(StartUpIntro::Off);
@@ -1224,6 +1226,11 @@ void LoadLvlGFX()
 		pMegaTiles = LoadFileInMem<MegaTile>("nlevels\\l5data\\l5.til");
 		pSpecialCels = LoadCel("nlevels\\l5data\\l5s", SpecialCelWidth);
 		break;
+	case DTYPE_LOTUS:
+		pDungeonCels = LoadFileInMem("levels\\sotw1\\sotw1.cel");
+		pMegaTiles = LoadFileInMem<MegaTile>("levels\\sotw1\\sotw1.til");
+		pSpecialCels = LoadClx("levels\\sotw1\\sotw1s.clx");
+		break;
 	default:
 		app_fatal("LoadLvlGFX");
 	}
@@ -1270,6 +1277,9 @@ void CreateLevel(lvl_entry entry)
 		break;
 	case DTYPE_CRYPT:
 		InitCryptTriggers();
+		break;
+	case DTYPE_LOTUS:
+		InitLotusTriggers();
 		break;
 	default:
 		app_fatal("CreateLevel");

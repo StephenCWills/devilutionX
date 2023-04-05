@@ -26,6 +26,7 @@ enum _music_id : uint8_t {
 	TMUSIC_HELL,
 	TMUSIC_NEST,
 	TMUSIC_CRYPT,
+	TMUSIC_LOTUS,
 	TMUSIC_INTRO,
 	NUM_MUSIC,
 };

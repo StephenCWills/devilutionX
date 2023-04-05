@@ -9,6 +9,7 @@
 #include "levels/drlg_l2.h"
 #include "levels/drlg_l3.h"
 #include "levels/drlg_l4.h"
+#include "levels/drlg_sotw1.h"
 #include "levels/town.h"
 #include "lighting.h"
 #include "options.h"
@@ -72,6 +73,8 @@ std::unique_ptr<uint16_t[]> LoadMinData(size_t &tileCount)
 		return LoadFileInMem<uint16_t>("nlevels\\l6data\\l6.min", &tileCount);
 	case DTYPE_CRYPT:
 		return LoadFileInMem<uint16_t>("nlevels\\l5data\\l5.min", &tileCount);
+	case DTYPE_LOTUS:
+		return LoadFileInMem<uint16_t>("levels\\sotw1\\sotw1.min", &tileCount);
 	default:
 		app_fatal("LoadMinData");
 	}
@@ -373,6 +376,8 @@ dungeon_type GetLevelType(int level)
 		return DTYPE_NEST;
 	if (level <= 24)
 		return DTYPE_CRYPT;
+	if (level <= 28)
+		return DTYPE_LOTUS;
 
 	return DTYPE_NONE;
 }
@@ -398,6 +403,9 @@ void CreateDungeon(uint32_t rseed, lvl_entry entry)
 		break;
 	case DTYPE_HELL:
 		CreateL4Dungeon(rseed, entry);
+		break;
+	case DTYPE_LOTUS:
+		CreateSOTW1Dungeon(rseed, entry);
 		break;
 	default:
 		app_fatal("Invalid level type");
@@ -463,6 +471,9 @@ void LoadLevelSOLData()
 		break;
 	case DTYPE_CRYPT:
 		LoadFileInMem("nlevels\\l5data\\l5.sol", SOLData);
+		break;
+	case DTYPE_LOTUS:
+		LoadFileInMem("levels\\sotw1\\sotw1.sol", SOLData);
 		break;
 	default:
 		app_fatal("LoadLevelSOLData");
@@ -594,7 +605,7 @@ std::optional<Point> PlaceMiniSet(const Miniset &miniset, int tries, bool drlg1Q
 		}
 
 		// Limit the position of SetPieces for compatibility with Diablo bug
-		if (drlg1Quirk) {
+		if (false && drlg1Quirk) {
 			bool valid = true;
 			if (position.x <= 12) {
 				position.x++;

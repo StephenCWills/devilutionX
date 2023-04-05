@@ -24,7 +24,7 @@ constexpr uint32_t GameIdHellfireFull = LoadBE32("HRTL");
 constexpr uint32_t GameIdHellfireSpawn = LoadBE32("HSHR");
 #define GAME_ID GameId
 
-#define NUMLEVELS 25
+#define NUMLEVELS 29
 
 enum clicktype : int8_t {
 	CLICK_NONE,

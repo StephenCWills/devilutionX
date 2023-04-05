@@ -147,6 +147,7 @@ const char *const MusicTracks[NUM_MUSIC] = {
 	"music\\dlvld.wav",
 	"music\\dlvlf.wav",
 	"music\\dlvle.wav",
+	"music\\track23.wav",
 	"music\\dintro.wav",
 };
 
@@ -252,6 +253,8 @@ _music_id GetLevelMusic(dungeon_type dungeonType)
 		return TMUSIC_NEST;
 	case DTYPE_CRYPT:
 		return TMUSIC_CRYPT;
+	case DTYPE_LOTUS:
+		return TMUSIC_LOTUS;
 	default:
 		return TMUSIC_INTRO;
 	}

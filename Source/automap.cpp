@@ -748,6 +748,9 @@ void DrawAutomapText(const Surface &out)
 	case DTYPE_CRYPT:
 		description = fmt::format(fmt::runtime(_("Level: Crypt {:d}")), currlevel - 20);
 		break;
+	case DTYPE_LOTUS:
+		description = fmt::format(fmt::runtime(_("Level: Lotus Temple {:d}")), currlevel - 24);
+		break;
 	case DTYPE_TOWN:
 		description = std::string(_("Town"));
 		break;
@@ -792,6 +795,8 @@ std::unique_ptr<AutomapTile[]> LoadAutomapData(size_t &tileCount)
 		return LoadFileInMem<AutomapTile>("nlevels\\l6data\\l6.amp", &tileCount);
 	case DTYPE_CRYPT:
 		return LoadFileInMem<AutomapTile>("nlevels\\l5data\\l5.amp", &tileCount);
+	case DTYPE_LOTUS:
+		return LoadFileInMem<AutomapTile>("levels\\sotw1\\sotw1.amp", &tileCount);
 	default:
 		return nullptr;
 	}

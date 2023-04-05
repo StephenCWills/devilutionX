@@ -1460,6 +1460,10 @@ void AddWarp(Missile &missile, AddMissileParameter & /*parameter*/)
 				if (IsAnyOf(trg->_tmsg, WM_DIABTWARPUP, WM_DIABPREVLVL, WM_DIABRTNLVL))
 					return Displacement { 1, 1 };
 				return Displacement { 0, 1 }; // WM_DIABNEXTLVL
+			case DTYPE_LOTUS:
+				if (IsAnyOf(trg->_tmsg, WM_DIABTWARPUP, WM_DIABPREVLVL))
+					return Displacement { 0, 1 };
+				return Displacement { 1, 0 };
 			case DTYPE_TOWN:
 				app_fatal("invalid leveltype: DTYPE_TOWN");
 			case DTYPE_NONE:

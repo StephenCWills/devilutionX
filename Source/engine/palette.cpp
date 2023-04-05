@@ -253,6 +253,10 @@ void LoadRndLvlPal(dungeon_type l)
 		LoadPalette("levels\\towndata\\town.pal");
 		return;
 	}
+	if (l == DTYPE_LOTUS) {
+		LoadPalette("levels\\sotw1\\sotw1_1.pal");
+		return;
+	}
 
 	int rv = GenerateRnd(4) + 1;
 	if (l == DTYPE_CRYPT) {

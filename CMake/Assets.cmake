@@ -169,9 +169,18 @@ set(devilutionx_assets
   gendata/cutportrw.clx
   gendata/cutstartw.clx
   gendata/cutttw.clx
+  gendata/sotw1.cel
+  gendata/sotw1.pal
   gendata/sotw.smk
   levels/l1data/sklkngt.dun
   levels/l2data/bonechat.dun
+  levels/sotw1/sotw1_1.pal
+  levels/sotw1/sotw1.amp
+  levels/sotw1/sotw1.cel
+  levels/sotw1/sotw1.min
+  levels/sotw1/sotw1s.clx
+  levels/sotw1/sotw1.sol
+  levels/sotw1/sotw1.til
   levels/towndata/automap.dun
   levels/towndata/automap.amp
   monsters/amazon/amazona.cl2
@@ -241,8 +250,10 @@ set(devilutionx_assets
   monsters/minotaur/minotaurh.cl2
   monsters/minotaur/minotaurn.cl2
   monsters/minotaur/minotaurw.cl2
+  music/track23.mp3
   nlevels/l5data/cornerstone.dun
   nlevels/l5data/uberroom.dun
+  objects/s1doors.cel
   ui_art/hellfire.pal
   ui_art/creditsw.clx
   ui_art/dvl_but_sml.clx
