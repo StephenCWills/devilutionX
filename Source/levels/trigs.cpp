@@ -59,6 +59,7 @@ const uint16_t L5DownList[] = { 124, 125, 128, 130, 131, 134, 135, 139, 141 };
 const uint16_t L6TWarpUpList[] = { 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91 };
 const uint16_t L6UpList[] = { 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77 };
 const uint16_t L6DownList[] = { 56, 57, 58, 59, 60, 61, 62, 63 };
+const uint16_t TownLotusList[] = { 1134, 1135, 1139, 1140, 1143, 1145 };
 } // namespace
 
 void InitNoTriggers()
@@ -93,6 +94,9 @@ bool IsWarpOpen(dungeon_type type)
 		if (type == DTYPE_CRYPT && Quests[Q_GRAVE]._qactive == QUEST_DONE)
 			return true;
 	}
+
+	if (type == DTYPE_LOTUS && dPiece[55][44] == 1135)
+		return true;
 
 	return false;
 }
@@ -134,6 +138,12 @@ void InitTownTriggers()
 		trigs[numtrigs].position = { 36, 24 };
 		trigs[numtrigs]._tmsg = WM_DIABTOWNWARP;
 		trigs[numtrigs]._tlvl = 21;
+		numtrigs++;
+	}
+	if (IsWarpOpen(DTYPE_LOTUS)) {
+		trigs[numtrigs].position = { 55, 44 };
+		trigs[numtrigs]._tmsg = WM_DIABTOWNWARP;
+		trigs[numtrigs]._tlvl = 25;
 		numtrigs++;
 	}
 
@@ -415,6 +425,16 @@ bool ForceTownTrig()
 			if (dPiece[cursPosition.x][cursPosition.y] == tileId) {
 				InfoString = _("Down to Crypt");
 				cursPosition = { 36, 24 };
+				return true;
+			}
+		}
+	}
+
+	if (IsWarpOpen(DTYPE_LOTUS)) {
+		for (const uint16_t tileId : TownLotusList) {
+			if (dPiece[cursPosition.x][cursPosition.y] == tileId) {
+				InfoString = _("Down to Basement");
+				cursPosition = { 55, 44 };
 				return true;
 			}
 		}

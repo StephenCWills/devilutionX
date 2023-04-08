@@ -232,13 +232,28 @@ void DrlgTPass3()
 			TownOpenGrave();
 		else
 			TownCloseGrave();
+		TownCloseHive();
 	}
 
+	FillTile(58, 72, 367);
+	FillTile(58, 70, 368);
+	FillTile(58, 68, 369);
+	FillTile(60, 72, 373);
 	if (Quests[Q_PWATER]._qactive != QUEST_DONE && Quests[Q_PWATER]._qactive != QUEST_NOTAVAIL) {
-		FillTile(60, 70, 342);
+		FillTile(60, 70, 376);
 	} else {
-		FillTile(60, 70, 71);
+		FillTile(60, 70, 372);
 	}
+	FillTile(60, 68, 370);
+	FillTile(62, 72, 375);
+	FillTile(62, 70, 374);
+	FillTile(62, 68, 371);
+
+	FillTile(52, 42, 311);
+	FillTile(56, 46, 25);
+	FillTile(56, 44, 4);
+	FillTile(56, 42, 2);
+	FillTile(56, 40, 46);
 
 	InitTownPieces();
 }
@@ -350,7 +365,18 @@ void CleanTownFountain()
 {
 	if (!pMegaTiles)
 		return;
-	FillTile(60, 70, 71);
+	FillTile(60, 70, 372);
+}
+
+void OpenHome()
+{
+	if (!pMegaTiles)
+		return;
+	FillTile(54, 44, 309);
+	FillTile(54, 42, 310);
+	FillTile(56, 44, 312);
+	FillTile(56, 42, 313);
+	InitTownTriggers();
 }
 
 void CreateTown(lvl_entry entry)
@@ -377,6 +403,9 @@ void CreateTown(lvl_entry entry)
 		}
 		if (TWarpFrom == 17) {
 			ViewPosition = { 79, 62 };
+		}
+		if (TWarpFrom == 25) {
+			ViewPosition = { 55, 44 };
 		}
 	}
 

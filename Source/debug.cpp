@@ -352,6 +352,7 @@ std::unordered_map<string_view, _talker_id> TownerShortNameToTownerId = {
 	{ "lester", _talker_id ::TOWN_FARMER },
 	{ "girl", _talker_id ::TOWN_GIRL },
 	{ "nut", _talker_id::TOWN_COWFARM },
+	{ "jian", _talker_id ::TOWN_OWNER },
 };
 
 std::string DebugCmdVisitTowner(const string_view parameter)

@@ -49,6 +49,8 @@ void TownOpenGrave();
  */
 void CleanTownFountain();
 
+void OpenHome();
+
 /**
  * @brief Initialize town level
  * @param entry Method of entry

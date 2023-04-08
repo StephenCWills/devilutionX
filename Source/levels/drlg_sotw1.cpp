@@ -549,7 +549,7 @@ bool PlaceStairs(lvl_entry entry)
 	std::optional<Point> stairsUp = PlaceMiniSet(STAIRSUP, DMAXX * DMAXY, false);
 	if (!stairsUp) {
 		return false;
-	} else if (entry == ENTRY_MAIN) {
+	} else if (entry == ENTRY_MAIN || entry == ENTRY_TWARPDN) {
 		ViewPosition = stairsUp->megaToWorld() + Displacement { 3, 3 };
 	}
 

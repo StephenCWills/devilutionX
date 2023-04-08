@@ -6,6 +6,7 @@
 #include "engine/load_file.hpp"
 #include "engine/random.hpp"
 #include "inv.h"
+#include "levels/town.h"
 #include "minitext.h"
 #include "stores.h"
 #include "utils/language.h"
@@ -262,6 +263,15 @@ void InitGirl(Towner &towner, const TownerData &townerData)
 	towner.animOrderSize = 0;
 	LoadTownerAnimations(towner, "towners\\girl\\girlw1", 20, 6);
 	towner.name = _("Celia");
+}
+
+void InitOwner(Towner &towner, const TownerData &townerData)
+{
+	towner._tAnimWidth = 96;
+	towner.animOrder = nullptr;
+	towner.animOrderSize = 0;
+	LoadTownerAnimations(towner, "towners\\owner\\owner", 8, 6);
+	towner.name = _("Jian Chen");
 }
 
 void TownDead(Towner &towner)
@@ -764,6 +774,11 @@ void TalkToGirl(Player &player, Towner &girl)
 	}
 }
 
+void TalkToOwner(Player &player, Towner &towner)
+{
+	OpenHome();
+}
+
 const TownerData TownersData[] = {
 	// clang-format off
 	// type         position    dir                   init           talk
@@ -782,6 +797,7 @@ const TownerData TownersData[] = {
 	{ TOWN_COWFARM, { 61, 22 }, Direction::SouthWest, InitCowFarmer, TalkToCowFarmer   },
 	{ TOWN_FARMER,  { 62, 16 }, Direction::South,     InitFarmer,    TalkToFarmer      },
 	{ TOWN_GIRL,    { 77, 43 }, Direction::South,     InitGirl,      TalkToGirl        },
+	{ TOWN_OWNER,   { 56, 46 }, Direction::SouthEast, InitOwner,     TalkToOwner       },
 	// clang-format on
 };
 

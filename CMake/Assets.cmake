@@ -256,6 +256,7 @@ set(devilutionx_assets
   objects/storch2se.cel
   objects/storch2sw.cel
   objects/s1doors.cel
+  towners/owner/owner.cel
   ui_art/hellfire.pal
   ui_art/creditsw.clx
   ui_art/dvl_but_sml.clx
