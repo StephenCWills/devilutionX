@@ -253,6 +253,8 @@ set(devilutionx_assets
   music/track23.mp3
   nlevels/l5data/cornerstone.dun
   nlevels/l5data/uberroom.dun
+  objects/storch2se.cel
+  objects/storch2sw.cel
   objects/s1doors.cel
   ui_art/hellfire.pal
   ui_art/creditsw.clx

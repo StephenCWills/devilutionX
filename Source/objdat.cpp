@@ -168,7 +168,7 @@ constexpr auto Breakable = ObjectDataFlags::Breakable;
 } // namespace
 
 /** Contains the data related to each object ID. */
-const ObjectData AllObjects[111] = {
+const ObjectData AllObjects[115] = {
 	// clang-format off
 // _object_id          ofindex,         minlvl,  maxlvl, olvltype,        otheme,                  oquest,     flags,                                            animDelay,  animLen,  animWidth,  selFlag
 /*OBJ_L1LIGHT*/      { OFILE_L1BRAZ,         0,       0, DTYPE_CATHEDRAL, THEME_NONE,              Q_INVALID,  Animated | Solid | MissilesPassThrough,                   1,       26,         64,        0 },
@@ -282,6 +282,10 @@ const ObjectData AllObjects[111] = {
 /*OBJ_L5SARC*/       { OFILE_L5SARC,        21,      24, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Solid | MissilesPassThrough | Light | Trap,               1,        5,        128,        3 },
 /*OBJ_S1LDOOR*/      { OFILE_S1DOORS,        0,       0, DTYPE_LOTUS,     THEME_NONE,              Q_INVALID,  Light | Trap,                                             1,        0,         64,        3 },
 /*OBJ_S1RDOOR*/      { OFILE_S1DOORS,        0,       0, DTYPE_LOTUS,     THEME_NONE,              Q_INVALID,  Light | Trap,                                             2,        0,         64,        3 },
+/*OBJ_STORCHL*/      { OFILE_STORCH2SW,     25,      29, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Animated | MissilesPassThrough,                           1,        9,         96,        0 },
+/*OBJ_STORCHR*/      { OFILE_STORCH2SE,     25,      29, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Animated | MissilesPassThrough,                           1,        9,         96,        0 },
+/*OBJ_STORCHL2*/     { OFILE_STORCH2SW,     25,      29, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Animated | MissilesPassThrough,                           1,        9,         96,        0 },
+/*OBJ_STORCHR2*/     { OFILE_STORCH2SE,     25,      29, DTYPE_NONE,      THEME_NONE,              Q_INVALID,  Animated | MissilesPassThrough,                           1,        9,         96,        0 },
 	// clang-format on
 };
 /** Maps from object_graphic_id to object CEL name. */
@@ -352,6 +356,8 @@ const char *const ObjMasterLoadList[] = {
 	"urnexpld",
 	"l5books",
 	"s1doors",
+	"storch2se",
+	"storch2sw",
 };
 
 } // namespace devilution

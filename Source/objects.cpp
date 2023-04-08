@@ -567,6 +567,26 @@ void AddL2Torches()
 	}
 }
 
+void AddLotusTorches()
+{
+	for (int j = 0; j < MAXDUNY; j++) {
+		for (int i = 0; i < MAXDUNX; i++) {
+			Point testPosition = { i, j };
+			if (TileContainsSetPiece(testPosition))
+				continue;
+
+			int pn = dPiece[i][j];
+			if (pn == 0 && FlipCoin(3)) {
+				AddObject(OBJ_STORCHL2, testPosition);
+			}
+
+			if (pn == 2 && FlipCoin(3)) {
+				AddObject(OBJ_STORCHR2, testPosition);
+			}
+		}
+	}
+}
+
 void AddObjTraps()
 {
 	int rndv;
@@ -3703,7 +3723,7 @@ bool IsItemBlockingObjectAtPosition(Point position)
 	return false;
 }
 
-void LoadLevelObjects(uint16_t filesWidths[66])
+void LoadLevelObjects(uint16_t filesWidths[68])
 {
 	if (HeadlessMode)
 		return;
@@ -3729,7 +3749,7 @@ void LoadLevelObjects(uint16_t filesWidths[66])
 
 void InitObjectGFX()
 {
-	uint16_t filesWidths[66] = {};
+	uint16_t filesWidths[68] = {};
 
 	if (IsAnyOf(currlevel, 4, 8, 12)) {
 		filesWidths[OFILE_BKSLBRNT] = AllObjects[OBJ_STORYBOOK].animWidth;
@@ -3987,6 +4007,7 @@ void InitObjects()
 		}
 		if (leveltype == DTYPE_LOTUS) {
 			AddLotusObjects(0, 0, MAXDUNX, MAXDUNY);
+			AddLotusTorches();
 			InitRndBarrels();
 		}
 		InitRndLocObj(5, 10, OBJ_CHEST1);
@@ -4002,7 +4023,7 @@ void InitObjects()
 
 void SetMapObjects(const uint16_t *dunData, int startx, int starty)
 {
-	uint16_t filesWidths[66] = {};
+	uint16_t filesWidths[68] = {};
 
 	ClrAllObjects();
 	ApplyObjectLighting = true;
@@ -4069,6 +4090,10 @@ Object *AddObject(_object_id objType, Point objPos)
 	case OBJ_TORCHR:
 	case OBJ_TORCHL2:
 	case OBJ_TORCHR2:
+	case OBJ_STORCHL:
+	case OBJ_STORCHR:
+	case OBJ_STORCHL2:
+	case OBJ_STORCHR2:
 		AddObjectLight(object, 8);
 		break;
 	case OBJ_L1LDOOR:
@@ -4295,6 +4320,10 @@ void ProcessObjects()
 		case OBJ_TORCHR:
 		case OBJ_TORCHL2:
 		case OBJ_TORCHR2:
+		case OBJ_STORCHL:
+		case OBJ_STORCHR:
+		case OBJ_STORCHL2:
+		case OBJ_STORCHR2:
 			UpdateObjectLight(object, 8);
 			break;
 		case OBJ_SARC:
