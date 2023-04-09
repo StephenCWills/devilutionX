@@ -353,7 +353,7 @@ struct Player {
 	Direction tempDirection;
 
 	bool _pLvlVisited[NUMLEVELS];
-	bool _pSLvlVisited[NUMLEVELS]; // only 10 used
+	bool _pSLvlVisited[10];
 
 	item_misc_id _pOilType;
 	uint8_t pTownWarps;

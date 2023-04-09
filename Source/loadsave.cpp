@@ -442,10 +442,10 @@ void LoadPlayer(LoadHelper &file, Player &player)
 	file.Skip<int32_t>(2); // skip offset2;
 	file.Skip<uint32_t>(); // Skip actionFrame
 
-	for (uint8_t i = 0; i < giNumberOfLevels; i++)
+	for (uint8_t i = 0; i < NUMLEVELS; i++)
 		player._pLvlVisited[i] = file.NextBool8();
 
-	for (uint8_t i = 0; i < giNumberOfLevels; i++)
+	for (uint8_t i = 0; i < 10; i++)
 		player._pSLvlVisited[i] = file.NextBool8();
 
 	file.Skip(2);           // Alignment
@@ -962,12 +962,6 @@ void LoadDroppedItems(LoadHelper &file, size_t savedItemCount)
 
 int getHellfireLevelType(int type)
 {
-	if (type == DTYPE_CRYPT)
-		return DTYPE_CATHEDRAL;
-
-	if (type == DTYPE_NEST)
-		return DTYPE_CAVES;
-
 	return type;
 }
 
@@ -1211,9 +1205,9 @@ void SavePlayer(SaveHelper &file, const Player &player)
 	file.WriteLE<int32_t>(offset2.deltaX);
 	file.WriteLE<int32_t>(offset2.deltaY);
 	file.Skip<int32_t>(); // Skip _pVar8
-	for (uint8_t i = 0; i < giNumberOfLevels; i++)
+	for (uint8_t i = 0; i < NUMLEVELS; i++)
 		file.WriteLE<uint8_t>(player._pLvlVisited[i] ? 1 : 0);
-	for (uint8_t i = 0; i < giNumberOfLevels; i++)
+	for (uint8_t i = 0; i < 10; i++)
 		file.WriteLE<uint8_t>(player._pSLvlVisited[i] ? 1 : 0); // only 10 used
 
 	file.Skip(2); // Alignment
@@ -2028,7 +2022,7 @@ void LoadGame(bool firstflag)
 	int tmpNummissiles = file.NextBE<int32_t>();
 	int tmpNobjects = file.NextBE<int32_t>();
 
-	for (uint8_t i = 0; i < giNumberOfLevels; i++) {
+	for (uint8_t i = 0; i < NUMLEVELS; i++) {
 		glSeedTbl[i] = file.NextBE<uint32_t>();
 		file.Skip(4); // Skip loading gnLevelTypeTbl
 	}
@@ -2285,7 +2279,7 @@ void SaveGameData(SaveWriter &saveWriter)
 	file.WriteBE<uint32_t>(static_cast<uint32_t>(std::min(Missiles.size(), MaxMissilesForSaveGame)));
 	file.WriteBE<int32_t>(ActiveObjectCount);
 
-	for (uint8_t i = 0; i < giNumberOfLevels; i++) {
+	for (uint8_t i = 0; i < NUMLEVELS; i++) {
 		file.WriteBE<uint32_t>(glSeedTbl[i]);
 		file.WriteBE<int32_t>(getHellfireLevelType(GetLevelType(i)));
 	}
