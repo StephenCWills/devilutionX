@@ -183,6 +183,7 @@ set(devilutionx_assets
   levels/sotw1/sotw1.til
   levels/towndata/automap.dun
   levels/towndata/automap.amp
+  missiles/manashld.cl2
   monsters/amazon/amazona.cl2
   monsters/amazon/amazond.cl2
   monsters/amazon/amazonh.cl2
