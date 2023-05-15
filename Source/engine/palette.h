@@ -51,6 +51,7 @@ extern std::array<std::array<Uint8, 256>, 256> paletteTransparencyLookup;
 extern uint16_t paletteTransparencyLookupBlack16[65536];
 #endif
 
+Uint8 FindBestMatchForColor(std::array<SDL_Color, 256> &palette, SDL_Color color, int skipFrom, int skipTo);
 void palette_update(int first = 0, int ncolor = 256);
 void palette_init();
 void LoadPalette(const char *pszFileName, bool blend = true);

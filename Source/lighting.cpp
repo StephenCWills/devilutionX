@@ -12,6 +12,7 @@
 #include "automap.h"
 #include "diablo.h"
 #include "engine/load_file.hpp"
+#include "engine/palette.h"
 #include "engine/points_in_rectangle_range.hpp"
 #include "player.h"
 
@@ -319,28 +320,59 @@ void DoVision(Point position, uint8_t radius, MapExplorationType doAutomap, bool
 
 void MakeLightTable()
 {
-	// Generate 16 gradually darker translation tables for doing lighting
-	uint8_t shade = 0;
-	constexpr uint8_t black = 0;
-	constexpr uint8_t white = 255;
-	for (auto &lightTable : LightTables) {
-		uint8_t colorIndex = 0;
-		for (uint8_t steps : { 16, 16, 16, 16, 16, 16, 16, 16, 8, 8, 8, 8, 16, 16, 16, 16, 16, 16 }) {
-			const uint8_t shading = shade * steps / 16;
-			const uint8_t shadeStart = colorIndex;
-			const uint8_t shadeEnd = shadeStart + steps - 1;
-			for (uint8_t step = 0; step < steps; step++) {
-				if (colorIndex == black) {
-					lightTable[colorIndex++] = black;
-					continue;
-				}
-				int color = shadeStart + step + shading;
-				if (color > shadeEnd || color == white)
-					color = black;
-				lightTable[colorIndex++] = color;
-			}
+	if (leveltype == DTYPE_TOWN) {
+		struct Color {
+			uint8_t r;
+			uint8_t g;
+			uint8_t b;
+		};
+
+		std::array<Color, 256> palData;
+		LoadFileInMem("levels\\towndata\\town.pal", palData);
+
+		std::array<SDL_Color, 256> palette;
+		for (size_t i = 0; i < palette.size(); i++) {
+			palette[i].r = palData[i].r;
+			palette[i].g = palData[i].g;
+			palette[i].b = palData[i].b;
 		}
-		shade++;
+
+		uint8_t shade = 0;
+		for (auto &lightTable : LightTables) {
+			for (size_t colorIndex = 0; colorIndex < palData.size(); colorIndex++) {
+				float factor = static_cast<float>(LightsMax - shade) / LightsMax;
+				SDL_Color color;
+				color.r = palette[colorIndex].r * factor;
+				color.g = palette[colorIndex].g * factor;
+				color.b = palette[colorIndex].b * factor;
+				lightTable[colorIndex] = FindBestMatchForColor(palette, color, -1, -1);
+			}
+			shade++;
+		}
+	} else {
+		// Generate 16 gradually darker translation tables for doing lighting
+		uint8_t shade = 0;
+		constexpr uint8_t black = 0;
+		constexpr uint8_t white = 255;
+		for (auto &lightTable : LightTables) {
+			uint8_t colorIndex = 0;
+			for (uint8_t steps : { 16, 16, 16, 16, 16, 16, 16, 16, 8, 8, 8, 8, 16, 16, 16, 16, 16, 16 }) {
+				const uint8_t shading = shade * steps / 16;
+				const uint8_t shadeStart = colorIndex;
+				const uint8_t shadeEnd = shadeStart + steps - 1;
+				for (uint8_t step = 0; step < steps; step++) {
+					if (colorIndex == black) {
+						lightTable[colorIndex++] = black;
+						continue;
+					}
+					int color = shadeStart + step + shading;
+					if (color > shadeEnd || color == white)
+						color = black;
+					lightTable[colorIndex++] = color;
+				}
+			}
+			shade++;
+		}
 	}
 
 	LightTables[15] = {}; // Make last shade pitch black

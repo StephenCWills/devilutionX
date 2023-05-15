@@ -42,26 +42,6 @@ void LoadGamma()
 	sgOptions.Graphics.gammaCorrection.SetValue(gammaValue - gammaValue % 5);
 }
 
-Uint8 FindBestMatchForColor(std::array<SDL_Color, 256> &palette, SDL_Color color, int skipFrom, int skipTo)
-{
-	Uint8 best;
-	Uint32 bestDiff = SDL_MAX_UINT32;
-	for (int i = 0; i < 256; i++) {
-		if (i >= skipFrom && i <= skipTo)
-			continue;
-		int diffr = palette[i].r - color.r;
-		int diffg = palette[i].g - color.g;
-		int diffb = palette[i].b - color.b;
-		Uint32 diff = diffr * diffr + diffg * diffg + diffb * diffb;
-
-		if (bestDiff > diff) {
-			best = i;
-			bestDiff = diff;
-		}
-	}
-	return best;
-}
-
 /**
  * @brief Generate lookup table for transparency
  *
@@ -147,6 +127,26 @@ void CycleColorsReverse(int from, int to)
 }
 
 } // namespace
+
+Uint8 FindBestMatchForColor(std::array<SDL_Color, 256> &palette, SDL_Color color, int skipFrom, int skipTo)
+{
+	Uint8 best;
+	Uint32 bestDiff = SDL_MAX_UINT32;
+	for (int i = 0; i < 256; i++) {
+		if (i >= skipFrom && i <= skipTo)
+			continue;
+		int diffr = palette[i].r - color.r;
+		int diffg = palette[i].g - color.g;
+		int diffb = palette[i].b - color.b;
+		Uint32 diff = diffr * diffr + diffg * diffg + diffb * diffb;
+
+		if (bestDiff > diff) {
+			best = i;
+			bestDiff = diff;
+		}
+	}
+	return best;
+}
 
 void palette_update(int first, int ncolor)
 {

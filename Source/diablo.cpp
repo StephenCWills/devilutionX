@@ -1386,8 +1386,6 @@ void GameLogic()
 		ProcessMissiles();
 		gGameLogicStep = GameLogicStep::ProcessItems;
 		ProcessItems();
-		ProcessLightList();
-		ProcessVisionList();
 	} else {
 		gGameLogicStep = GameLogicStep::ProcessTowners;
 		ProcessTowners();
@@ -1396,6 +1394,8 @@ void GameLogic()
 		gGameLogicStep = GameLogicStep::ProcessMissilesTown;
 		ProcessMissiles();
 	}
+	ProcessLightList();
+	ProcessVisionList();
 	gGameLogicStep = GameLogicStep::None;
 
 #ifdef _DEBUG
@@ -2835,7 +2835,8 @@ void LoadGameLevel(bool firstflag, lvl_entry lvldir)
 		} else {
 			for (int i = 0; i < MAXDUNX; i++) { // NOLINT(modernize-loop-convert)
 				for (int j = 0; j < MAXDUNY; j++) {
-					dFlags[i][j] |= DungeonFlag::Lit;
+					dPreLight[i][j] = LightsMax;
+					//dFlags[i][j] |= DungeonFlag::Lit;
 				}
 			}
 
@@ -2933,12 +2934,12 @@ void LoadGameLevel(bool firstflag, lvl_entry lvldir)
 	IncProgress();
 	UpdateMonsterLights();
 	UnstuckChargers();
-	if (leveltype != DTYPE_TOWN) {
+	//if (leveltype != DTYPE_TOWN) {
 		memcpy(dLight, dPreLight, sizeof(dLight));                                     // resets the light on entering a level to get rid of incorrect light
 		ChangeLightXY(Players[MyPlayerId].lightId, Players[MyPlayerId].position.tile); // forces player light refresh
 		ProcessLightList();
 		ProcessVisionList();
-	}
+	//}
 
 	if (leveltype == DTYPE_CRYPT) {
 		if (CornerStone.isAvailable()) {

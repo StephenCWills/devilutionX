@@ -2216,7 +2216,8 @@ void LoadGame(bool firstflag)
 		memcpy(dLight, dPreLight, sizeof(dLight));               // resets the light on entering a level to get rid of incorrect light
 		ChangeLightXY(myPlayer.lightId, myPlayer.position.tile); // forces player light refresh
 	} else {
-		memset(dLight, 0, sizeof(dLight));
+		memset(dLight, LightsMax, sizeof(dLight));
+		ChangeLightXY(myPlayer.lightId, myPlayer.position.tile); // forces player light refresh
 	}
 
 	numpremium = file.NextBE<int32_t>();
@@ -2232,11 +2233,11 @@ void LoadGame(bool firstflag)
 	AutomapZoomReset();
 	ResyncQuests();
 
-	if (leveltype != DTYPE_TOWN) {
+	//if (leveltype != DTYPE_TOWN) {
 		RedoPlayerVision();
 		ProcessVisionList();
 		ProcessLightList();
-	}
+	//}
 
 	// convert stray manashield missiles into pManaShield flag
 	for (auto &missile : Missiles) {
@@ -2656,7 +2657,8 @@ void LoadLevel()
 		memcpy(dLight, dPreLight, sizeof(dLight));                                     // resets the light on entering a level to get rid of incorrect light
 		ChangeLightXY(Players[MyPlayerId].lightId, Players[MyPlayerId].position.tile); // forces player light refresh
 	} else {
-		memset(dLight, 0, sizeof(dLight));
+		memset(dLight, LightsMax, sizeof(dLight));
+		ChangeLightXY(Players[MyPlayerId].lightId, Players[MyPlayerId].position.tile); // forces player light refresh
 	}
 
 	if (!gbSkipSync) {

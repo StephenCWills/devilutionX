@@ -691,7 +691,7 @@ void DrawMonsterHelper(const Surface &out, Point tilePosition, Point targetBuffe
 		if (mi == pcursmonst) {
 			ClxDrawOutlineSkipColorZero(out, 166, position, sprite);
 		}
-		ClxDraw(out, position, sprite);
+		ClxDrawLight(out, position, sprite);
 		return;
 	}
 
@@ -830,7 +830,7 @@ void DrawDungeon(const Surface &out, Point tilePosition, Point targetBufferPosit
 		if (tilePosition.x > 0 && tilePosition.y > 0 && targetBufferPosition.y > TILE_HEIGHT) {
 			char bArch = dSpecial[tilePosition.x - 1][tilePosition.y - 1];
 			if (bArch != 0) {
-				ClxDraw(out, targetBufferPosition + Displacement { 0, -TILE_HEIGHT }, (*pSpecialCels)[bArch - 1]);
+				ClxDrawLight(out, targetBufferPosition + Displacement { 0, -TILE_HEIGHT }, (*pSpecialCels)[bArch - 1]);
 			}
 		}
 	}

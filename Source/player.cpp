@@ -101,10 +101,10 @@ void WalkSideways(Player &player, const DirectionSettings &walkParams)
 	dPlayer[player.position.tile.x][player.position.tile.y] = -(playerId + 1);
 	dPlayer[player.position.future.x][player.position.future.y] = playerId + 1;
 
-	if (leveltype != DTYPE_TOWN) {
+	//if (leveltype != DTYPE_TOWN) {
 		ChangeLightXY(player.lightId, nextPosition);
 		UpdatePlayerLightOffset(player);
-	}
+	//}
 
 	player.position.temp = player.position.future;
 }
@@ -477,10 +477,10 @@ bool DoWalk(Player &player, int variant)
 	}
 
 	// Update the coordinates for lighting and vision entries for the player
-	if (leveltype != DTYPE_TOWN) {
+	//if (leveltype != DTYPE_TOWN) {
 		ChangeLightXY(player.lightId, player.position.tile);
 		ChangeVisionXY(player.getId(), player.position.tile);
-	}
+	//}
 
 	if (player.walkpath[0] != WALK_NONE) {
 		StartWalkStand(player);
