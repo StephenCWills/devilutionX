@@ -1536,7 +1536,7 @@ void CheckInvScrn(bool isShiftHeld, bool isCtrlHeld)
 	const Point mainPanelPosition = GetMainPanel().position;
 	if (MousePosition.x > 190 + mainPanelPosition.x && MousePosition.x < 437 + mainPanelPosition.x
 	    && MousePosition.y > mainPanelPosition.y && MousePosition.y < 33 + mainPanelPosition.y) {
-		CheckInvItem(isShiftHeld, isCtrlHeld);
+		CheckInvItem(false, isCtrlHeld);
 	}
 }
 

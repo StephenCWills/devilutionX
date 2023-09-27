@@ -356,7 +356,7 @@ void LeftMouseDown(uint16_t modState)
 				CheckChrBtns();
 			} else if (invflag && GetRightPanel().contains(MousePosition)) {
 				if (!dropGoldFlag)
-					CheckInvItem(isShiftHeld, isCtrlHeld);
+					CheckInvItem(false, isCtrlHeld);
 			} else if (IsStashOpen && GetLeftPanel().contains(MousePosition)) {
 				if (!IsWithdrawGoldOpen)
 					CheckStashItem(MousePosition, isShiftHeld, isCtrlHeld);
