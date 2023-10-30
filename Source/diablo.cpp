@@ -2528,9 +2528,7 @@ void setOnInitialized(void (*callback)())
 
 int DiabloMain(int argc, char **argv)
 {
-#ifdef _DEBUG
-	SDL_LogSetAllPriority(SDL_LOG_PRIORITY_DEBUG);
-#endif
+	SDL_LogSetAllPriority(SDL_LOG_PRIORITY_VERBOSE);
 
 	DiabloParseFlags(argc, argv);
 	InitKeymapActions();

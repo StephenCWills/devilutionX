@@ -45,6 +45,8 @@ extern "C" int main(int argc, char **argv)
 #endif
 #ifdef NXDK
 	nxMountDrive('E', "\\Device\\Harddisk0\\Partition1\\");
+	freopen("E:\\UDATA\\devilutionx\\error.log", "w", stderr);
+	//setvbuf(stderr, NULL, _IONBF, 0);
 #endif
 #ifdef GPERF_HEAP_MAIN
 	HeapProfilerStart("main");
