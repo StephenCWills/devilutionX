@@ -1243,7 +1243,7 @@ void DrawFPS(const Surface &out)
 		    : BufCopy(buf, fps / FpsPow10, ".", fps % FpsPow10, " FPS");
 		formatted = { buf, static_cast<std::string_view::size_type>(end - buf) };
 	};
-	DrawString(out, formatted, Point { 8, 68 }, { .flags = UiFlags::ColorRed });
+	DrawString(out, formatted, Point { 20, 68 }, { .flags = UiFlags::ColorRed });
 }
 
 /**
