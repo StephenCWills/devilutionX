@@ -39,7 +39,7 @@ jobs:
 
     - name: Build nxdk
       shell: bash
-      run: PATH="${NXDK_DIR}/bin:$PATH" make -j $(nproc) -C "$NXDK_DIR" NXDK_ONLY=1 CFLAGS=-O2 CXXFLAGS=-O2 all cxbe
+      run: PATH="${NXDK_DIR}/bin:$PATH" make -j $(nproc) -C "$NXDK_DIR" NXDK_ONLY=1 CFLAGS="-O2 -DNDEBUG" CXXFLAGS="-O2 -DNDEBUG" all cxbe
 
     - name: Checkout
       uses: actions/checkout@v4
@@ -55,7 +55,7 @@ jobs:
     - name: Build
       working-directory: ${{github.workspace}}
       shell: bash
-      run: cmake --build build-xbox -j $(nproc) --target nxdk_xbe
+      run: cmake --build build-xbox --verbose -j $(nproc) --target nxdk_xbe
 
     - name: Upload-Package
       if: ${{ !env.ACT }}
