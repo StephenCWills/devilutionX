@@ -12,11 +12,13 @@
 #include "lua/modules/dev/quests.hpp"
 #include "lua/modules/dev/search.hpp"
 #include "lua/modules/dev/towners.hpp"
+#include "utils/log.hpp"
 
 namespace devilution {
 
 sol::table LuaDevModule(sol::state_view &lua)
 {
+	LogDebug("LuaDevModule: begin");
 	sol::table table = lua.create_table();
 	SetDocumented(table, "display", "", "Debugging HUD and rendering commands.", LuaDevDisplayModule(lua));
 	SetDocumented(table, "items", "", "Item-related commands.", LuaDevItemsModule(lua));
@@ -26,6 +28,7 @@ sol::table LuaDevModule(sol::state_view &lua)
 	SetDocumented(table, "quests", "", "Quest-related commands.", LuaDevQuestsModule(lua));
 	SetDocumented(table, "search", "", "Search the map for monsters / items / objects.", LuaDevSearchModule(lua));
 	SetDocumented(table, "towners", "", "Town NPC commands.", LuaDevTownersModule(lua));
+	LogDebug("LuaDevModule: return table");
 	return table;
 }
 

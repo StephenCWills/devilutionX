@@ -4,6 +4,7 @@
 
 #include "effects.h"
 #include "lua/metadoc.hpp"
+#include "utils/log.hpp"
 
 namespace devilution {
 
@@ -18,6 +19,7 @@ bool IsValidSfx(int16_t psfx)
 
 sol::table LuaAudioModule(sol::state_view &lua)
 {
+	LogDebug("LuaAudioModule: begin");
 	sol::table table = lua.create_table();
 	SetWithSignature(table,
 	    "playSfx", "(id: number)",
@@ -25,6 +27,7 @@ sol::table LuaAudioModule(sol::state_view &lua)
 	SetWithSignature(table,
 	    "playSfxLoc", "(id: number, x: number, y: number)",
 	    [](int16_t psfx, int x, int y) { if (IsValidSfx(psfx)) PlaySfxLoc(static_cast<SfxID>(psfx), { x, y }); });
+	LogDebug("LuaAudioModule: return table");
 	return table;
 }
 

@@ -82,6 +82,7 @@ void LuaLogError(std::string_view fmt, sol::variadic_args args)
 
 sol::table LuaLogModule(sol::state_view &lua)
 {
+	LogDebug("LuaLogModule: return lua.create_table_with()");
 	return lua.create_table_with(
 	    "info", LuaLogInfo,
 	    "verbose", LuaLogVerbose,

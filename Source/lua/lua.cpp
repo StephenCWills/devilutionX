@@ -114,6 +114,7 @@ void LuaWarn(void *userData, const char *message, int continued)
 
 sol::object RunScript(std::optional<sol::environment> env, std::string_view packageName, bool optional)
 {
+	LogDebug("RunScript: {}", packageName);
 	sol::object result = LuaLoadScriptFromAssets(packageName);
 	// We return a string on error:
 	if (result.get_type() == sol::type::string) {
@@ -126,6 +127,7 @@ sol::object RunScript(std::optional<sol::environment> env, std::string_view pack
 	if (env.has_value()) {
 		sol::set_environment(*env, fn);
 	}
+	LogDebug("RunScript: return SafeCallResult()");
 	return SafeCallResult(fn(), optional);
 }
 
@@ -195,9 +197,13 @@ sol::environment CreateLuaSandbox()
 
 void LuaInitialize()
 {
+	LogDebug("CurrentLuaState.emplace()");
 	CurrentLuaState.emplace(LuaState { .sol = { sol::c_call<decltype(&LuaPanic), &LuaPanic> } });
+	LogDebug("sol::state &lua = CurrentLuaState->sol");
 	sol::state &lua = CurrentLuaState->sol;
+	LogDebug("lua_setwarnf()");
 	lua_setwarnf(lua.lua_state(), LuaWarn, /*ud=*/nullptr);
+	LogDebug("lua.open_libraries()");
 	lua.open_libraries(
 	    sol::lib::base,
 	    sol::lib::coroutine,
@@ -210,11 +216,14 @@ void LuaInitialize()
 	    sol::lib::utf8);
 
 	// Registering devilutionx object table
+	LogDebug("SafeCallResult()");
 	SafeCallResult(lua.safe_script(RequireGenSrc), /*optional=*/false);
 
 	// Loaded without a sandbox.
+	LogDebug("CurrentLuaState->events = RunScript()");
 	CurrentLuaState->events = RunScript(/*env=*/std::nullopt, "devilutionx.events", /*optional=*/false);
 
+	LogDebug("CurrentLuaState->commonPackages = lua.create_table_with()");
 	CurrentLuaState->commonPackages = lua.create_table_with(
 #ifdef _DEBUG
 	    "devilutionx.dev", LuaDevModule(lua),
@@ -229,11 +238,15 @@ void LuaInitialize()
 	    "inspect", RunScript(/*env=*/std::nullopt, "inspect", /*optional=*/false));
 
 	// Used by the custom require implementation.
+	LogDebug("lua[\"setEnvironment\"] = ...");
 	lua["setEnvironment"] = [](const sol::environment &env, const sol::function &fn) { sol::set_environment(env, fn); };
 
+	LogDebug("RunScript()");
 	RunScript(CreateLuaSandbox(), "user", /*optional=*/true);
 
+	LogDebug("LuaEvent()");
 	LuaEvent("GameBoot");
+	LogDebug("LuaInitialize: return");
 }
 
 void LuaShutdown()

@@ -2543,32 +2543,47 @@ int DiabloMain(int argc, char **argv)
 	// Then look for a voice pack file based on the selected translation
 	LoadLanguageArchive();
 
+	LogDebug("ApplicationInit()");
 	ApplicationInit();
+	LogDebug("LuaInitialize()");
 	LuaInitialize();
+	LogDebug("SaveOptions()");
 	SaveOptions();
 
 	// Finally load game data
+	LogDebug("LoadGameArchives()");
 	LoadGameArchives();
 
 	// Load dynamic data before we go into the menu as we need to initialise player characters in memory pretty early.
+	LogDebug("LoadPlayerDataFiles()");
 	LoadPlayerDataFiles();
 
 	// TODO: We can probably load this much later (when the game is starting).
+	LogDebug("LoadSpellData()");
 	LoadSpellData();
+	LogDebug("LoadMissileData()");
 	LoadMissileData();
+	LogDebug("LoadMonsterData()");
 	LoadMonsterData();
+	LogDebug("LoadItemData()");
 	LoadItemData();
 
+	LogDebug("DiabloInit()");
 	DiabloInit();
 #ifdef __UWP__
 	onInitialized();
 #endif
+	LogDebug("SaveOptions()");
 	SaveOptions();
 
+	LogDebug("DiabloSplash()");
 	DiabloSplash();
+	LogDebug("mainmenu_loop()");
 	mainmenu_loop();
+	LogDebug("DiabloDeinit()");
 	DiabloDeinit();
 
+	LogDebug("DiabloMain: return 0");
 	return 0;
 }
 
