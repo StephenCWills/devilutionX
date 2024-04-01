@@ -12,6 +12,7 @@ on:
     paths-ignore:
       - '*.md'
       - 'docs/**'
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -46,14 +47,14 @@ jobs:
     - name: Build
       working-directory: ${{github.workspace}}
       shell: bash
-      run: cd android-project && ./gradlew assembleDebug
+      run: cd android-project && ./gradlew assemble
 
     - name: Upload-Package
       if: ${{ !env.ACT }}
       uses: actions/upload-artifact@v4
       with:
-        name: devilutionx-debug.apk
-        path: android-project/app/build/outputs/apk/debug/app-debug.apk
+        name: devilutionx.apk
+        path: android-project/app/build/outputs/apk/release/app-release-unsigned.apk
 
     - name: Clean up artifacts
       run: rm -rf android-project/app/build/outputs
