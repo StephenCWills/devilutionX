@@ -2,11 +2,6 @@ name: s390x qemu tests (big-endian)
 
 # The test suite takes ~50m to run so we only trigger it manually
 on:
-  release:
-    types: [published]
-    paths-ignore:
-      - '*.md'
-      - 'docs/**'
   workflow_dispatch:
 
 concurrency:

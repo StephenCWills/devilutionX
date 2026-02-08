@@ -1,13 +1,7 @@
 name: clang-tidy check
 
 on:
-  push:
-    branches:
-      - master
-    paths: ['**.c', '**.cpp', '**.h', '**.hpp', '**.cxx', '**.hxx', '**.cc', '**.hh', '**CMakeLists.txt', 'meson.build', '**.cmake', '.github/workflows/clang-tidy-check.yml']
-  pull_request:
-    types: [ opened, synchronize ]
-    paths: ['**.c', '**.cpp', '**.h', '**.hpp', '**.cxx', '**.hxx', '**.cc', '**.hh', '**CMakeLists.txt', 'meson.build', '**.cmake', '.github/workflows/clang-tidy-check.yml']
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

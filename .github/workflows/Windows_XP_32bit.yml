@@ -1,11 +1,6 @@
 name: Windows XP MinGW
 
 on:
-  release:
-    types: [published]
-    paths-ignore:
-      - '*.md'
-      - 'docs/**'
   workflow_dispatch:
 
 concurrency:

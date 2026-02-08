@@ -1,22 +1,7 @@
 name: PS5 (ps5-payload-dev)
 
 on:
-  push:
-    branches:
-      - master
-    paths-ignore:
-      - '*.md'
-      - 'docs/**'
-  pull_request:
-    types: [opened, synchronize]
-    paths-ignore:
-      - '*.md'
-      - 'docs/**'
-  release:
-    types: [published]
-    paths-ignore:
-      - '*.md'
-      - 'docs/**'
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
