@@ -23,12 +23,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: ccache
-      uses: hendrikmuhs/ccache-action@v1.2
-
-    - name: Install latest CMake
-      uses: lukka/get-cmake@latest
-
     - name: Restore or setup vcpkg
       uses: lukka/run-vcpkg@v11.5
       with:
@@ -41,6 +35,14 @@ jobs:
 
     - name: Get CMakePresets.json
       run: cp Packaging/windows/CMakePresets.json .
+
+    - name: Add Visual Studio CMake to path
+      run: |
+        echo "C:\Program Files\Microsoft Visual Studio\18\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin" >> "$env:GITHUB_PATH"
+
+    - name: Show CMake version
+      shell: cmd
+      run: cmake --version
 
     - name: Run CMake consuming CMakePresets.json and vcpkg.json by mean of vcpkg.
       uses: lukka/run-cmake@v10
