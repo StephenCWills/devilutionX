@@ -10,13 +10,6 @@ set(SDL1_VIDEO_MODE_BPP 8)
 set(DEVILUTIONX_SYSTEM_BZIP2 OFF)
 set(DEVILUTIONX_SYSTEM_ZLIB OFF)
 
-# Disable dead code elimination and sibling call optimization
-# because m68k-amigaos GCC miscompiles with these optimizations.
-set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO} -fno-ext-dce -fno-optimize-sibling-calls")
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -fno-ext-dce -fno-optimize-sibling-calls")
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fno-ext-dce -fno-optimize-sibling-calls")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-ext-dce -fno-optimize-sibling-calls")
-
 # `fseeko` fails to link on Amiga.
 add_definitions(-Dfseeko=fseek)
 
